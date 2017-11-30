@@ -32,6 +32,7 @@ browser.urlChanged.connect(urlInput.setUrl)
 back.clicked.connect(browser.back)
 forward.clicked.connect(browser.forward)
 reload.clicked.connect(browser.forward)
+urlInput.returnPressed.connect(urlInput.enterUrl)
 
 grid.addWidget(back, 0, 0)
 grid.addWidget(reload, 0, 1)
