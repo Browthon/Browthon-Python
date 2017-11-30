@@ -8,9 +8,10 @@ Navigateur web en python
 
 ## Fonctionnalités en plus déjà implémentées dans la version en développement :
 - Lier la touche "entrée" avec la barre d'url
+- Bouton pour les paramètres
+- Bouton pour les infos
 
 ## To-do List :
 - Gestion d'onglet
-- Bouton pour les paramètres
-- Bouton pour les infos
+- Ajout de paramètres
 - Gestion des vidéos YouTube
