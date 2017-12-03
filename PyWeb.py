@@ -41,7 +41,7 @@ urlEnter.clicked.connect(urlInput.enterUrl)
 browser.urlChanged.connect(urlInput.setUrl)
 back.clicked.connect(browser.back)
 forward.clicked.connect(browser.forward)
-reload.clicked.connect(browser.forward)
+reload.clicked.connect(browser.reload)
 urlInput.returnPressed.connect(urlInput.enterUrl)
 parametreB.clicked.connect(parametreB.showMenu)
 
