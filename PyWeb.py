@@ -1,8 +1,8 @@
 import sys
 
-from PyQt4.QtWebKit import QWebView
-from PyQt4.QtGui import QMessageBox, QApplication, QGridLayout, QLineEdit, QWidget, QPushButton, QMenu
-from PyQt4.QtCore import *
+from PySide.QtWebKit import QWebView
+from PySide.QtGui import QMessageBox, QApplication, QGridLayout, QLineEdit, QWidget, QPushButton, QMenu
+from PySide.QtCore import *
 
 class UrlInput(QLineEdit):
     def __init__(self, browser):

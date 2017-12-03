@@ -5,13 +5,5 @@ Navigateur web en python
 - Navigateur fonctionnel
 - Barre d'url (mise à jour automatiquement)
 - Bouton retour, avance et reload
-
-## Fonctionnalités en plus déjà implémentées dans la version en développement :
-- Lier la touche "entrée" avec la barre d'url
-- Bouton pour les paramètres
-- Bouton pour les infos
-
-## To-do List :
-- Gestion d'onglet
-- Ajout de paramètres
-- Gestion des vidéos YouTube
+- Passage sous PySide à la place de PyQt4 :
+  - Résolution du bug des vidéos qui ne marchait pas
