@@ -1,7 +1,7 @@
 import sys
 
 from PySide.QtWebKit import QWebView
-from PySide.QtGui import QMessageBox, QApplication, QGridLayout, QLineEdit, QWidget, QPushButton, QMenu
+from PySide.QtGui import QMessageBox, QApplication, QGridLayout, QLineEdit, QWidget, QPushButton, QMenu, QMainWindow
 from PySide.QtCore import *
 
 class UrlInput(QLineEdit):
@@ -11,50 +11,63 @@ class UrlInput(QLineEdit):
 
     def enterUrl(self):
         url = QUrl(self.text())
-        browser.load(url)
+        self.browser.load(url)
 
     def setUrl(self):
-        self.setText(browser.url().toString())
+        self.setText(self.browser.url().toString())
 
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.widget = QWidget()
+
+        self.grid = QGridLayout()
+        self.browser = QWebView()
+        self.browser.load(QUrl("http://google.com"))
+        self.urlInput = UrlInput(self.browser)
+        self.urlEnter = QPushButton("→")
+        self.back = QPushButton("<")
+        self.forward = QPushButton(">")
+        self.reload = QPushButton("↺")
+        self.parametreB = QPushButton("⁞")
+        self.parametres = QMenu("")
+        self.informations = QMessageBox()
+        self.informations.setWindowTitle("Informations sur PyWeb")
+        self.informations.setText("V 0.1.0 : Url Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb")
+
+        self.parametres.addAction("Informations", self.informations.open)
+
+        self.parametreB.setMenu(self.parametres)
+
+        self.urlEnter.clicked.connect(self.urlInput.enterUrl)
+        self.browser.urlChanged.connect(self.urlInput.setUrl)
+        self.browser.titleChanged.connect(self.setTitle)
+        self.back.clicked.connect(self.browser.back)
+        self.forward.clicked.connect(self.browser.forward)
+        self.reload.clicked.connect(self.browser.reload)
+        self.urlInput.returnPressed.connect(self.urlInput.enterUrl)
+        self.parametreB.clicked.connect(self.parametreB.showMenu)
+
+        self.grid.addWidget(self.back, 0, 0)
+        self.grid.addWidget(self.reload, 0, 1)
+        self.grid.addWidget(self.forward, 0, 2)
+        self.grid.addWidget(self.urlInput, 0, 3)
+        self.grid.addWidget(self.urlEnter, 0, 4)
+        self.grid.addWidget(self.parametreB, 0,5)
+        self.grid.addWidget(self.browser, 1, 0, 1, 6)
+
+        self.widget.setLayout(self.grid)
+
+        self.setCentralWidget(self.widget)
+
+    def setTitle(self):
+        self.setWindowTitle(self.browser.title())
+        
+        
 
 app = QApplication(sys.argv)
 
-grid = QGridLayout()
-browser = QWebView()
-browser.load(QUrl("http://google.com"))
-urlInput = UrlInput(browser)
-urlEnter = QPushButton("→")
-back = QPushButton("<")
-forward = QPushButton(">")
-reload = QPushButton("↺")
-parametreB = QPushButton("⁞")
-parametres = QMenu("")
-informations = QMessageBox()
-informations.setWindowTitle("Informations sur PyWeb")
-informations.setText("V 0.1.0 : Url Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb")
-
-parametres.addAction("Informations", informations.open)
-
-parametreB.setMenu(parametres)
-
-urlEnter.clicked.connect(urlInput.enterUrl)
-browser.urlChanged.connect(urlInput.setUrl)
-back.clicked.connect(browser.back)
-forward.clicked.connect(browser.forward)
-reload.clicked.connect(browser.reload)
-urlInput.returnPressed.connect(urlInput.enterUrl)
-parametreB.clicked.connect(parametreB.showMenu)
-
-grid.addWidget(back, 0, 0)
-grid.addWidget(reload, 0, 1)
-grid.addWidget(forward, 0, 2)
-grid.addWidget(urlInput, 0, 3)
-grid.addWidget(urlEnter, 0, 4)
-grid.addWidget(parametreB, 0,5)
-grid.addWidget(browser, 1, 0, 1, 6)
-
-main = QWidget()
-main.setLayout(grid)
+main = MainWindow()
 main.show()
 
 app.exec_()
