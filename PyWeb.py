@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.widget)
 
     def setTitle(self):
-        self.setWindowTitle(self.browser.title())
+        self.setWindowTitle(self.browser.title()+" - PyWeb")
         
         
 

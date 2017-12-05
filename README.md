@@ -8,7 +8,7 @@ Navigateur web en python
 ## Changelog : 
 
 ### V 0.3.0 : ?? Update (NON DISPONIBLE) :
--
+- Changement du titre de la fenêtre suivant le titre de la page avec écrit "- PyWeb" à la fin
 
 ### V 0.2.1 : Fix Reload Update (LATEST) :
 - Ajout d'information dans le README
