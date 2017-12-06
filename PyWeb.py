@@ -1,7 +1,7 @@
 import sys
 
-from PySide.QtWebKit import QWebView
-from PySide.QtGui import QMessageBox, QApplication, QGridLayout, QLineEdit, QWidget, QPushButton, QMenu, QMainWindow
+from PySide.QtWebKit import *
+from PySide.QtGui import *
 from PySide.QtCore import *
 
 class UrlInput(QLineEdit):
@@ -28,7 +28,10 @@ class MainWindow(QMainWindow):
 
         self.grid = QGridLayout()
         self.browser = QWebView()
-        self.browser.load(QUrl("http://google.com"))
+        self.onglet1 = QWebPage()
+        self.onglet2 = QWebPage()
+        self.onglet1B = QPushButton("O1")
+        self.onglet2B = QPushButton("O2")
         self.urlInput = UrlInput(self.browser)
         self.urlEnter = QPushButton("→")
         self.back = QPushButton("<")
@@ -37,11 +40,13 @@ class MainWindow(QMainWindow):
         self.parametreB = QPushButton("⁞")
         self.parametres = QMenu("")
         self.informations = QMessageBox()
+        
         self.informations.setWindowTitle("Informations sur PyWeb")
         self.informations.setText("V 0.1.0 : Url Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb")
-
         self.parametres.addAction("Informations", self.informations.open)
-
+        self.onglet1.mainFrame().load(QUrl("http://google.com"))
+        self.onglet2.mainFrame().load(QUrl("http://google.com"))
+        self.browser.setPage(self.onglet1)
         self.parametreB.setMenu(self.parametres)
 
         self.urlEnter.clicked.connect(self.urlInput.enterUrl)
@@ -52,14 +57,18 @@ class MainWindow(QMainWindow):
         self.reload.clicked.connect(self.browser.reload)
         self.urlInput.returnPressed.connect(self.urlInput.enterUrl)
         self.parametreB.clicked.connect(self.parametreB.showMenu)
+        self.onglet1B.clicked.connect(self.setOnglet1)
+        self.onglet2B.clicked.connect(self.setOnglet2)
 
-        self.grid.addWidget(self.back, 0, 0)
-        self.grid.addWidget(self.reload, 0, 1)
-        self.grid.addWidget(self.forward, 0, 2)
-        self.grid.addWidget(self.urlInput, 0, 3)
-        self.grid.addWidget(self.urlEnter, 0, 4)
-        self.grid.addWidget(self.parametreB, 0,5)
-        self.grid.addWidget(self.browser, 1, 0, 1, 6)
+        self.grid.addWidget(self.onglet1B, 0, 0)
+        self.grid.addWidget(self.onglet2B, 0, 1)
+        self.grid.addWidget(self.back, 1, 0)
+        self.grid.addWidget(self.reload, 1, 1)
+        self.grid.addWidget(self.forward, 1, 2)
+        self.grid.addWidget(self.urlInput, 1, 3)
+        self.grid.addWidget(self.urlEnter, 1, 4)
+        self.grid.addWidget(self.parametreB, 1,5)
+        self.grid.addWidget(self.browser, 2, 0, 1, 6)
 
         self.widget.setLayout(self.grid)
 
@@ -67,6 +76,12 @@ class MainWindow(QMainWindow):
 
     def setTitle(self):
         self.setWindowTitle(self.browser.title()+" - PyWeb")
+        
+    def setOnglet1(self):
+        self.browser.setPage(self.onglet1)
+
+    def setOnglet2(self):
+        self.browser.setPage(self.onglet2)
         
         
 
