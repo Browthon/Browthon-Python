@@ -5,10 +5,25 @@ Navigateur web en python
 - Python 3.5+
 - PySide
 
+## Autres informations :
+- Développeur principal : LavaPower
+- Contributeur : x
+- Développé sous :
+  - Système :
+    - Linux Debian 9 (V 0.2.0 --> Latest)
+    - Windows (V 0.1.0 --> V 0.2.0)
+  - Version Python :
+    - 3.5.3 (V 0.2.0 --> Latest)
+    - 3.6.1 (V 0.1.0 --> V 0.2.0)
+  - Libs :
+    - PySide (V 0.2.0 --> Latest)
+    - PyQt4 (V 0.1.0 --> V 0.2.0)
+
 ## Changelog : 
 
 ### V 0.3.0 : ?? Update (NON DISPONIBLE) :
 - Changement du titre de la fenêtre suivant le titre de la page avec écrit "- PyWeb" à la fin
+- Gestion d'url sans "http://" ni "https://"
 
 ### V 0.2.1 : Fix Reload Update (LATEST) :
 - Ajout d'information dans le README
@@ -28,18 +43,3 @@ Navigateur web en python
 
 ### V 0.0.1 : Initial Update :
 - Première version
-
-
-## Autres informations :
-- Développeur principal : LavaPower
-- Contributeur : x
-- Développé sous :
-  - Système :
-    - Linux Debian 9 (V 0.2.0 --> Latest)
-    - Windows (V 0.1.0 --> V 0.2.0)
-  - Version Python :
-    - 3.5.3 (V 0.2.0 --> Latest)
-    - 3.6.1 (V 0.1.0 --> V 0.2.0)
-  - Libs :
-    - PySide (V 0.2.0 --> Latest)
-    - PyQt4 (V 0.1.0 --> V 0.2.0)

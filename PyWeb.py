@@ -10,7 +10,12 @@ class UrlInput(QLineEdit):
         self.browser = browser
 
     def enterUrl(self):
-        url = QUrl(self.text())
+        urlT = self.text()
+        if "http://" in urlT or "https://" in urlT:
+            url = QUrl(urlT)
+        else:
+            urlT = "http://"+urlT
+            url = QUrl(urlT)
         self.browser.load(url)
 
     def setUrl(self):
