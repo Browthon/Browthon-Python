@@ -24,6 +24,7 @@ Navigateur web en python
 ### V 0.3.0 : ?? Update (NON DISPONIBLE) :
 - Changement du titre de la fenêtre suivant le titre de la page avec écrit "- PyWeb" à la fin
 - Gestion d'url sans "http://" ni "https://"
+- Début de la gestion d'onglet (seulement 2 pour l'instant)
 
 ### V 0.2.1 : Fix Reload Update (LATEST) :
 - Ajout d'information dans le README
