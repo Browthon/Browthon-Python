@@ -13,11 +13,12 @@ class MainWindow(QMainWindow):
 
         self.grid = QGridLayout()
         self.browser = QWebView()
+        self.onglets = []
+        self.ongletP = QPushButton("+")
         self.onglet1B = QPushButton("O1")
-        self.onglet2B = QPushButton("O2")
         self.urlInput = UrlInput(self.browser)
         self.onglet1 = Onglet(1, self, self.onglet1B)
-        self.onglet2 = Onglet(2, self, self.onglet2B)
+        self.onglets.append([self.onglet1,self.onglet1B])
         self.urlEnter = QPushButton("→")
         self.back = QPushButton("<")
         self.forward = QPushButton(">")
@@ -28,9 +29,8 @@ class MainWindow(QMainWindow):
         
         self.informations.setWindowTitle("Informations sur PyWeb")
         self.informations.setText("V 0.2.1 : Fix Reload Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb")
+        self.parametres.addAction("Fermer Onglet", self.closeOnglet)
         self.parametres.addAction("Informations", self.informations.open)
-        self.onglet1.mainFrame().load(QUrl("http://google.com"))
-        self.onglet2.mainFrame().load(QUrl("http://google.com"))
         self.browser.setPage(self.onglet1)
         self.parametreB.setMenu(self.parametres)
 
@@ -43,17 +43,17 @@ class MainWindow(QMainWindow):
         self.urlInput.returnPressed.connect(self.urlInput.enterUrl)
         self.parametreB.clicked.connect(self.parametreB.showMenu)
         self.onglet1B.clicked.connect(self.onglet1.setOnglet)
-        self.onglet2B.clicked.connect(self.onglet2.setOnglet)
+        self.ongletP.clicked.connect(self.addOnglet)
 
         self.grid.addWidget(self.onglet1B, 0, 0)
-        self.grid.addWidget(self.onglet2B, 0, 1)
+        self.grid.addWidget(self.ongletP, 0, 10)
         self.grid.addWidget(self.back, 1, 0)
         self.grid.addWidget(self.reload, 1, 1)
         self.grid.addWidget(self.forward, 1, 2)
-        self.grid.addWidget(self.urlInput, 1, 3)
-        self.grid.addWidget(self.urlEnter, 1, 4)
-        self.grid.addWidget(self.parametreB, 1,5)
-        self.grid.addWidget(self.browser, 2, 0, 1, 6)
+        self.grid.addWidget(self.urlInput, 1, 3, 1, 6)
+        self.grid.addWidget(self.urlEnter, 1, 9)
+        self.grid.addWidget(self.parametreB, 1,10)
+        self.grid.addWidget(self.browser, 2, 0, 1, 11)
 
         self.widget.setLayout(self.grid)
 
@@ -61,6 +61,29 @@ class MainWindow(QMainWindow):
 
     def setTitle(self):
         self.setWindowTitle(self.browser.title()+" - PyWeb")
+
+    def addOnglet(self):
+        find=False
+        for i in self.onglets:
+            if i[1].isVisible():
+                pass
+            else:
+                i[0].mainFrame().load(QUrl("http://google.com"))
+                i[1].show()
+                find = True
+                break
+        if find == False:
+            if len(self.onglets) == 10:
+                alert = QMessageBox().warning(self, "ERREUR - Trop d'onglet", "Vous avez 10 onglets, soit le maximum possible...")
+            else:
+                button = QPushButton("O"+str(len(self.onglets)+1))
+                onglet = Onglet(len(self.onglets)+1, self, button)
+                self.onglets.append([onglet,button])
+                button.clicked.connect(onglet.setOnglet)
+                self.grid.addWidget(button, 0, len(self.onglets)-1)
+
+    def closeOnglet(self):
+        self.browser.page().button.hide()
 
 app = QApplication(sys.argv)
 

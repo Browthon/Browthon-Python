@@ -21,16 +21,17 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 0.3.0 : ?? Update (NON DISPONIBLE) :
+### V 0.3.0 : Tab Update (LASTEST) :
 - Changement du titre de la fenêtre suivant le titre de la page avec écrit "- PyWeb" à la fin
 - Gestion d'url sans "http://" ni "https://"
-- Début de la gestion d'onglet (seulement 2 pour l'instant)
+- Début de la gestion d'onglet (Limité à 10, fermer les onglets via le menu "⁞")
+- Division du code avec un fichier "PyWeb-utils.py"
 
-### V 0.2.1 : Fix Reload Update (LATEST) :
+### V 0.2.1 : Fix Reload Update :
 - Ajout d'information dans le README
 - Le Bouton Reload fonctionne
 
-### V 0.2.0 : PySide Update (LATEST) :
+### V 0.2.0 : PySide Update :
 - Passage à PySide
 - Liaison du bouton "Entrer" à la barre URL
 - Les vidéos YouTube fonctionnent

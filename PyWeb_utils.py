@@ -23,12 +23,11 @@ class Onglet(QWebPage):
     def __init__(self, nb, main, button):
         super(Onglet,self).__init__()
         self.nb = nb
-        self.browser = main.browser
-        self.urlInput = main.urlInput
         self.button = button
         self.main = main
+        self.mainFrame().load(QUrl("http://google.com"))
             
     def setOnglet(self):
-        self.browser.setPage(self)
-        self.urlInput.setUrl()
+        self.main.browser.setPage(self)
+        self.main.urlInput.setUrl()
         self.main.setTitle()
