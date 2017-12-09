@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
         self.informations = QMessageBox()
         
         self.informations.setWindowTitle("Informations sur PyWeb")
-        self.informations.setText("V 0.2.1 : Fix Reload Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb")
+        self.informations.setText("V 0.3.0 : Tab Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb")
         self.parametres.addAction("Fermer Onglet", self.closeOnglet)
         self.parametres.addAction("Informations", self.informations.open)
         self.browser.setPage(self.onglet1)
@@ -61,6 +61,11 @@ class MainWindow(QMainWindow):
 
     def setTitle(self):
         self.setWindowTitle(self.browser.title()+" - PyWeb")
+        if len(self.browser.title())>=13:
+            titre = self.browser.title()[:9]+"..."
+        else:
+            titre = self.browser.title()
+        self.browser.page().button.setText(titre)
 
     def addOnglet(self):
         find=False
