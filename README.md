@@ -23,6 +23,7 @@ Navigateur web en python
 
 ### V 0.4.0 : ??? (NON DISPONIBLE) :
 - Changement du nom de l'onglet suivant le titre de la page (limité à 12 caractères)
+- Création d'option pour l'url d'accueil (modifiable que via le config.txt)
 
 ### V 0.3.0 : Tab Update (LASTEST) :
 - Changement du titre de la fenêtre suivant le titre de la page avec écrit "- PyWeb" à la fin

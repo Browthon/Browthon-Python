@@ -7,16 +7,18 @@ from PySide.QtCore import *
 from PyWeb_utils import *
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, url):
         super(MainWindow, self).__init__()
         self.widget = QWidget()
+
+        self.url = url
 
         self.grid = QGridLayout()
         self.browser = QWebView()
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.onglet1B = QPushButton("O1")
-        self.urlInput = UrlInput(self.browser)
+        self.urlInput = UrlInput(self)
         self.onglet1 = Onglet(1, self, self.onglet1B)
         self.onglets.append([self.onglet1,self.onglet1B])
         self.urlEnter = QPushButton("→")
@@ -73,7 +75,7 @@ class MainWindow(QMainWindow):
             if i[1].isVisible():
                 pass
             else:
-                i[0].mainFrame().load(QUrl("http://google.com"))
+                i[0].mainFrame().load(QUrl(self.url))
                 i[1].show()
                 find = True
                 break
@@ -91,8 +93,19 @@ class MainWindow(QMainWindow):
         self.browser.page().button.hide()
 
 app = QApplication(sys.argv)
+url = ""
+try:
+    with open('config.txt'):
+        pass
+except IOError:
+    with open('config.txt','w') as fichier:
+        fichier.write("http://google.com")
+        url = "http://google.com"
+else:
+    with open('config.txt','r') as fichier:
+        url = fichier.read().replace("\n","")
 
-main = MainWindow()
+main = MainWindow(url)
 main.show()
 
 app.exec_()

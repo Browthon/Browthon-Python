@@ -3,9 +3,9 @@ from PySide.QtGui import *
 from PySide.QtCore import *
 
 class UrlInput(QLineEdit):
-    def __init__(self, browser):
-        super(UrlInput,self).__init__("http://google.com")
-        self.browser = browser
+    def __init__(self, main):
+        super(UrlInput,self).__init__(main.url)
+        self.browser = main.browser
 
     def enterUrl(self):
         urlT = self.text()
@@ -25,7 +25,7 @@ class Onglet(QWebPage):
         self.nb = nb
         self.button = button
         self.main = main
-        self.mainFrame().load(QUrl("http://google.com"))
+        self.mainFrame().load(QUrl(main.url))
             
     def setOnglet(self):
         self.main.browser.setPage(self)
