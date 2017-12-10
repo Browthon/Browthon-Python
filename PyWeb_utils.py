@@ -31,3 +31,24 @@ class Onglet(QWebPage):
         self.main.browser.setPage(self)
         self.main.urlInput.setUrl()
         self.main.setTitle()
+
+class ButtonOnglet(QPushButton):
+    def __init__(self,main,text):
+        super(ButtonOnglet,self).__init__(text)
+        self.main = main
+
+    def showEvent(self, e):
+        for i in self.main.onglets:
+            if i[1] == self:
+                names = self.main.url.split(".")
+                nom = names[0].replace("https://","")
+                nom = nom.replace("http://","")
+                first = nom[0].upper()
+                nom = nom.replace(nom[0],first)
+                
+                if len(nom)>=13:
+                    titre = nom[:9]+"..."
+                else:
+                    titre = nom
+                self.setText(titre) 
+                

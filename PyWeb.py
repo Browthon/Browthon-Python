@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):
         self.browser = QWebView()
         self.onglets = []
         self.ongletP = QPushButton("+")
-        self.onglet1B = QPushButton("O1")
+        self.onglet1B = ButtonOnglet(self,"O1")
         self.urlInput = UrlInput(self)
         self.onglet1 = Onglet(1, self, self.onglet1B)
         self.onglets.append([self.onglet1,self.onglet1B])
@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
         self.informations = QMessageBox()
         
         self.informations.setWindowTitle("Informations sur PyWeb")
-        self.informations.setText("V 0.3.0 : Tab Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb")
+        self.informations.setText("V 0.4.0 : Tab Update V2\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
         self.parametres.addAction("Fermer Onglet", self.closeOnglet)
         self.parametres.addAction("Informations", self.informations.open)
         self.browser.setPage(self.onglet1)
@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
             if len(self.onglets) == 10:
                 alert = QMessageBox().warning(self, "ERREUR - Trop d'onglet", "Vous avez 10 onglets, soit le maximum possible...")
             else:
-                button = QPushButton("O"+str(len(self.onglets)+1))
+                button = ButtonOnglet(self,"O"+str(len(self.onglets)+1))
                 onglet = Onglet(len(self.onglets)+1, self, button)
                 self.onglets.append([onglet,button])
                 button.clicked.connect(onglet.setOnglet)
@@ -91,6 +91,14 @@ class MainWindow(QMainWindow):
 
     def closeOnglet(self):
         self.browser.page().button.hide()
+        find = False
+        for i in self.onglets:
+            if i[1].isVisible():
+                find=True
+                self.browser.setPage(i[0])
+                break
+        if find == False:
+            self.close()
 
 app = QApplication(sys.argv)
 url = ""

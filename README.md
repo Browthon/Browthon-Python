@@ -21,11 +21,13 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 0.4.0 : ??? (NON DISPONIBLE) :
+### V 0.4.0 : Tab Update V2 (LASTEST) :
 - Changement du nom de l'onglet suivant le titre de la page (limité à 12 caractères)
 - Création d'option pour l'url d'accueil (modifiable que via le config.txt)
+- Fermeture du logiciel lors de la fermeture du dernier onglet
+- Nom du button de l'onglet ouvert set sans avoir besoin de cliquer dessus
 
-### V 0.3.0 : Tab Update (LASTEST) :
+### V 0.3.0 : Tab Update :
 - Changement du titre de la fenêtre suivant le titre de la page avec écrit "- PyWeb" à la fin
 - Gestion d'url sans "http://" ni "https://"
 - Début de la gestion d'onglet (Limité à 10, fermer les onglets via le menu "⁞")
