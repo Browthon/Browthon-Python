@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         self.urlInput = UrlInput(self)
         self.onglet1 = Onglet(1, self, self.onglet1B)
         self.onglets.append([self.onglet1,self.onglet1B])
-        self.urlEnter = QPushButton("→")
+        self.urlEnter = QPushButton("★")
         self.back = QPushButton("<")
         self.forward = QPushButton(">")
         self.reload = QPushButton("↺")
@@ -36,7 +36,6 @@ class MainWindow(QMainWindow):
         self.browser.setPage(self.onglet1)
         self.parametreB.setMenu(self.parametres)
 
-        self.urlEnter.clicked.connect(self.urlInput.enterUrl)
         self.browser.urlChanged.connect(self.urlInput.setUrl)
         self.browser.titleChanged.connect(self.setTitle)
         self.back.clicked.connect(self.browser.back)
@@ -99,6 +98,7 @@ class MainWindow(QMainWindow):
                 break
         if find == False:
             self.close()
+        
 
 app = QApplication(sys.argv)
 url = ""
@@ -107,8 +107,8 @@ try:
         pass
 except IOError:
     with open('config.txt','w') as fichier:
-        fichier.write("http://google.com")
-        url = "http://google.com"
+        fichier.write("https://lavapower.github.io/pyweb.html")
+        url = "https://lavapower.github.io/pyweb.html"
 else:
     with open('config.txt','r') as fichier:
         url = fichier.read().replace("\n","")

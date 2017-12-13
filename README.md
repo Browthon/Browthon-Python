@@ -21,7 +21,11 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 0.4.0 : Tab Update V2 (LASTEST) :
+### V 0.5.0 : ??? Update (NON DISPO) :
+- Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)
+- Page perso comme page d'accueil par défault.
+
+### V 0.4.0 : Tab Update V2 (LASTEST) :
 - Changement du nom de l'onglet suivant le titre de la page (limité à 12 caractères)
 - Création d'option pour l'url d'accueil (modifiable que via le config.txt)
 - Fermeture du logiciel lors de la fermeture du dernier onglet
