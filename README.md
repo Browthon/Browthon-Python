@@ -10,10 +10,12 @@ Navigateur web en python
 - Contributeur : x
 - Développé sous :
   - Système :
-    - Linux Debian 9 (V 0.2.0 --> Latest)
+    - Linux Ubuntu 17.10 (V 0.5.0 --> Latest)
+    - Linux Debian 9 (V 0.2.0 --> V 0.5.0)
     - Windows (V 0.1.0 --> V 0.2.0)
   - Version Python :
-    - 3.5.3 (V 0.2.0 --> Latest)
+    - 3.6.3 (V 0.5.0 --> Latest)
+    - 3.5.3 (V 0.2.0 --> V 0.5.0)
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
   - Libs :
     - PySide (V 0.2.0 --> Latest)
@@ -24,6 +26,8 @@ Navigateur web en python
 ### V 0.5.0 : ??? Update (NON DISPO) :
 - Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)
 - Page perso comme page d'accueil par défault.
+- Confirmation avant extinction lors de la fermeture du dernier onglet.
+- Bug Fix : Toutes les lettres identiques à la première sont en majuscules.
 
 ### V 0.4.0 : Tab Update V2 (LASTEST) :
 - Changement du nom de l'onglet suivant le titre de la page (limité à 12 caractères)

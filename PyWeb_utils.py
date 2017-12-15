@@ -44,7 +44,7 @@ class ButtonOnglet(QPushButton):
                 nom = names[0].replace("https://","")
                 nom = nom.replace("http://","")
                 first = nom[0].upper()
-                nom = nom.replace(nom[0],first)
+                nom = first + nom[1:]
                 
                 if len(nom)>=13:
                     titre = nom[:9]+"..."

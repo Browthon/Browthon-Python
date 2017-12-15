@@ -97,7 +97,13 @@ class MainWindow(QMainWindow):
                 self.browser.setPage(i[0])
                 break
         if find == False:
-            self.close()
+            question = QMessageBox().question(self, "Quitter ?","Vous avez fermé le dernier onglet... \nVoulez vous quitter PyWeb ?", QMessageBox.Yes, QMessageBox.No)
+            if question == 16384:
+                self.close()
+            else:
+                info = QMessageBox().about(self, "Annulation","Le dernier onglet a donc été réouvert")
+                self.browser.page().button.show()
+    
         
 
 app = QApplication(sys.argv)
