@@ -25,8 +25,9 @@ Navigateur web en python
 
 ### V 0.5.0 : ??? Update (NON DISPO) :
 - Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)
-- Page perso comme page d'accueil par défault.
+- Page perso comme page d'accueil par défaut.
 - Confirmation avant extinction lors de la fermeture du dernier onglet.
+- Début de l'historique (Affichage mais pas d'interaction)
 - Bug Fix : Toutes les lettres identiques à la première sont en majuscules.
 
 ### V 0.4.0 : Tab Update V2 (LASTEST) :
