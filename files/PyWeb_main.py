@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
 					self.historyArray.append(i)
 		
 		self.informations.setWindowTitle("Informations sur PyWeb")
-		self.informations.setText("V 0.4.0 : Tab Update V2\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+		self.informations.setText("V 0.5.0 : History Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
 		self.parametres.addAction("Fermer Onglet", self.closeOnglet)
 		self.parametres.addAction("Informations", self.informations.open)
 		self.browser.setPage(self.onglet1)
@@ -128,13 +128,17 @@ class MainWindow(QMainWindow):
 	def addHistory(self):
 		self.historyArray.append(self.browser.title()+" | "+self.browser.url().toString())
 		hItem = HistoryItem(self, self.browser.title(), self.browser.url().toString())
-		self.history.addAction(hItem.title, hItem.load)
+		self.history.addAction(hItem.title, hItem.load) #Ne fonctionne pas
 	
 	def removeHistory(self):
 		self.historyArray = []
 		self.history.clear()
 		self.history.addAction("Supprimer", self.removeHistory)
 		self.history.addSeparator()
+	
+	def keyPressEvent(self,event):
+		if event.key() == 16777268:
+			self.browser.reload()
 	
 	def closeEvent(self, event):
 		if self.historyArray == []:

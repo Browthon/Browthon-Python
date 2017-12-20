@@ -23,16 +23,17 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 0.5.0 : ??? Update (NON DISPO) :
+### V 0.5.0 : History Update (LATEST) :
 - Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)
 - Page perso comme page d'accueil par défaut.
 - Confirmation avant extinction lors de la fermeture du dernier onglet.
 - Début de l'historique (Affichage + Suppression mais pas d'interaction)
 - Séparation de MainWindow dans le fichier "PyWeb_main"
 - Déplacement des fichiers .py utilisé par "PyWeb.py" dans files
+- Début des raccourcis claviers (F5 --> Reload la page)
 - Bug Fix : Toutes les lettres identiques à la première sont en majuscules.
 
-### V 0.4.0 : Tab Update V2 (LASTEST) :
+### V 0.4.0 : Tab Update V2 :
 - Changement du nom de l'onglet suivant le titre de la page (limité à 12 caractères)
 - Création d'option pour l'url d'accueil (modifiable que via le config.txt)
 - Fermeture du logiciel lors de la fermeture du dernier onglet
