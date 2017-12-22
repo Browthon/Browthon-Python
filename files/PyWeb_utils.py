@@ -15,8 +15,12 @@ class UrlInput(QLineEdit):
 		if "http://" in urlT or "https://" in urlT:
 			url = QUrl(urlT)
 		else:
-			urlT = "http://"+urlT
-			url = QUrl(urlT)
+			if "." in urlT:
+				urlT = "http://"+urlT
+				url = QUrl(urlT)
+			else:
+				urlT = "https://www.google.fr/?gws_rd=ssl#q="+urlT
+				url = QUrl(urlT)
 		self.browser.load(url)
 	
 	def enterUrlGiven(self, url):
