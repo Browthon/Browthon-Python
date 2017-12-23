@@ -24,7 +24,8 @@ Navigateur web en python
 ## Changelog : 
 
 ### V 0.6.0 : ??? Update (NON DISPO) :
-- Recherche sur google des mots écrits dans l'url si il n'y a pas de point.
+- Recherche sur le moteur choisi des mots écrits dans l'url si il n'y a pas de point.
+- Paramètre : Moteur de recherche préféré (interface à améliorer)
 
 ### V 0.5.0 : History Update (LATEST) :
 - Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)

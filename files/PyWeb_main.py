@@ -7,10 +7,9 @@ from PySide.QtCore import *
 
 from files.PyWeb_utils import *
 
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
 	def __init__(self, url):
 		super(MainWindow, self).__init__()
-		self.widget = QWidget()
 		self.url = url
 		self.grid = QGridLayout()
 		self.browser = QWebView()
@@ -42,7 +41,9 @@ class MainWindow(QMainWindow):
 		
 		self.informations.setWindowTitle("Informations sur PyWeb")
 		self.informations.setText("V 0.5.0 : History Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+		self.parametres.addAction("Définir Moteur", self.moteurDefine)
 		self.parametres.addAction("Fermer Onglet", self.closeOnglet)
+		self.parametres.addSeparator()
 		self.parametres.addAction("Informations", self.informations.open)
 		self.browser.setPage(self.onglet1)
 		self.parametreB.setMenu(self.parametres)
@@ -77,9 +78,9 @@ class MainWindow(QMainWindow):
 		self.grid.addWidget(self.parametreB, 1,10)
 		self.grid.addWidget(self.browser, 2, 0, 1, 11)
 
-		self.widget.setLayout(self.grid)
-
-		self.setCentralWidget(self.widget)
+		self.setLayout(self.grid)
+		
+		self.moteur = MoteurBox("Moteur par défaut","Choissez le moteur par défaut")
 
 	def setTitle(self):
 		self.setWindowTitle(self.browser.title()+" - PyWeb")
@@ -88,6 +89,10 @@ class MainWindow(QMainWindow):
 		else:
 			titre = self.browser.title()
 		self.browser.page().button.setText(titre)
+		
+	def moteurDefine(self):
+		self.moteur.setWindowModality(Qt.ApplicationModal)
+		self.moteur.show()
 
 	def addOnglet(self):
 		find=False

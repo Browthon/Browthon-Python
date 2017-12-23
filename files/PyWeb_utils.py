@@ -19,7 +19,16 @@ class UrlInput(QLineEdit):
 				urlT = "http://"+urlT
 				url = QUrl(urlT)
 			else:
-				urlT = "https://www.google.fr/?gws_rd=ssl#q="+urlT
+				moteur = ""
+				try:
+					with open('config.txt'):
+						pass
+				except IOError:
+					moteur = "https://www.google.fr/?gws_rd=ssl#q="
+				else:
+					with open('config.txt','r') as fichier:
+						moteur = fichier.read().split("\n")[0]
+				urlT = moteur+urlT
 				url = QUrl(urlT)
 		self.browser.load(url)
 	
@@ -47,6 +56,54 @@ class Onglet(QWebPage):
 		self.main.browser.setPage(self)
 		self.main.urlInput.setUrl()
 		self.main.setTitle()
+	
+class MoteurBox(QWidget):
+	def __init__(self, title, text):
+		super(MoteurBox, self).__init__()
+		self.setWindowTitle(title)
+		self.grid = QGridLayout()
+		
+		Texte = QLabel(text)
+		Google = QPushButton("Google")
+		DDGo = QPushButton("DuckDuckGo")
+		Ecosia = QPushButton("Ecosia")
+		Yahoo = QPushButton("Yahoo")
+		Bing = QPushButton("Bing")
+		
+		Google.clicked.connect(self.setGoogle)
+		DDGo.clicked.connect(self.setDDGo)
+		Ecosia.clicked.connect(self.setEcosia)
+		Yahoo.clicked.connect(self.setYahoo)
+		Bing.clicked.connect(self.setBing)
+		
+		self.grid.addWidget(Texte, 1,1,2,1)
+		self.grid.addWidget(Google, 2,1,1,1)
+		self.grid.addWidget(DDGo, 2,2,1,1)
+		self.grid.addWidget(Ecosia, 3,1,1,1)
+		self.grid.addWidget(Yahoo, 3,2,1,1)
+		self.grid.addWidget(Bing, 4,1,2,1)
+		
+		self.setLayout(self.grid)
+	
+	def setGoogle(self):
+		self.setMoteur("https://www.google.fr/?gws_rd=ssl#q=")
+	
+	def setDDGo(self):
+		self.setMoteur("https://duckduckgo.com/?q=")
+	
+	def setEcosia(self):
+		self.setMoteur("https://www.ecosia.org/search?q=")
+	
+	def setYahoo(self):
+		self.setMoteur("https://fr.search.yahoo.com/search?p=")
+	
+	def setBing(self):
+		self.setMoteur("https://www.bing.com/search?q=")
+	
+	def setMoteur(self, txt):
+		with open('config.txt','w') as fichier:
+			fichier.write(txt+"\nhttps://lavapower.github.io/pyweb.html")
+		self.close()
 
 class ButtonOnglet(QPushButton):
 	def __init__(self,main,text):
