@@ -25,7 +25,7 @@ Navigateur web en python
 
 ### V 0.6.0 : ??? Update (NON DISPO) :
 - Recherche sur le moteur choisi des mots écrits dans l'url si il n'y a pas de point.
-- Paramètre : Moteur de recherche préféré (interface à améliorer)
+- Paramètre : Moteur de recherche préféré
 
 ### V 0.5.0 : History Update (LATEST) :
 - Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)
