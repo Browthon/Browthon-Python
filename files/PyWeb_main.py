@@ -13,6 +13,7 @@ class MainWindow(QWidget):
 		self.url = url
 		self.grid = QGridLayout()
 		self.browser = QWebView()
+		self.JS = True
 		self.onglets = []
 		self.ongletP = QPushButton("+")
 		self.onglet1B = ButtonOnglet(self,"O1")
@@ -41,6 +42,7 @@ class MainWindow(QWidget):
 		
 		self.informations.setWindowTitle("Informations sur PyWeb")
 		self.informations.setText("V 0.5.0 : History Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+		self.parametres.addAction("JavaScript",self.JSDefine)
 		self.parametres.addAction("Définir Moteur", self.moteurDefine)
 		self.parametres.addAction("Fermer Onglet", self.closeOnglet)
 		self.parametres.addSeparator()
@@ -93,6 +95,18 @@ class MainWindow(QWidget):
 	def moteurDefine(self):
 		self.moteur.setWindowModality(Qt.ApplicationModal)
 		self.moteur.show()
+	
+	def JSDefine(self):
+		if self.JS:
+			rep = QMessageBox().question(self, "Désactiver JS", "Voulez vous désactiver le JavaScript ?",QMessageBox.Yes, QMessageBox.No)
+			if rep == 16384:
+				QWebSettings.globalSettings().setAttribute(QWebSettings.JavascriptEnabled, False)
+				self.JS = False
+		else:
+			rep = QMessageBox().question(self, "Activer JS", "Voulez vous activer le JavaScript ?",QMessageBox.Yes, QMessageBox.No)
+			if rep == 16384:
+				QWebSettings.globalSettings().setAttribute(QWebSettings.JavascriptEnabled, True)
+				self.JS = True
 
 	def addOnglet(self):
 		find=False
