@@ -22,13 +22,24 @@ class MainWindow(QWidget):
 		self.onglets.append([self.onglet1,self.onglet1B])
 		self.historyB = QPushButton("H")
 		self.history = QMenu("")
-		self.fav = QPushButton("★") #Inutilisé pour l'instant
+		self.favB = QPushButton("★")
+		self.fav = QMenu("")
 		self.back = QPushButton("<")
 		self.forward = QPushButton(">")
 		self.reload = QPushButton("↺")
 		self.parametreB = QPushButton("⁞")
 		self.parametres = QMenu("")
 		self.informations = QMessageBox()
+		self.favArray = []
+		try:
+			with open("fav.txt"):
+				pass
+		except IOError:
+			pass
+		else:
+			with open("fav.txt","r") as fichier:
+				for i in fichier.read().split('\n'):
+					self.favArray.append(i)
 		self.historyArray = []
 		try:
 			with open('history.txt'):
@@ -50,11 +61,18 @@ class MainWindow(QWidget):
 		self.browser.setPage(self.onglet1)
 		self.parametreB.setMenu(self.parametres)
 		self.historyB.setMenu(self.history)
+		self.favB.setMenu(self.fav)
+		self.fav.addAction("Ajouter Page", self.addFav)
+		self.fav.addSeparator()
+		for i in self.favArray:
+			item = i.split(" | ")
+			fItem = Item(self, item[0], item[1])
+			self.fav.addAction(fItem.title, fItem.load)
 		self.history.addAction("Supprimer", self.removeHistory)
 		self.history.addSeparator()
 		for i in self.historyArray:
 			item = i.split(" | ")
-			hItem = HistoryItem(self, item[0], item[1])
+			hItem = Item(self, item[0], item[1])
 			self.history.addAction(hItem.title, hItem.load)
 
 		self.browser.urlChanged.connect(self.urlInput.setUrl)
@@ -66,6 +84,7 @@ class MainWindow(QWidget):
 		self.urlInput.returnPressed.connect(self.urlInput.enterUrl)
 		self.parametreB.clicked.connect(self.parametreB.showMenu)
 		self.historyB.clicked.connect(self.history.show)
+		self.favB.clicked.connect(self.fav.show)
 		self.onglet1B.clicked.connect(self.onglet1.setOnglet)
 		self.ongletP.clicked.connect(self.addOnglet)
 
@@ -76,7 +95,7 @@ class MainWindow(QWidget):
 		self.grid.addWidget(self.forward, 1, 2)
 		self.grid.addWidget(self.urlInput, 1, 3, 1, 5)
 		self.grid.addWidget(self.historyB, 1, 8)
-		self.grid.addWidget(self.fav, 1, 9)
+		self.grid.addWidget(self.favB, 1, 9)
 		self.grid.addWidget(self.parametreB, 1,10)
 		self.grid.addWidget(self.browser, 2, 0, 1, 11)
 
@@ -146,14 +165,19 @@ class MainWindow(QWidget):
 
 	def addHistory(self):
 		self.historyArray.append(self.browser.title()+" | "+self.browser.url().toString())
-		hItem = HistoryItem(self, self.browser.title(), self.browser.url().toString())
-		self.history.addAction(hItem.title, hItem.load) #Ne fonctionne pas
+		hItem = Item(self, self.browser.title(), self.browser.url().toString())
+		self.history.addAction(hItem.title, hItem.load)
 	
 	def removeHistory(self):
 		self.historyArray = []
 		self.history.clear()
 		self.history.addAction("Supprimer", self.removeHistory)
 		self.history.addSeparator()
+	
+	def addFav(self):
+		self.favArray.append(self.browser.title()+" | "+self.browser.url().toString())
+		fItem = Item(self, self.browser.title(), self.browser.url().toString())
+		self.fav.addAction(fItem.title, fItem.load)
 	
 	def keyPressEvent(self,event):
 		if event.key() == 16777268:
@@ -178,4 +202,21 @@ class MainWindow(QWidget):
 						message += self.historyArray[i]
 					else:
 						message += self.historyArray[i] + "\n"
+				fichier.write(message)
+		if self.favArray == []:
+			try:
+				with open('fav.txt'):
+					pass
+			except IOError:
+				pass
+			else:
+				os.remove('fav.txt')
+		else:
+			with open('fav.txt', 'w') as fichier:
+				message = ""
+				for i in range(len(self.favArray)):
+					if i == len(self.favArray)-1:
+						message += self.favArray[i]
+					else:
+						message += self.favArray[i] + '\n'
 				fichier.write(message)

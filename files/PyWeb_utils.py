@@ -125,7 +125,7 @@ class ButtonOnglet(QPushButton):
 					titre = nom
 				self.setText(titre) 
 
-class HistoryItem:
+class Item:
 	def __init__(self, main, title, url):
 		self.main = main
 		self.url = url
