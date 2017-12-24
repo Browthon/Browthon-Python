@@ -144,6 +144,8 @@ class MainWindow(QWidget):
 	def keyPressEvent(self,event):
 		if event.key() == 16777268:
 			self.browser.reload()
+		elif event.key() == 16777273:
+			self.parametreB.showMenu()
 	
 	def closeEvent(self, event):
 		if self.historyArray == []:
