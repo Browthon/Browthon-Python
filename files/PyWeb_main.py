@@ -7,6 +7,8 @@ from PySide.QtCore import *
 
 from files.PyWeb_utils import *
 
+import os
+
 class MainWindow(QWidget):
 	def __init__(self, url):
 		super(MainWindow, self).__init__()
@@ -63,6 +65,7 @@ class MainWindow(QWidget):
 		self.historyB.setMenu(self.history)
 		self.favB.setMenu(self.fav)
 		self.fav.addAction("Ajouter Page", self.addFav)
+		self.fav.addAction("Supprimer Page", self.suppFav)
 		self.fav.addSeparator()
 		for i in self.favArray:
 			item = i.split(" | ")
@@ -173,11 +176,39 @@ class MainWindow(QWidget):
 		self.history.clear()
 		self.history.addAction("Supprimer", self.removeHistory)
 		self.history.addSeparator()
+		info = QMessageBox().about(self, "Historique","Historique supprimé")
 	
 	def addFav(self):
-		self.favArray.append(self.browser.title()+" | "+self.browser.url().toString())
-		fItem = Item(self, self.browser.title(), self.browser.url().toString())
-		self.fav.addAction(fItem.title, fItem.load)
+		found = False
+		for i in self.favArray:
+			if self.browser.url().toString() == i.split(" | ")[1]:
+				found = True
+		if found:
+			info = QMessageBox().about(self, "Annulation","Cette page est déjà dans les favoris")
+		else:
+			self.favArray.append(self.browser.title()+" | "+self.browser.url().toString())
+			fItem = Item(self, self.browser.title(), self.browser.url().toString())
+			self.fav.addAction(fItem.title, fItem.load)
+			info = QMessageBox().about(self, "Ajouter","Cette page est maintenant dans les favoris")
+	
+	def suppFav(self):
+		found = False
+		for i in range(len(self.favArray)):
+			if self.browser.url().toString() == self.favArray[i].split(" | ")[1]:
+				del self.favArray[i]
+				found = True
+		if found:
+			self.fav.clear()
+			self.fav.addAction("Ajouter Page", self.addFav)
+			self.fav.addAction("Supprimer Page", self.suppFav)
+			self.fav.addSeparator()
+			for i in self.favArray:
+				item = i.split(" | ")
+				fItem = Item(self, item[0], item[1])
+				self.fav.addAction(fItem.title, fItem.load)
+			info = QMessageBox().about(self, "Supprimer","Cette page n'est plu dans les favoris")
+		else:
+			info = QMessageBox().about(self, "Annulation","Cette page n'est pas dans les favoris")
 	
 	def keyPressEvent(self,event):
 		if event.key() == 16777268:

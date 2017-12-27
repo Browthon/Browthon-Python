@@ -25,10 +25,12 @@ Navigateur web en python
 
 ### V 0.6.0 : ??? Update (NON DISPO) :
 - Recherche sur le moteur choisi des mots écrits dans l'url si il n'y a pas de point.
-- Début des Favoris (Ajout mais pas de suppression ni d'interaction)
+- Début des Favoris (Ajout et suppression mais pas d'interaction)
+- Amélioration Favori et Historique avec des messages pour chaque action (ex : Suppression de l'historique)
 - Paramètre : Moteur de recherche préféré
 - Paramètre : JavaScript Activé/Désactivé
 - Raccourci : F10 --> Ouverture du menu de paramètre
+- Bug Fix : L'historique ne se supprimait pas
 
 ### V 0.5.0 : History Update (LATEST) :
 - Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)
