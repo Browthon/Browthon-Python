@@ -218,10 +218,16 @@ class MainWindow(QWidget):
             info = QMessageBox().about(self, "Annulation", "Cette page n'est pas dans les favoris")
 
     def keyPressEvent(self, event):
-        if event.key() == 16777268:
+        if event.key() == 16777268 or event.key() == 82:
             self.browser.reload()
-        elif event.key() == 16777273:
+        elif event.key() == 16777273 or event.key() == 80:
             self.parametreB.showMenu()
+        elif event.key() == 78:
+            self.addOnglet()
+        elif event.key() == 72:
+            self.historyB.showMenu()
+        elif event.key() == 70:
+            self.favB.showMenu()
 
     def closeEvent(self, event):
         if self.historyArray == []:

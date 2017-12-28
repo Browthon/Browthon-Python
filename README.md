@@ -27,6 +27,11 @@ Navigateur web en python
 
 ### V 0.7.0 : ??? Update (LATEST) :
 - Respect de la PEP8 (sauf de la limite de caractères par ligne)
+- Raccourci : P --> Ouverture du menu des paramètres
+- Raccourci : R --> Reload la page
+- Raccourci : H --> Ouverture du menu de l'historique
+- Raccourci : F --> Ouverture du menu des favoris
+- Raccourci : N --> Création d'un nouvel onglet
 
 ### V 0.6.0 : Favorite Update (LATEST) :
 - Vérification de mise à jour
@@ -35,7 +40,7 @@ Navigateur web en python
 - Amélioration Favori et Historique avec des messages pour chaque action (ex : Suppression de l'historique)
 - Paramètre : Moteur de recherche préféré
 - Paramètre : JavaScript Activé/Désactivé
-- Raccourci : F10 --> Ouverture du menu de paramètre
+- Raccourci : F10 --> Ouverture du menu des paramètres
 - Bug Fix : L'historique ne se supprimait pas
 
 ### V 0.5.0 : History Update :
