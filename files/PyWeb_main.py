@@ -109,7 +109,7 @@ class MainWindow(QWidget):
 		
 		page=requests.get('http://lavapower.github.io/version/PyWeb.html', verify = False) 
 		strpage=page.text
-		if "0.5.0" != strpage:
+		if "0.6.0" != strpage:
 			alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage.replace("\n","")+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
 
 	def setTitle(self):

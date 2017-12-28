@@ -132,5 +132,4 @@ class Item:
 		self.title = title
 	
 	def load(self):
-		print("tet")
 		self.main.urlInput.enterUrlGiven(self.url)
