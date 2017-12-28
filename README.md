@@ -25,6 +25,9 @@ Navigateur web en python
 
 ## Changelog : 
 
+### V 0.7.0 : ??? Update (LATEST) :
+- Respect de la PEP8 (sauf de la limite de caractères par ligne)
+
 ### V 0.6.0 : Favorite Update (LATEST) :
 - Vérification de mise à jour
 - Recherche sur le moteur choisi des mots écrits dans l'url si il n'y a pas de point.
