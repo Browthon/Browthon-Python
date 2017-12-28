@@ -7,7 +7,7 @@ from PySide.QtCore import *
 
 from files.PyWeb_utils import *
 
-import os
+import os, requests
 
 class MainWindow(QWidget):
 	def __init__(self, url):
@@ -54,7 +54,7 @@ class MainWindow(QWidget):
 					self.historyArray.append(i)
 		
 		self.informations.setWindowTitle("Informations sur PyWeb")
-		self.informations.setText("V 0.5.0 : History Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+		self.informations.setText("V 0.6.0 : Favorite Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
 		self.parametres.addAction("JavaScript",self.JSDefine)
 		self.parametres.addAction("Définir Moteur", self.moteurDefine)
 		self.parametres.addAction("Fermer Onglet", self.closeOnglet)
@@ -105,6 +105,12 @@ class MainWindow(QWidget):
 		self.setLayout(self.grid)
 		
 		self.moteur = MoteurBox("Moteur par défaut","Choissez le moteur par défaut")
+		
+		
+		page=requests.get('http://lavapower.github.io/version/PyWeb.html', verify = False) 
+		strpage=page.text
+		if "0.5.0" != strpage:
+			alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage.replace("\n","")+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
 
 	def setTitle(self):
 		self.setWindowTitle(self.browser.title()+" - PyWeb")

@@ -3,7 +3,8 @@ Navigateur web en python
 
 ## Dépendances :
 - Python 3.5+
-- PySide
+- PySide (pip install pyside)
+- Requests (pip install requests)
 
 ## Autres informations :
 - Développeur principal : LavaPower
@@ -18,12 +19,14 @@ Navigateur web en python
     - 3.5.3 (V 0.2.0 --> V 0.5.0)
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
   - Libs :
+    - Requests (V 0.6.0 --> Latest)
     - PySide (V 0.2.0 --> Latest)
     - PyQt4 (V 0.1.0 --> V 0.2.0)
 
 ## Changelog : 
 
-### V 0.6.0 : ??? Update (NON DISPO) :
+### V 0.6.0 : Favorite Update (LATEST) :
+- Vérification de mise à jour
 - Recherche sur le moteur choisi des mots écrits dans l'url si il n'y a pas de point.
 - Début des Favoris (Ajout et suppression mais pas d'interaction)
 - Amélioration Favori et Historique avec des messages pour chaque action (ex : Suppression de l'historique)
@@ -32,7 +35,7 @@ Navigateur web en python
 - Raccourci : F10 --> Ouverture du menu de paramètre
 - Bug Fix : L'historique ne se supprimait pas
 
-### V 0.5.0 : History Update (LATEST) :
+### V 0.5.0 : History Update :
 - Création d'une page perso à PyWeb (https://lavapower.github.io/pyweb.html)
 - Page perso comme page d'accueil par défaut.
 - Confirmation avant extinction lors de la fermeture du dernier onglet.

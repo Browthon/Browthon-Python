@@ -1,7 +1,7 @@
 #!/usr/bin/python3.6
 # coding: utf-8
 
-import sys, os
+import sys, os 
 
 from PySide.QtWebKit import *
 from PySide.QtGui import *
