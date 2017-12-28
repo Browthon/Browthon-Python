@@ -108,9 +108,9 @@ class MainWindow(QWidget):
 		
 		
 		page=requests.get('http://lavapower.github.io/version/PyWeb.html', verify = False) 
-		strpage=page.text
+		strpage=page.text.replace("\n","")
 		if "0.6.0" != strpage:
-			alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage.replace("\n","")+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
+			alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
 
 	def setTitle(self):
 		self.setWindowTitle(self.browser.title()+" - PyWeb")
