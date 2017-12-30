@@ -25,15 +25,17 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 0.7.0 : ??? Update (LATEST) :
+### V 1.0.0 : First Update (LATEST) :
 - Respect de la PEP8 (sauf de la limite de caractères par ligne)
+- Paramètre : Navigation privée
+- Raccourci : Q --> Fermeture de l'onglet actuel
 - Raccourci : P --> Ouverture du menu des paramètres
 - Raccourci : R --> Reload la page
 - Raccourci : H --> Ouverture du menu de l'historique
 - Raccourci : F --> Ouverture du menu des favoris
 - Raccourci : N --> Création d'un nouvel onglet
 
-### V 0.6.0 : Favorite Update (LATEST) :
+### V 0.6.0 : Favorite Update :
 - Vérification de mise à jour
 - Recherche sur le moteur choisi des mots écrits dans l'url si il n'y a pas de point.
 - Début des Favoris (Ajout et suppression mais pas d'interaction)

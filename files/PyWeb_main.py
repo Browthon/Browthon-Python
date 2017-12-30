@@ -18,6 +18,7 @@ class MainWindow(QWidget):
         self.grid = QGridLayout()
         self.browser = QWebView()
         self.JS = True
+        self.Private = False
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.onglet1B = ButtonOnglet(self, "O1")
@@ -56,10 +57,12 @@ class MainWindow(QWidget):
                     self.historyArray.append(i)
 
         self.informations.setWindowTitle("Informations sur PyWeb")
-        self.informations.setText("V 0.6.0 : Favorite Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+        self.informations.setText("V 1.0.0 : Favorite Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+        self.parametres.addAction("Fermer Onglet", self.closeOnglet)
+        self.parametres.addSeparator()
+        self.parametres.addAction("Navigation Privée", self.PrivateDefine)
         self.parametres.addAction("JavaScript", self.JSDefine)
         self.parametres.addAction("Définir Moteur", self.moteurDefine)
-        self.parametres.addAction("Fermer Onglet", self.closeOnglet)
         self.parametres.addSeparator()
         self.parametres.addAction("Informations", self.informations.open)
         self.browser.setPage(self.onglet1)
@@ -110,7 +113,7 @@ class MainWindow(QWidget):
 
         page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
         strpage = page.text.replace("\n", "")
-        if "0.6.0" != strpage:
+        if "1.0.0" != strpage:
             alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
 
     def setTitle(self):
@@ -136,6 +139,18 @@ class MainWindow(QWidget):
             if rep == 16384:
                 QWebSettings.globalSettings().setAttribute(QWebSettings.JavascriptEnabled, True)
                 self.JS = True
+
+    def PrivateDefine(self):
+        if self.Private:
+            rep = QMessageBox().question(self, "Désactiver Navigation Privée", "Voulez vous désactiver la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
+            if rep == 16384:
+                QWebSettings.globalSettings().setAttribute(QWebSettings.PrivateBrowsingEnabled, False)
+                self.Private = False
+        else:
+            rep = QMessageBox().question(self, "Activer Navigation Privée", "Voulez vous activer la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
+            if rep == 16384:
+                QWebSettings.globalSettings().setAttribute(QWebSettings.PrivateBrowsingEnabled, True)
+                self.Private = True
 
     def addOnglet(self):
         find = False
@@ -174,9 +189,10 @@ class MainWindow(QWidget):
                 self.browser.page().button.show()
 
     def addHistory(self):
-        self.historyArray.append(self.browser.title()+" | "+self.browser.url().toString())
-        hItem = Item(self, self.browser.title(), self.browser.url().toString())
-        self.history.addAction(hItem.title, hItem.load)
+        if not self.Private:
+            self.historyArray.append(self.browser.title()+" | "+self.browser.url().toString())
+            hItem = Item(self, self.browser.title(), self.browser.url().toString())
+            self.history.addAction(hItem.title, hItem.load)
 
     def removeHistory(self):
         self.historyArray = []
@@ -213,7 +229,7 @@ class MainWindow(QWidget):
                 item = i.split(" | ")
                 fItem = Item(self, item[0], item[1])
                 self.fav.addAction(fItem.title, fItem.load)
-            info = QMessageBox().about(self, "Supprimer", "Cette page n'est plu dans les favoris")
+            info = QMessageBox().about(self, "Supprimer", "Cette page n'est plus dans les favoris")
         else:
             info = QMessageBox().about(self, "Annulation", "Cette page n'est pas dans les favoris")
 
@@ -228,6 +244,8 @@ class MainWindow(QWidget):
             self.historyB.showMenu()
         elif event.key() == 70:
             self.favB.showMenu()
+        elif event.key() == 81:
+            self.closeOnglet()
 
     def closeEvent(self, event):
         if self.historyArray == []:
