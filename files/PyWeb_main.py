@@ -16,15 +16,13 @@ class MainWindow(QWidget):
         super(MainWindow, self).__init__()
         self.url = url
         self.grid = QGridLayout()
-        self.browser = QWebView()
-        self.JS = True
-        self.Private = False
+        self.js = True
+        self.private = False
+        self.deplacement_onglet = False
         self.onglets = []
         self.ongletP = QPushButton("+")
-        self.onglet1B = ButtonOnglet(self, "O1")
+        self.ongletM = QPushButton("-")
         self.urlInput = UrlInput(self)
-        self.onglet1 = Onglet(1, self, self.onglet1B)
-        self.onglets.append([self.onglet1, self.onglet1B])
         self.historyB = QPushButton("H")
         self.history = QMenu("")
         self.favB = QPushButton("★")
@@ -35,6 +33,11 @@ class MainWindow(QWidget):
         self.parametreB = QPushButton("⁞")
         self.parametres = QMenu("")
         self.informations = QMessageBox()
+        self.accueil = QPushButton("⌂")
+        self.onglet1 = Onglet(1, self)
+        self.browser = self.onglet1
+        self.onglets.append(self.onglet1)
+        self.tabOnglet = TabOnglet(self)
         self.favArray = []
         try:
             with open("fav.txt"):
@@ -55,17 +58,14 @@ class MainWindow(QWidget):
             with open('history.txt', 'r') as fichier:
                 for i in fichier.read().split("\n"):
                     self.historyArray.append(i)
-
         self.informations.setWindowTitle("Informations sur PyWeb")
-        self.informations.setText("V 1.0.0 : Favorite Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
-        self.parametres.addAction("Fermer Onglet", self.closeOnglet)
-        self.parametres.addSeparator()
+        self.informations.setText("V 1.1.0 : Tab Update V2\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+        self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
         self.parametres.addAction("Navigation Privée", self.PrivateDefine)
         self.parametres.addAction("JavaScript", self.JSDefine)
         self.parametres.addAction("Définir Moteur", self.moteurDefine)
         self.parametres.addSeparator()
         self.parametres.addAction("Informations", self.informations.open)
-        self.browser.setPage(self.onglet1)
         self.parametreB.setMenu(self.parametres)
         self.historyB.setMenu(self.history)
         self.favB.setMenu(self.fav)
@@ -83,9 +83,7 @@ class MainWindow(QWidget):
             hItem = Item(self, item[0], item[1])
             self.history.addAction(hItem.title, hItem.load)
 
-        self.browser.urlChanged.connect(self.urlInput.setUrl)
-        self.browser.titleChanged.connect(self.setTitle)
-        self.browser.loadFinished.connect(self.addHistory)
+        self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
         self.back.clicked.connect(self.browser.back)
         self.forward.clicked.connect(self.browser.forward)
         self.reload.clicked.connect(self.browser.reload)
@@ -93,103 +91,99 @@ class MainWindow(QWidget):
         self.parametreB.clicked.connect(self.parametreB.showMenu)
         self.historyB.clicked.connect(self.history.show)
         self.favB.clicked.connect(self.fav.show)
-        self.onglet1B.clicked.connect(self.onglet1.setOnglet)
         self.ongletP.clicked.connect(self.addOnglet)
-
-        self.grid.addWidget(self.onglet1B, 0, 0)
-        self.grid.addWidget(self.ongletP, 0, 10)
+        self.ongletM.clicked.connect(self.closeOnglet)
+        self.accueil.clicked.connect(self.urlAccueil)
         self.grid.addWidget(self.back, 1, 0)
         self.grid.addWidget(self.reload, 1, 1)
         self.grid.addWidget(self.forward, 1, 2)
-        self.grid.addWidget(self.urlInput, 1, 3, 1, 5)
-        self.grid.addWidget(self.historyB, 1, 8)
-        self.grid.addWidget(self.favB, 1, 9)
-        self.grid.addWidget(self.parametreB, 1, 10)
-        self.grid.addWidget(self.browser, 2, 0, 1, 11)
-
+        self.grid.addWidget(self.urlInput, 1, 3, 1, 6)
+        self.grid.addWidget(self.accueil, 1, 9)
+        self.grid.addWidget(self.historyB, 0, 4, 1, 2)
+        self.grid.addWidget(self.favB, 0, 6, 1, 2)
+        self.grid.addWidget(self.parametreB, 0, 8, 1, 2)
+        self.grid.addWidget(self.tabOnglet, 2, 0, 1, 10)
+        self.grid.addWidget(self.ongletP, 0, 0, 1, 2)
+        self.grid.addWidget(self.ongletM, 0, 2, 1, 2)
         self.setLayout(self.grid)
-
         self.moteur = MoteurBox("Moteur par défaut", "Choissez le moteur par défaut")
-
         page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
         strpage = page.text.replace("\n", "")
-        if "1.0.0" != strpage:
+        if "1.1.0" != strpage:
             alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
 
     def setTitle(self):
-        self.setWindowTitle(self.browser.title()+" - PyWeb")
+        if self.private:
+            self.setWindowTitle("[Privé] "+self.browser.title()+" - PyWeb")
+        else:
+            self.setWindowTitle(self.browser.title()+" - PyWeb")
         if len(self.browser.title()) >= 13:
             titre = self.browser.title()[:9]+"..."
         else:
             titre = self.browser.title()
-        self.browser.page().button.setText(titre)
+        self.tabOnglet.setTabText(self.tabOnglet.currentIndex(), titre)
 
     def moteurDefine(self):
         self.moteur.setWindowModality(Qt.ApplicationModal)
         self.moteur.show()
 
+    def urlAccueil(self):
+        self.browser.load(QUrl(self.url))
+
     def JSDefine(self):
-        if self.JS:
+        if self.js:
             rep = QMessageBox().question(self, "Désactiver JS", "Voulez vous désactiver le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebSettings.globalSettings().setAttribute(QWebSettings.JavascriptEnabled, False)
-                self.JS = False
+                self.js = False
         else:
             rep = QMessageBox().question(self, "Activer JS", "Voulez vous activer le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebSettings.globalSettings().setAttribute(QWebSettings.JavascriptEnabled, True)
-                self.JS = True
+                self.js = True
+
+    def deplaceDefine(self):
+        if self.deplacement_onglet:
+            rep = QMessageBox().question(self, "Désactiver Déplacement", "Voulez vous désactiver le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
+            if rep == 16384:
+                self.deplacement_onglet = False
+        else:
+            rep = QMessageBox().question(self, "Activer Déplacement", "Voulez vous activer le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
+            if rep == 16384:
+                self.deplacement_onglet = True
 
     def PrivateDefine(self):
-        if self.Private:
+        if self.private:
             rep = QMessageBox().question(self, "Désactiver Navigation Privée", "Voulez vous désactiver la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebSettings.globalSettings().setAttribute(QWebSettings.PrivateBrowsingEnabled, False)
-                self.Private = False
+                self.private = False
         else:
             rep = QMessageBox().question(self, "Activer Navigation Privée", "Voulez vous activer la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebSettings.globalSettings().setAttribute(QWebSettings.PrivateBrowsingEnabled, True)
-                self.Private = True
+                self.private = True
 
     def addOnglet(self):
-        find = False
-        for i in self.onglets:
-            if i[1].isVisible():
-                pass
-            else:
-                i[0].mainFrame().load(QUrl(self.url))
-                i[1].show()
-                find = True
-                break
-        if not find:
-            if len(self.onglets) == 10:
-                alert = QMessageBox().warning(self, "ERREUR - Trop d'onglet", "Vous avez 10 onglets, soit le maximum possible...")
-            else:
-                button = ButtonOnglet(self, "O"+str(len(self.onglets)+1))
-                onglet = Onglet(len(self.onglets)+1, self, button)
-                self.onglets.append([onglet, button])
-                button.clicked.connect(onglet.setOnglet)
-                self.grid.addWidget(button, 0, len(self.onglets)-1)
+        onglet = Onglet(len(self.onglets)+1, self)
+        self.onglets.append(onglet)
+        self.tabOnglet.addTab(onglet, "PyWeb")
+        onglet.show()
+        if self.deplacement_onglet:
+            self.tabOnglet.setCurrentWidget(onglet)
 
     def closeOnglet(self):
-        self.browser.page().button.hide()
-        find = False
-        for i in self.onglets:
-            if i[1].isVisible():
-                find = True
-                self.browser.setPage(i[0])
-                break
-        if not find:
+        if self.tabOnglet.count() == 1:
             question = QMessageBox().question(self, "Quitter ?", "Vous avez fermé le dernier onglet... \nVoulez vous quitter PyWeb ?", QMessageBox.Yes, QMessageBox.No)
             if question == 16384:
                 self.close()
             else:
                 info = QMessageBox().about(self, "Annulation", "Le dernier onglet a donc été réouvert")
-                self.browser.page().button.show()
+        else:
+            self.tabOnglet.removeTab(self.tabOnglet.currentIndex())
 
     def addHistory(self):
-        if not self.Private:
+        if not self.private:
             self.historyArray.append(self.browser.title()+" | "+self.browser.url().toString())
             hItem = Item(self, self.browser.title(), self.browser.url().toString())
             self.history.addAction(hItem.title, hItem.load)

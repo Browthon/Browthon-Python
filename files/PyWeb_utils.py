@@ -9,7 +9,7 @@ from PySide.QtCore import *
 class UrlInput(QLineEdit):
     def __init__(self, main):
         super(UrlInput, self).__init__(main.url)
-        self.browser = main.browser
+        self.main = main
 
     def enterUrl(self):
         urlT = self.text()
@@ -31,7 +31,7 @@ class UrlInput(QLineEdit):
                         moteur = fichier.read().split("\n")[0]
                 urlT = moteur+urlT
                 url = QUrl(urlT)
-        self.browser.load(url)
+        self.main.browser.load(url)
 
     def enterUrlGiven(self, url):
         urlT = url
@@ -40,24 +40,37 @@ class UrlInput(QLineEdit):
         else:
             urlT = "http://"+urlT
             url = QUrl(urlT)
-        self.browser.load(url)
+        self.main.browser.load(url)
 
     def setUrl(self):
-        self.setText(self.browser.url().toString())
+        self.setText(self.main.browser.url().toString())
 
 
-class Onglet(QWebPage):
-    def __init__(self, nb, main, button):
-        super(Onglet, self).__init__()
-        self.nb = nb
-        self.button = button
+class TabOnglet(QTabWidget):
+    def __init__(self, main):
+        super(TabOnglet, self).__init__()
+        self.setTabPosition(QTabWidget.North)
+        self.setMovable(True)
+        self.addTab(main.onglet1, "PyWeb")
         self.main = main
-        self.mainFrame().load(QUrl(main.url))
+        self.main.browser.show()
 
-    def setOnglet(self):
-        self.main.browser.setPage(self)
+    def changeOnglet(self):
+        self.main.browser = self.currentWidget()
         self.main.urlInput.setUrl()
         self.main.setTitle()
+        self.main.addHistory()
+
+
+class Onglet(QWebView):
+    def __init__(self, nb, main):
+        super(Onglet, self).__init__()
+        self.nb = nb
+        self.main = main
+        self.load(QUrl(main.url))
+        self.urlChanged.connect(main.urlInput.setUrl)
+        self.titleChanged.connect(main.setTitle)
+        self.loadFinished.connect(main.addHistory)
 
 
 class MoteurBox(QWidget):
@@ -107,27 +120,6 @@ class MoteurBox(QWidget):
         with open('config.txt', 'w') as fichier:
             fichier.write(txt+"\nhttps://lavapower.github.io/pyweb.html")
         self.close()
-
-
-class ButtonOnglet(QPushButton):
-    def __init__(self, main, text):
-        super(ButtonOnglet, self).__init__(text)
-        self.main = main
-
-    def showEvent(self, e):
-        for i in self.main.onglets:
-            if i[1] == self:
-                names = self.main.url.split(".")
-                nom = names[0].replace("https://", "")
-                nom = nom.replace("http://", "")
-                first = nom[0].upper()
-                nom = first + nom[1:]
-
-                if len(nom) >= 13:
-                    titre = nom[:9]+"..."
-                else:
-                    titre = nom
-                self.setText(titre)
 
 
 class Item:

@@ -25,7 +25,14 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 1.0.0 : First Update (LATEST) :
+### V 1.1.0 : Tab Update V3 (LATEST) :
+- Reprogrammation du système d'onglet
+- Réorganisation de la fenêtre principale
+- Ajout d'un bouton home correspondant à la page d'accueil
+- Ajout de '[Privé]' dans le titre de la fenêtre quand on est en navigation privé
+- Paramètre : Déplacement à l'ouverture d'un onglet
+
+### V 1.0.0 : First Update :
 - Respect de la PEP8 (sauf de la limite de caractères par ligne)
 - Paramètre : Navigation privée
 - Raccourci : Q --> Fermeture de l'onglet actuel
