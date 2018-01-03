@@ -1,9 +1,10 @@
 #!/usr/bin/python3.6
 # coding: utf-8
 
-from PySide.QtWebKit import *
-from PySide.QtGui import *
-from PySide.QtCore import *
+from PyQt5.QtWebEngineWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
 
 from files.PyWeb_utils import *
 
@@ -134,21 +135,23 @@ class MainWindow(QWidget):
         if self.js:
             rep = QMessageBox().question(self, "Désactiver JS", "Voulez vous désactiver le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
-                QWebSettings.globalSettings().setAttribute(QWebSettings.JavascriptEnabled, False)
+                QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
                 self.js = False
         else:
             rep = QMessageBox().question(self, "Activer JS", "Voulez vous activer le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
-                QWebSettings.globalSettings().setAttribute(QWebSettings.JavascriptEnabled, True)
+                QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
                 self.js = True
 
     def deplaceDefine(self):
         if self.deplacement_onglet:
             rep = QMessageBox().question(self, "Désactiver Déplacement", "Voulez vous désactiver le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
+            print("True : ",rep)
             if rep == 16384:
                 self.deplacement_onglet = False
         else:
             rep = QMessageBox().question(self, "Activer Déplacement", "Voulez vous activer le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
+            print("False : ", rep)
             if rep == 16384:
                 self.deplacement_onglet = True
 
@@ -156,12 +159,12 @@ class MainWindow(QWidget):
         if self.private:
             rep = QMessageBox().question(self, "Désactiver Navigation Privée", "Voulez vous désactiver la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
-                QWebSettings.globalSettings().setAttribute(QWebSettings.PrivateBrowsingEnabled, False)
+                QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.DiskHttpCache)
                 self.private = False
         else:
             rep = QMessageBox().question(self, "Activer Navigation Privée", "Voulez vous activer la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
-                QWebSettings.globalSettings().setAttribute(QWebSettings.PrivateBrowsingEnabled, True)
+                QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.MemoryHttpCache)
                 self.private = True
 
     def addOnglet(self):

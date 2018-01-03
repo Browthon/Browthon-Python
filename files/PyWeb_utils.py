@@ -1,9 +1,10 @@
 #!/usr/bin/python3.6
 # coding: utf-8
 
-from PySide.QtWebKit import *
-from PySide.QtGui import *
-from PySide.QtCore import *
+from PyQt5.QtWebEngineWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
 
 
 class UrlInput(QLineEdit):
@@ -62,7 +63,7 @@ class TabOnglet(QTabWidget):
         self.main.addHistory()
 
 
-class Onglet(QWebView):
+class Onglet(QWebEngineView):
     def __init__(self, nb, main):
         super(Onglet, self).__init__()
         self.nb = nb

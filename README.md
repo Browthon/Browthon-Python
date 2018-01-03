@@ -3,7 +3,7 @@ Navigateur web en python
 
 ## Dépendances :
 - Python 3.5+
-- PySide (pip install pyside)
+- PyQt5 (pip install pyqt5)
 - Requests (pip install requests)
 
 ## Autres informations :
@@ -20,10 +20,14 @@ Navigateur web en python
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
   - Libs :
     - Requests (V 0.6.0 --> Latest)
-    - PySide (V 0.2.0 --> Latest)
+    - PyQt5 (V 2.0.0 --> Latest)
+    - PySide (V 0.2.0 --> V 2.0.0)
     - PyQt4 (V 0.1.0 --> V 0.2.0)
 
 ## Changelog : 
+
+### V 2.0.0 : PyQt5 Update (NON DISPO) :
+- Reprogrammation en utilisant PyQt5
 
 ### V 1.1.0 : Tab Update V3 (LATEST) :
 - Reprogrammation du système d'onglet
