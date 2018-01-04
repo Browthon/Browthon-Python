@@ -30,7 +30,7 @@ class UrlInput(QLineEdit):
                     moteur = "https://www.google.fr/?gws_rd=ssl#q="
                 else:
                     with open('config.txt', 'r') as fichier:
-                        moteur = fichier.read().split("\n")[0]
+                        moteur = fichier.read().split("\n")[0].split(" ")[1]
                 urlT = moteur+urlT
                 url = QUrl(urlT)
         self.main.browser.load(url)
@@ -62,6 +62,12 @@ class TabOnglet(QTabWidget):
         self.main.urlInput.setUrl()
         self.main.setTitle()
         self.main.addHistory()
+        self.main.forward.disconnect()
+        self.main.back.disconnect()
+        self.main.reload.disconnect()
+        self.main.back.clicked.connect(self.main.browser.back)
+        self.main.forward.clicked.connect(self.main.browser.forward)
+        self.main.reload.clicked.connect(self.main.browser.reload)
 
 
 class Onglet(QWebEngineView):

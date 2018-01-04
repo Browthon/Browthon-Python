@@ -105,9 +105,9 @@ class MainWindow(QWidget):
             self.history.addAction(hItem.title, hItem.load)
 
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
-        self.back.clicked.connect(self.browser.back)
-        self.forward.clicked.connect(self.browser.forward)
-        self.reload.clicked.connect(self.browser.reload)
+        self.reload.clicked.connect(self.onglet1.reload)
+        self.back.clicked.connect(self.onglet1.back)
+        self.forward.clicked.connect(self.onglet1.forward)
         self.urlInput.returnPressed.connect(self.urlInput.enterUrl)
         self.parametreB.clicked.connect(self.parametreB.showMenu)
         self.historyB.clicked.connect(self.history.show)
