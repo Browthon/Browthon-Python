@@ -26,10 +26,11 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 2.0.0 : PyQt5 Update (NON DISPO) :
+### V 2.0.0 : PyQt5 Update (LATEST) :
 - Reprogrammation en utilisant PyQt5
+- Le FullScreen est maintenant disponible ! (Merci à Feldrise)
 
-### V 1.1.0 : Tab Update V3 (LATEST) :
+### V 1.1.0 : Tab Update V3 :
 - Reprogrammation du système d'onglet
 - Réorganisation de la fenêtre principale
 - Ajout d'un bouton home correspondant à la page d'accueil

@@ -5,6 +5,7 @@ from PyQt5.QtWebEngineWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from PyQt5.Qt import *
 
 from files.PyWeb_utils import *
 
@@ -60,7 +61,7 @@ class MainWindow(QWidget):
                 for i in fichier.read().split("\n"):
                     self.historyArray.append(i)
         self.informations.setWindowTitle("Informations sur PyWeb")
-        self.informations.setText("V 1.1.0 : Tab Update V2\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+        self.informations.setText("V 2.0.0 : PyQt5 Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
         self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
         self.parametres.addAction("Navigation Privée", self.PrivateDefine)
         self.parametres.addAction("JavaScript", self.JSDefine)
@@ -107,10 +108,11 @@ class MainWindow(QWidget):
         self.grid.addWidget(self.ongletP, 0, 0, 1, 2)
         self.grid.addWidget(self.ongletM, 0, 2, 1, 2)
         self.setLayout(self.grid)
+        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True);
         self.moteur = MoteurBox("Moteur par défaut", "Choissez le moteur par défaut")
         page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
         strpage = page.text.replace("\n", "")
-        if "1.1.0" != strpage:
+        if "2.0.0" != strpage:
             alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
 
     def setTitle(self):

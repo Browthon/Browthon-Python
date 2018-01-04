@@ -5,6 +5,7 @@ from PyQt5.QtWebEngineWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from PyQt5.Qt import *
 
 
 class UrlInput(QLineEdit):
@@ -68,10 +69,39 @@ class Onglet(QWebEngineView):
         super(Onglet, self).__init__()
         self.nb = nb
         self.main = main
+        self.page = Page(self)
+        self.setPage(self.page)
         self.load(QUrl(main.url))
         self.urlChanged.connect(main.urlInput.setUrl)
         self.titleChanged.connect(main.setTitle)
         self.loadFinished.connect(main.addHistory)
+        self.page.fullScreenRequested.connect(self.page.makeFullScreen)
+
+
+class Page(QWebEnginePage):
+    def __init__(self, view):
+        super(Page, self).__init__()
+        self.main = view.main
+        self.view = view
+        self.fullView = QWebEngineView()
+    
+    def ExitFS(self):
+        self.triggerAction(self.ExitFullScreen)
+    
+    def makeFullScreen(self, request):
+        if request.toggleOn():
+            self.exitFSAction = QAction(self.fullView)
+            self.exitFSAction.setShortcut(Qt.Key_Escape)
+            self.exitFSAction.triggered.connect(self.ExitFS)
+        
+            self.fullView.addAction(self.exitFSAction)
+            self.setView(self.fullView)
+            self.fullView.showFullScreen()
+            self.fullView.raise_()
+        else:
+            self.fullView.hide()
+            self.setView(self.view)
+        request.accept()
 
 
 class MoteurBox(QWidget):
