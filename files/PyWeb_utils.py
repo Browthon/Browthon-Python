@@ -89,13 +89,13 @@ class Page(QWebEnginePage):
         super(Page, self).__init__()
         self.main = view.main
         self.view = view
-        self.fullView = QWebEngineView()
     
     def ExitFS(self):
         self.triggerAction(self.ExitFullScreen)
     
     def makeFullScreen(self, request):
         if request.toggleOn():
+            self.fullView = QWebEngineView()
             self.exitFSAction = QAction(self.fullView)
             self.exitFSAction.setShortcut(Qt.Key_Escape)
             self.exitFSAction.triggered.connect(self.ExitFS)
@@ -105,7 +105,7 @@ class Page(QWebEnginePage):
             self.fullView.showFullScreen()
             self.fullView.raise_()
         else:
-            self.fullView.hide()
+            del self.fullView
             self.setView(self.view)
         request.accept()
 

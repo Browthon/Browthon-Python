@@ -29,8 +29,9 @@ Navigateur web en python
 ### V ?.?.? : ?? Update (NON DISPO) :
 - Enregistrement des paramètres
 - Fichier config plus user-friendly
-- Bug Fix : Les boutons reculer, reload et avancer n'ont d'effets que sur le première page
+- Bug Fix : Les boutons reculer, reload et avancer n'avaient d'effet que sur le première page
 - Bug Fix : La recherche via la barre d'url retournait toujours une page blanche
+- Bug Fix : La touche 'Echap' ne fonctionnait qu'une fois pour quitter le mode plein écran
 
 ### V 2.0.0 : PyQt5 Update (LATEST) :
 - Reprogrammation en utilisant PyQt5
