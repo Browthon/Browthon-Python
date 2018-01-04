@@ -1,5 +1,0 @@
-UrlMoteur https://www.google.fr/?gws_rd=ssl#q=
-UrlAccueil https://lavapower.github.io/pyweb.html
-JavaScript True
-NavigationPrivée False
-DéplacementOnglet False
