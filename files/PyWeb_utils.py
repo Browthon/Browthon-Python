@@ -164,6 +164,9 @@ class Item:
         self.main = main
         self.url = url
         self.title = title
+    
+    def setInteraction(self, menu):
+        menu.addAction(self.title, self.load)
 
     def load(self):
         self.main.urlInput.enterUrlGiven(self.url)

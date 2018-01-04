@@ -26,12 +26,13 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V ?.?.? : ?? Update (NON DISPO) :
+### V 2.0.1 : Bug Fix Update (NON DISPO) :
 - Enregistrement des paramètres
 - Fichier config plus user-friendly
 - Bug Fix : Les boutons reculer, reload et avancer n'avaient d'effet que sur le première page
 - Bug Fix : La recherche via la barre d'url retournait toujours une page blanche
 - Bug Fix : La touche 'Echap' ne fonctionnait qu'une fois pour quitter le mode plein écran
+- Bug Fix : Les favoris et l'historique n'avait pas d'interactions
 
 ### V 2.0.0 : PyQt5 Update (LATEST) :
 - Reprogrammation en utilisant PyQt5

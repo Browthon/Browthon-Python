@@ -68,7 +68,8 @@ class MainWindow(QWidget):
         else:
             with open("fav.txt", "r") as fichier:
                 for i in fichier.read().split('\n'):
-                    self.favArray.append(i)
+                    item = i.split(" | ")
+                    self.favArray.append(Item(self, item[0], item[1]))
         self.historyArray = []
         try:
             with open('history.txt'):
@@ -78,9 +79,10 @@ class MainWindow(QWidget):
         else:
             with open('history.txt', 'r') as fichier:
                 for i in fichier.read().split("\n"):
-                    self.historyArray.append(i)
+                    item = i.split(" | ")
+                    self.historyArray.append(Item(self, item[0], item[1]))
         self.informations.setWindowTitle("Informations sur PyWeb")
-        self.informations.setText("V 2.0.0 : PyQt5 Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
+        self.informations.setText("V 2.0.1 : Bug Fix Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
         self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
         self.parametres.addAction("Navigation Privée", self.PrivateDefine)
         self.parametres.addAction("JavaScript", self.JSDefine)
@@ -94,15 +96,11 @@ class MainWindow(QWidget):
         self.fav.addAction("Supprimer Page", self.suppFav)
         self.fav.addSeparator()
         for i in self.favArray:
-            item = i.split(" | ")
-            fItem = Item(self, item[0], item[1])
-            self.fav.addAction(fItem.title, fItem.load)
+            i.setInteraction(self.fav)
         self.history.addAction("Supprimer", self.removeHistory)
         self.history.addSeparator()
         for i in self.historyArray:
-            item = i.split(" | ")
-            hItem = Item(self, item[0], item[1])
-            self.history.addAction(hItem.title, hItem.load)
+            i.setInteraction(self.history)
 
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
         self.reload.clicked.connect(self.onglet1.reload)
@@ -131,7 +129,7 @@ class MainWindow(QWidget):
         self.moteur = MoteurBox("Moteur par défaut", "Choissez le moteur par défaut")
         page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
         strpage = page.text.replace("\n", "")
-        if "2.0.0" != strpage:
+        if "2.0.1" != strpage:
             alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
 
     def setTitle(self):
@@ -208,9 +206,12 @@ class MainWindow(QWidget):
 
     def addHistory(self):
         if not self.private:
-            self.historyArray.append(self.browser.title()+" | "+self.browser.url().toString())
-            hItem = Item(self, self.browser.title(), self.browser.url().toString())
-            self.history.addAction(hItem.title, hItem.load)
+            self.historyArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
+            self.history.clear()
+            self.history.addAction("Supprimer", self.removeHistory)
+            self.history.addSeparator()
+            for i in self.historyArray:
+                i.setInteraction(self.history)
 
     def removeHistory(self):
         self.historyArray = []
@@ -222,20 +223,24 @@ class MainWindow(QWidget):
     def addFav(self):
         found = False
         for i in self.favArray:
-            if self.browser.url().toString() == i.split(" | ")[1]:
+            if self.browser.url().toString() == i.url:
                 found = True
         if found:
             info = QMessageBox().about(self, "Annulation", "Cette page est déjà dans les favoris")
         else:
-            self.favArray.append(self.browser.title()+" | "+self.browser.url().toString())
-            fItem = Item(self, self.browser.title(), self.browser.url().toString())
-            self.fav.addAction(fItem.title, fItem.load)
+            self.favArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
+            self.fav.clear()
+            self.fav.addAction("Ajouter Page", self.addFav)
+            self.fav.addAction("Supprimer Page", self.suppFav)
+            self.fav.addSeparator()
+            for i in self.favArray:
+                i.setInteraction(self.fav)
             info = QMessageBox().about(self, "Ajouter", "Cette page est maintenant dans les favoris")
 
     def suppFav(self):
         found = False
         for i in range(len(self.favArray)):
-            if self.browser.url().toString() == self.favArray[i].split(" | ")[1]:
+            if self.browser.url().toString() == self.favArray[i].url:
                 del self.favArray[i]
                 found = True
         if found:
@@ -244,9 +249,7 @@ class MainWindow(QWidget):
             self.fav.addAction("Supprimer Page", self.suppFav)
             self.fav.addSeparator()
             for i in self.favArray:
-                item = i.split(" | ")
-                fItem = Item(self, item[0], item[1])
-                self.fav.addAction(fItem.title, fItem.load)
+                i.setInteraction(self.fav)
             info = QMessageBox().about(self, "Supprimer", "Cette page n'est plus dans les favoris")
         else:
             info = QMessageBox().about(self, "Annulation", "Cette page n'est pas dans les favoris")
@@ -279,9 +282,9 @@ class MainWindow(QWidget):
                 message = ""
                 for i in range(len(self.historyArray)):
                     if i == len(self.historyArray)-1:
-                        message += self.historyArray[i]
+                        message += self.historyArray[i].title + " | " + self.historyArray[i].url
                     else:
-                        message += self.historyArray[i] + "\n"
+                        message += self.historyArray[i].title + " | " + self.historyArray[i].url + "\n"
                 fichier.write(message)
         if self.favArray == []:
             try:
@@ -296,9 +299,9 @@ class MainWindow(QWidget):
                 message = ""
                 for i in range(len(self.favArray)):
                     if i == len(self.favArray)-1:
-                        message += self.favArray[i]
+                        message += self.favArray[i].title + " | " + self.favArray[i].url
                     else:
-                        message += self.favArray[i] + '\n'
+                        message += self.favArray[i].title + " | " + self.favArray[i].url + '\n'
                 fichier.write(message)
         try:
             with open('config.txt'):
