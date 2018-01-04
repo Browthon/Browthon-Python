@@ -18,9 +18,28 @@ class MainWindow(QWidget):
         super(MainWindow, self).__init__()
         self.url = url
         self.grid = QGridLayout()
-        self.js = True
-        self.private = False
-        self.deplacement_onglet = False
+        try:
+            with open('config.txt'):
+                pass
+        except IOError:
+            self.js = True
+            self.private = False
+            self.deplacement_onglet = False
+        else:
+            with open('config.txt', 'r') as fichier:
+                defall = fichier.read().split('\n')
+                if defall[2].split(" ")[1] == "True":
+                    self.js = True
+                else:
+                    self.js = False
+                if defall[3].split(" ")[1] == "True":
+                    self.private = True
+                else:
+                    self.private = False
+                if defall[4].split(" ")[1] == "True":
+                    self.deplacement_onglet = True
+                else:
+                    self.deplacement_onglet = False
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.ongletM = QPushButton("-")
@@ -281,3 +300,18 @@ class MainWindow(QWidget):
                     else:
                         message += self.favArray[i] + '\n'
                 fichier.write(message)
+        try:
+            with open('config.txt'):
+                pass
+        except IOError:
+            pass
+        else:
+            contenu = []
+            with open('config.txt', 'r') as fichier:
+                contenu = fichier.read().split('\n')
+                contenu[2] = contenu[2].split(" ")[0]+" "+str(self.js)
+                contenu[3] = contenu[3].split(" ")[0]+" "+str(self.private)
+                contenu[4] = contenu[4].split(" ")[0]+" "+str(self.deplacement_onglet)
+            contenu = "\n".join(contenu)
+            with open('config.txt', 'w') as fichier:
+                fichier.write(contenu)

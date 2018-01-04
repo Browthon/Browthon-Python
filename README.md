@@ -26,6 +26,9 @@ Navigateur web en python
 
 ## Changelog : 
 
+### V ?.?.? : ?? Update (NON DISPO) :
+- Enregistrement des paramètres
+
 ### V 2.0.0 : PyQt5 Update (LATEST) :
 - Reprogrammation en utilisant PyQt5
 - Le FullScreen est maintenant disponible ! (Merci à Feldrise)
