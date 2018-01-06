@@ -11,11 +11,13 @@ Navigateur web en python
 - Contributeur : x
 - Développé sous :
   - Système :
-    - Linux Ubuntu 17.10 (V 0.5.0 --> Latest)
+    - Windows 10 (V ?.?.? --> Latest)
+    - Linux Ubuntu 17.10 (V 0.5.0 --> V ?.?.?)
     - Linux Debian 9 (V 0.2.0 --> V 0.5.0)
-    - Windows (V 0.1.0 --> V 0.2.0)
+    - Windows 7 (V 0.1.0 --> V 0.2.0)
   - Version Python :
-    - 3.6.3 (V 0.5.0 --> Latest)
+    - 3.6.4 (V ?.?.? --> Latest)
+    - 3.6.3 (V 0.5.0 --> V ?.?.?)
     - 3.5.3 (V 0.2.0 --> V 0.5.0)
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
   - Libs :
@@ -25,6 +27,9 @@ Navigateur web en python
     - PyQt4 (V 0.1.0 --> V 0.2.0)
 
 ## Changelog : 
+
+### V ?.?.? : ??? Update (NON DISPO) :
+- Bug Fix : Quand on sélectionne un moteur, PyWeb ne fonctionne plus
 
 ### V 2.0.1 : Bug Fix Update (LATEST) :
 - Enregistrement des paramètres

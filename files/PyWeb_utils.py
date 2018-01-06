@@ -155,7 +155,7 @@ class MoteurBox(QWidget):
 
     def setMoteur(self, txt):
         with open('config.txt', 'w') as fichier:
-            fichier.write(txt+"\nhttps://lavapower.github.io/pyweb.html")
+            fichier.write("UrlMoteur "+txt+"\nUrlAccueil https://lavapower.github.io/pyweb.html\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet False")
         self.close()
 
 
