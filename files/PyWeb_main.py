@@ -24,7 +24,7 @@ class MainWindow(QWidget):
         except IOError:
             self.js = True
             self.private = False
-            self.deplacement_onglet = False
+            self.deplacement_onglet = True
         else:
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')

@@ -130,8 +130,19 @@ class HomeBox(QWidget):
     def urlEnter(self):
         url = self.Url.text()
         self.main.url = url
-        with open('config.txt', 'w') as fichier:
-            fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil "+url+"\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet False")
+        try:
+            with open('config.txt'):
+                pass
+        except IOError:
+            pass
+        else:
+            contenu = []
+            with open('config.txt', 'r') as fichier:
+                contenu = fichier.read().split('\n')
+                contenu[1] = contenu[1].split(" ")[0]+" "+url
+            contenu = "\n".join(contenu)
+            with open('config.txt', 'w') as fichier:
+                fichier.write(contenu)
         self.close()
 
 
@@ -180,8 +191,19 @@ class MoteurBox(QWidget):
         self.setMoteur("https://www.bing.com/search?q=")
 
     def setMoteur(self, txt):
-        with open('config.txt', 'w') as fichier:
-            fichier.write("UrlMoteur "+txt+"\nUrlAccueil https://lavapower.github.io/pyweb.html\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet False")
+        try:
+            with open('config.txt'):
+                pass
+        except IOError:
+            pass
+        else:
+            contenu = []
+            with open('config.txt', 'r') as fichier:
+                contenu = fichier.read().split('\n')
+                contenu[0] = contenu[0].split(" ")[0]+" "+txt
+            contenu = "\n".join(contenu)
+            with open('config.txt', 'w') as fichier:
+                fichier.write(contenu)
         self.close()
 
 

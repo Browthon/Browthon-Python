@@ -28,14 +28,14 @@ Navigateur web en python
 
 ## Bugs connus de la version en développement :
 
-- Le choix d'un moteur réinitialise les autres paramètres.
-- Le choix d'une url d'accueil réinitialise les autres paramètres.
 - Les liens ouvrant un nouvel onglet n'ouvrent pas ce nouvel onglet.
 
 ## Changelog : 
 
 ### V ?.?.? : ??? Update (NON DISPO) :
 - Paramètre : Url d'accueil modifiable depuis PyWeb
+- Bug Fix : Le choix d'un moteur réinitialise les autres paramètres.
+- Bug Fix : Le choix d'une url d'accueil réinitialise les autres paramètres.
 - Bug Fix : Quand on sélectionne un moteur, PyWeb ne fonctionne plus
 
 ### V 2.0.1 : Bug Fix Update (LATEST) :
