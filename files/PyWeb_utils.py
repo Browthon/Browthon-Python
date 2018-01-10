@@ -110,9 +110,35 @@ class Page(QWebEnginePage):
         request.accept()
 
 
+class HomeBox(QWidget):
+    def __init__(self, main, title, text):
+        super(HomeBox, self).__init__()
+        self.main = main
+        self.setWindowTitle(title)
+        self.grid = QGridLayout()
+
+        self.Texte = QLabel(text)
+        self.Url = QLineEdit()
+        
+        self.Url.returnPressed.connect(self.urlEnter)
+        
+        self.grid.addWidget(self.Texte, 1, 1)
+        self.grid.addWidget(self.Url, 2, 1)
+        
+        self.setLayout(self.grid)
+        
+    def urlEnter(self):
+        url = self.Url.text()
+        self.main.url = url
+        with open('config.txt', 'w') as fichier:
+            fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil "+url+"\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet False")
+        self.close()
+
+
 class MoteurBox(QWidget):
     def __init__(self, title, text):
         super(MoteurBox, self).__init__()
+        
         self.setWindowTitle(title)
         self.grid = QGridLayout()
 

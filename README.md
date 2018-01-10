@@ -26,9 +26,16 @@ Navigateur web en python
     - PySide (V 0.2.0 --> V 2.0.0)
     - PyQt4 (V 0.1.0 --> V 0.2.0)
 
+## Bugs connus de la version en développement :
+
+- Le choix d'un moteur réinitialise les autres paramètres.
+- Le choix d'une url d'accueil réinitialise les autres paramètres.
+- Les liens ouvrant un nouvel onglet n'ouvrent pas ce nouvel onglet.
+
 ## Changelog : 
 
 ### V ?.?.? : ??? Update (NON DISPO) :
+- Paramètre : Url d'accueil modifiable depuis PyWeb
 - Bug Fix : Quand on sélectionne un moteur, PyWeb ne fonctionne plus
 
 ### V 2.0.1 : Bug Fix Update (LATEST) :

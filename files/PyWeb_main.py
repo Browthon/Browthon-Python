@@ -87,6 +87,7 @@ class MainWindow(QWidget):
         self.parametres.addAction("Navigation Privée", self.PrivateDefine)
         self.parametres.addAction("JavaScript", self.JSDefine)
         self.parametres.addAction("Définir Moteur", self.moteurDefine)
+        self.parametres.addAction("Définir Accueil", self.homeDefine)
         self.parametres.addSeparator()
         self.parametres.addAction("Informations", self.informations.open)
         self.parametreB.setMenu(self.parametres)
@@ -127,6 +128,7 @@ class MainWindow(QWidget):
         self.setLayout(self.grid)
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True);
         self.moteur = MoteurBox("Moteur par défaut", "Choissez le moteur par défaut")
+        self.home = HomeBox(self, "Url d'accueil", "Entrez l'url de votre page d'accueil")
         page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
         strpage = page.text.replace("\n", "")
         if "2.0.1" != strpage:
@@ -146,6 +148,10 @@ class MainWindow(QWidget):
     def moteurDefine(self):
         self.moteur.setWindowModality(Qt.ApplicationModal)
         self.moteur.show()
+
+    def homeDefine(self):
+        self.home.setWindowModality(Qt.ApplicationModal)
+        self.home.show()
 
     def urlAccueil(self):
         self.browser.load(QUrl(self.url))
