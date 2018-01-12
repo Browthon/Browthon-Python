@@ -7,6 +7,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
+import os
+
 
 class UrlInput(QLineEdit):
     def __init__(self, main):
@@ -205,6 +207,52 @@ class MoteurBox(QWidget):
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
+
+
+class LangBox(QWidget):
+    def __init__(self, main, title, text):
+        super(LangBox, self).__init__()
+        
+        self.main = main
+        
+        self.setWindowTitle(title)
+        self.grid = QGridLayout()
+
+        self.Texte = QLabel(text)
+        self.French = QPushButton("Francais")
+        self.English = QPushButton("English")
+
+        self.French.clicked.connect(self.setFrench)
+        self.English.clicked.connect(self.setEnglish)
+
+        self.grid.addWidget(self.Texte, 1, 1, 1, 2)
+        self.grid.addWidget(self.French, 2, 1)
+        self.grid.addWidget(self.English, 2, 2)
+
+        self.setLayout(self.grid)
+
+    def setFrench(self):
+        self.setLang("FR")
+
+    def setEnglish(self):
+        self.setLang("EN")
+
+    def setLang(self, txt):
+        try:
+            with open('config.txt'):
+                pass
+        except IOError:
+            pass
+        else:
+            contenu = []
+            with open('config.txt', 'r') as fichier:
+                contenu = fichier.read().split('\n')
+                contenu[5] = contenu[5].split(" ")[0]+" "+txt
+            contenu = "\n".join(contenu)
+            with open('config.txt', 'w') as fichier:
+                fichier.write(contenu)
+        self.close()
+        alert = QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])
 
 
 class Item:

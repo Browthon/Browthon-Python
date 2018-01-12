@@ -33,7 +33,9 @@ Navigateur web en python
 ## Changelog : 
 
 ### V ?.?.? : ??? Update (NON DISPO) :
+- Système de langue pour PyWeb (Francais et Anglais dispo par défaut)
 - Paramètre : Url d'accueil modifiable depuis PyWeb
+- Paramètre : Langue utilisé par PyWeb
 - Bug Fix : Le choix d'un moteur réinitialise les autres paramètres.
 - Bug Fix : Le choix d'une url d'accueil réinitialise les autres paramètres.
 - Bug Fix : Quand on sélectionne un moteur, PyWeb ne fonctionne plus

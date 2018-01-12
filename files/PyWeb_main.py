@@ -11,6 +11,7 @@ from files.PyWeb_utils import *
 
 import os
 import requests
+import sys
 
 
 class MainWindow(QWidget):
@@ -25,6 +26,7 @@ class MainWindow(QWidget):
             self.js = True
             self.private = False
             self.deplacement_onglet = True
+            self.lang = "FR"
         else:
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')
@@ -40,6 +42,31 @@ class MainWindow(QWidget):
                     self.deplacement_onglet = True
                 else:
                     self.deplacement_onglet = False
+                try:
+                    with open("lang/"+defall[5].split(" ")[1]+".txt"):
+                        pass
+                except IOError:
+                    alert = QMessageBox().warning(self, "Langue non reconnue", "La langue "+defall[5].split(" ")[1]+" n'est pas reconnu par PyWeb.\nPyWeb va donc utiliser le français")
+                    self.lang = "FR"
+                else:
+                    self.lang = defall[5].split(" ")[1]
+        try:
+            with open("lang/"+self.lang+".txt"):
+                pass
+        except IOError:
+            if self.lang == "FR":
+                alert = QMessageBox().warning(self, "Fichier de langue", "Le fichier "+self.lang+".txt n'a pas pu être ouvert. Merci de rajouter le fichier trouvable sur le github.\nPyWeb va maintenant s'éteindre.")
+                sys.exit()
+            elif self.lang == "EN":
+                alert = QMessageBox().warning(self, "Language file", "The file "+self.lang+".txt can't be found. Can you add the file which is in Github ?\nPyWeb will shutdown.")
+                sys.exit()
+        else:
+            with open("lang/"+self.lang+".txt", 'r') as fichier:
+                self.texts = []
+                defall = fichier.read().split('\n')
+                for i in defall:
+                    if " | " in i:
+                        self.texts.append(i.split(" | ")[1])
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.ongletM = QPushButton("-")
@@ -81,24 +108,25 @@ class MainWindow(QWidget):
                 for i in fichier.read().split("\n"):
                     item = i.split(" | ")
                     self.historyArray.append(Item(self, item[0], item[1]))
-        self.informations.setWindowTitle("Informations sur PyWeb")
-        self.informations.setText("V 2.0.1 : Bug Fix Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb")
-        self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
-        self.parametres.addAction("Navigation Privée", self.PrivateDefine)
-        self.parametres.addAction("JavaScript", self.JSDefine)
-        self.parametres.addAction("Définir Moteur", self.moteurDefine)
-        self.parametres.addAction("Définir Accueil", self.homeDefine)
+        self.informations.setWindowTitle(self.texts[0])
+        self.informations.setText(self.texts[1])
+        self.parametres.addAction(self.texts[2], self.deplaceDefine)
+        self.parametres.addAction(self.texts[3], self.PrivateDefine)
+        self.parametres.addAction(self.texts[4], self.JSDefine)
+        self.parametres.addAction(self.texts[5], self.moteurDefine)
+        self.parametres.addAction(self.texts[6], self.homeDefine)
+        self.parametres.addAction(self.texts[45], self.langDefine)
         self.parametres.addSeparator()
-        self.parametres.addAction("Informations", self.informations.open)
+        self.parametres.addAction(self.texts[7], self.informations.open)
         self.parametreB.setMenu(self.parametres)
         self.historyB.setMenu(self.history)
         self.favB.setMenu(self.fav)
-        self.fav.addAction("Ajouter Page", self.addFav)
-        self.fav.addAction("Supprimer Page", self.suppFav)
+        self.fav.addAction(self.texts[8], self.addFav)
+        self.fav.addAction(self.texts[9], self.suppFav)
         self.fav.addSeparator()
         for i in self.favArray:
             i.setInteraction(self.fav)
-        self.history.addAction("Supprimer", self.removeHistory)
+        self.history.addAction(self.texts[10], self.removeHistory)
         self.history.addSeparator()
         for i in self.historyArray:
             i.setInteraction(self.history)
@@ -127,16 +155,17 @@ class MainWindow(QWidget):
         self.grid.addWidget(self.ongletM, 0, 2, 1, 2)
         self.setLayout(self.grid)
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True);
-        self.moteur = MoteurBox("Moteur par défaut", "Choissez le moteur par défaut")
-        self.home = HomeBox(self, "Url d'accueil", "Entrez l'url de votre page d'accueil")
+        self.moteur = MoteurBox(self.texts[11], self.texts[12])
+        self.home = HomeBox(self, self.texts[13], self.texts[14])
+        self.lang_box = LangBox(self, self.texts[46], self.texts[47])
         page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
         strpage = page.text.replace("\n", "")
         if "2.0.1" != strpage:
-            alert = QMessageBox().warning(self, "Nouvelle Version", "La version "+strpage+" vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases")
+            alert = QMessageBox().warning(self, self.texts[15], self.texts[16]+" "+strpage+" "+self.texts[17])
 
     def setTitle(self):
         if self.private:
-            self.setWindowTitle("[Privé] "+self.browser.title()+" - PyWeb")
+            self.setWindowTitle(self.texts[18]+" "+self.browser.title()+" - PyWeb")
         else:
             self.setWindowTitle(self.browser.title()+" - PyWeb")
         if len(self.browser.title()) >= 13:
@@ -152,42 +181,46 @@ class MainWindow(QWidget):
     def homeDefine(self):
         self.home.setWindowModality(Qt.ApplicationModal)
         self.home.show()
+    
+    def langDefine(self):
+        self.lang_box.setWindowModality(Qt.ApplicationModal)
+        self.lang_box.show()
 
     def urlAccueil(self):
         self.browser.load(QUrl(self.url))
 
     def JSDefine(self):
         if self.js:
-            rep = QMessageBox().question(self, "Désactiver JS", "Voulez vous désactiver le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, self.texts[19], self.texts[20], QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
                 self.js = False
         else:
-            rep = QMessageBox().question(self, "Activer JS", "Voulez vous activer le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, self.texts[21], self.texts[22], QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
                 self.js = True
 
     def deplaceDefine(self):
         if self.deplacement_onglet:
-            rep = QMessageBox().question(self, "Désactiver Déplacement", "Voulez vous désactiver le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, self.texts[23], self.texts[24], QMessageBox.Yes, QMessageBox.No)
             print("True : ",rep)
             if rep == 16384:
                 self.deplacement_onglet = False
         else:
-            rep = QMessageBox().question(self, "Activer Déplacement", "Voulez vous activer le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, self.texts[25], self.texts[26], QMessageBox.Yes, QMessageBox.No)
             print("False : ", rep)
             if rep == 16384:
                 self.deplacement_onglet = True
 
     def PrivateDefine(self):
         if self.private:
-            rep = QMessageBox().question(self, "Désactiver Navigation Privée", "Voulez vous désactiver la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, self.texts[27], self.texts[28], QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.DiskHttpCache)
                 self.private = False
         else:
-            rep = QMessageBox().question(self, "Activer Navigation Privée", "Voulez vous activer la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, self.texts[29], self.texts[30], QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.MemoryHttpCache)
                 self.private = True
@@ -202,11 +235,11 @@ class MainWindow(QWidget):
 
     def closeOnglet(self):
         if self.tabOnglet.count() == 1:
-            question = QMessageBox().question(self, "Quitter ?", "Vous avez fermé le dernier onglet... \nVoulez vous quitter PyWeb ?", QMessageBox.Yes, QMessageBox.No)
+            question = QMessageBox().question(self, self.texts[31], self.texts[32], QMessageBox.Yes, QMessageBox.No)
             if question == 16384:
                 self.close()
             else:
-                info = QMessageBox().about(self, "Annulation", "Le dernier onglet a donc été réouvert")
+                info = QMessageBox().about(self, self.texts[33], self.texts[34])
         else:
             self.tabOnglet.removeTab(self.tabOnglet.currentIndex())
 
@@ -214,7 +247,7 @@ class MainWindow(QWidget):
         if not self.private:
             self.historyArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
             self.history.clear()
-            self.history.addAction("Supprimer", self.removeHistory)
+            self.history.addAction(self.texts[10], self.removeHistory)
             self.history.addSeparator()
             for i in self.historyArray:
                 i.setInteraction(self.history)
@@ -222,9 +255,9 @@ class MainWindow(QWidget):
     def removeHistory(self):
         self.historyArray = []
         self.history.clear()
-        self.history.addAction("Supprimer", self.removeHistory)
+        self.history.addAction(self.texts[10], self.removeHistory)
         self.history.addSeparator()
-        info = QMessageBox().about(self, "Historique", "Historique supprimé")
+        info = QMessageBox().about(self, self.texts[35], self.texts[36])
 
     def addFav(self):
         found = False
@@ -232,16 +265,16 @@ class MainWindow(QWidget):
             if self.browser.url().toString() == i.url:
                 found = True
         if found:
-            info = QMessageBox().about(self, "Annulation", "Cette page est déjà dans les favoris")
+            info = QMessageBox().about(self, self.texts[37], self.texts[38])
         else:
             self.favArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
             self.fav.clear()
-            self.fav.addAction("Ajouter Page", self.addFav)
-            self.fav.addAction("Supprimer Page", self.suppFav)
+            self.fav.addAction(self.texts[8], self.addFav)
+            self.fav.addAction(self.texts[9], self.suppFav)
             self.fav.addSeparator()
             for i in self.favArray:
                 i.setInteraction(self.fav)
-            info = QMessageBox().about(self, "Ajouter", "Cette page est maintenant dans les favoris")
+            info = QMessageBox().about(self, self.texts[39], self.texts[40])
 
     def suppFav(self):
         found = False
@@ -251,14 +284,14 @@ class MainWindow(QWidget):
                 found = True
         if found:
             self.fav.clear()
-            self.fav.addAction("Ajouter Page", self.addFav)
-            self.fav.addAction("Supprimer Page", self.suppFav)
+            self.fav.addAction(self.texts[8], self.addFav)
+            self.fav.addAction(self.texts[9], self.suppFav)
             self.fav.addSeparator()
             for i in self.favArray:
                 i.setInteraction(self.fav)
-            info = QMessageBox().about(self, "Supprimer", "Cette page n'est plus dans les favoris")
+            info = QMessageBox().about(self, self.texts[41], self.texts[42])
         else:
-            info = QMessageBox().about(self, "Annulation", "Cette page n'est pas dans les favoris")
+            info = QMessageBox().about(self, self.texts[43], self.texts[44])
 
     def keyPressEvent(self, event):
         if event.key() == 16777268 or event.key() == 82:
