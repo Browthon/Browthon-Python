@@ -32,7 +32,7 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 2.1.0 : Language Update (NON DISPO) :
+### V 2.1.0 : Language Update (LATEST) :
 - Système de langue pour PyWeb (Francais et Anglais dispo par défaut)
 - Suppression de print() de debug qui avait été laissé par erreur
 - Paramètre : Url d'accueil modifiable depuis PyWeb
@@ -41,7 +41,7 @@ Navigateur web en python
 - Bug Fix : Le choix d'une url d'accueil réinitialise les autres paramètres.
 - Bug Fix : Quand on sélectionne un moteur, PyWeb ne fonctionne plus
 
-### V 2.0.1 : Bug Fix Update (LATEST) :
+### V 2.0.1 : Bug Fix Update :
 - Enregistrement des paramètres
 - Fichier config plus user-friendly
 - Bug Fix : Les boutons reculer, reload et avancer n'avaient d'effet que sur le première page
