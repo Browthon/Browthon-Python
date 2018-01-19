@@ -160,7 +160,7 @@ class MainWindow(QWidget):
         self.lang_box = LangBox(self, self.texts[46], self.texts[47])
         page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
         strpage = page.text.replace("\n", "")
-        if "2.0.1" != strpage:
+        if "2.1.0" != strpage:
             alert = QMessageBox().warning(self, self.texts[15], self.texts[16]+" "+strpage+" "+self.texts[17])
 
     def setTitle(self):
