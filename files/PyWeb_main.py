@@ -204,12 +204,10 @@ class MainWindow(QWidget):
     def deplaceDefine(self):
         if self.deplacement_onglet:
             rep = QMessageBox().question(self, self.texts[23], self.texts[24], QMessageBox.Yes, QMessageBox.No)
-            print("True : ",rep)
             if rep == 16384:
                 self.deplacement_onglet = False
         else:
             rep = QMessageBox().question(self, self.texts[25], self.texts[26], QMessageBox.Yes, QMessageBox.No)
-            print("False : ", rep)
             if rep == 16384:
                 self.deplacement_onglet = True
 

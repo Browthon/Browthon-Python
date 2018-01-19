@@ -11,13 +11,13 @@ Navigateur web en python
 - Contributeur : x
 - Développé sous :
   - Système :
-    - Windows 10 (V ?.?.? --> Latest)
-    - Linux Ubuntu 17.10 (V 0.5.0 --> V ?.?.?)
+    - Windows 10 (V 2.1.0 --> Latest)
+    - Linux Ubuntu 17.10 (V 0.5.0 --> V 2.1.0)
     - Linux Debian 9 (V 0.2.0 --> V 0.5.0)
     - Windows 7 (V 0.1.0 --> V 0.2.0)
   - Version Python :
-    - 3.6.4 (V ?.?.? --> Latest)
-    - 3.6.3 (V 0.5.0 --> V ?.?.?)
+    - 3.6.4 (V 2.1.0 --> Latest)
+    - 3.6.3 (V 0.5.0 --> V 2.1.0)
     - 3.5.3 (V 0.2.0 --> V 0.5.0)
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
   - Libs :
@@ -32,8 +32,9 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V ?.?.? : ??? Update (NON DISPO) :
+### V 2.1.0 : Language Update (NON DISPO) :
 - Système de langue pour PyWeb (Francais et Anglais dispo par défaut)
+- Suppression de print() de debug qui avait été laissé par erreur
 - Paramètre : Url d'accueil modifiable depuis PyWeb
 - Paramètre : Langue utilisé par PyWeb
 - Bug Fix : Le choix d'un moteur réinitialise les autres paramètres.
