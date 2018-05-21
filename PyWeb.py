@@ -13,6 +13,8 @@ from PyQt5.Qt import *
 from files.PyWeb_main import *
 
 app = QApplication(sys.argv)
+icon = QIcon('files/pyweb.png')
+app.setWindowIcon(icon)
 url = ""
 os.chdir("files")
 try:
