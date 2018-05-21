@@ -11,12 +11,14 @@ Navigateur web en python
 - Contributeur : x
 - Développé sous :
   - Système :
-    - Windows 10 (V 2.1.0 --> Latest)
+    - Linux Manjaro / Windows 7 (V X.X.X --> Latest)
+    - Windows 10 (V 2.1.0 --> V X.X.X)
     - Linux Ubuntu 17.10 (V 0.5.0 --> V 2.1.0)
     - Linux Debian 9 (V 0.2.0 --> V 0.5.0)
     - Windows 7 (V 0.1.0 --> V 0.2.0)
   - Version Python :
-    - 3.6.4 (V 2.1.0 --> Latest)
+    - 3.6.5 (V X.X.X --> Latest)
+    - 3.6.4 (V 2.1.0 --> V X.X.X)
     - 3.6.3 (V 0.5.0 --> V 2.1.0)
     - 3.5.3 (V 0.2.0 --> V 0.5.0)
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
@@ -31,6 +33,9 @@ Navigateur web en python
 - Les liens ouvrant un nouvel onglet n'ouvrent pas ce nouvel onglet.
 
 ## Changelog : 
+
+### V X.X.X : XXX Update (IN DEV) :
+- Bug Fix : Sur Linux, les fichiers de langues n'était pas en UTF8 valide.
 
 ### V 2.1.0 : Language Update (LATEST) :
 - Système de langue pour PyWeb (Francais et Anglais dispo par défaut)
