@@ -20,8 +20,8 @@ try:
         pass
 except IOError:
     with open('config.txt', 'w') as fichier:
-        fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil https://lavapower.github.io/pyweb.html\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet True\nLangue FR")
-        url = "https://lavapower.github.io/pyweb.html"
+        fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil https://lavapower.github.io/PyWeb-site/index.html\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet True\nLangue FR")
+        url = "https://lavapower.github.io/PyWeb-site/index.html"
 else:
     with open('config.txt', 'r') as fichier:
         url = fichier.read().split("\n")[1].split(" ")[1]

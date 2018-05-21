@@ -158,7 +158,7 @@ class MainWindow(QWidget):
         self.moteur = MoteurBox(self.texts[11], self.texts[12])
         self.home = HomeBox(self, self.texts[13], self.texts[14])
         self.lang_box = LangBox(self, self.texts[46], self.texts[47])
-        page = requests.get('http://lavapower.github.io/version/PyWeb.html', verify=False)
+        page = requests.get('http://lavapower.github.io/PyWeb-site/version.html', verify=False)
         strpage = page.text.replace("\n", "")
         if "2.1.0" != strpage:
             alert = QMessageBox().warning(self, self.texts[15], self.texts[16]+" "+strpage+" "+self.texts[17])
