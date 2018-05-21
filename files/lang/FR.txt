@@ -15,7 +15,7 @@
 14 - Contenu Fenêtre Url Accueil | Entrez l'url de votre page d'accueil
 15 - Titre MessageBox Nouvelle Version | Nouvelle Version
 16 - Contenu MessageBox Nouvelle Version 1 | La version
-17 - Contenu MessageBox Nouvelle Version 2 | vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases
+17 - Contenu MessageBox Nouvelle Version 2 | vient de sortir ! \n https://github.com/LavaPower/PyWeb/releases
 18 - Préfix Navigation privé | [Privé]
 19 - Titre MessageBox JS Désactivé | Désactiver JS
 20 - Contenu MessageBox JS Désactivé | Voulez vous désactiver le JavaScript ?

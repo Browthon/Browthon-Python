@@ -36,6 +36,7 @@ Navigateur web en python
 
 ### V X.X.X : XXX Update (IN DEV) :
 - Bug Fix : Sur Linux, les fichiers de langues n'était pas en UTF8 valide.
+- Bug Fix : Le texte des fenêtres "Nouvelle MAJ" et "Informations" n'avaient pas de retour à la ligne
 
 ### V 2.1.0 : Language Update (LATEST) :
 - Système de langue pour PyWeb (Francais et Anglais dispo par défaut)

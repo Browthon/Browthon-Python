@@ -161,7 +161,7 @@ class MainWindow(QWidget):
         page = requests.get('http://lavapower.github.io/PyWeb-site/version.html', verify=False)
         strpage = page.text.replace("\n", "")
         if "2.1.0" != strpage:
-            alert = QMessageBox().warning(self, self.texts[15], self.texts[16]+" "+strpage+" "+self.texts[17])
+            alert = QMessageBox().warning(self, self.texts[15], self.texts[16].replace(" \\n", "\n")+" "+strpage+" "+self.texts[17].replace(" \\n", "\n"))
 
     def setTitle(self):
         if self.private:
