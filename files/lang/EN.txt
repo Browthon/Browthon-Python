@@ -1,34 +1,34 @@
-0 - Titre Fenêtre Information | Information about PyWeb
-1 - Contenu Fenêtre Information | V 2.1.0 : Language Update\nCreated by LavaPower \nGithub : https://github.com/LavaPower/PyWeb
-2 - Nom Paramètre Déplacement Onglet | Move Tab
-3 - Nom Paramètre Navigation Privée | Private Browsing
-4 - Nom Paramètre JavaScript | JavaScript
-5 - Nom Paramètre Choix Moteur | Define Search Engine
-6 - Nom Paramètre Url Accueil | Define Home
-7 - Nom Action Fenêtre Information | Information
+0 - Titre FenÃªtre Information | Information about PyWeb
+1 - Contenu FenÃªtre Information | V 2.1.0 : Language Update\nCreated by LavaPower \nGithub : https://github.com/LavaPower/PyWeb
+2 - Nom ParamÃ¨tre DÃ©placement Onglet | Move Tab
+3 - Nom ParamÃ¨tre Navigation PrivÃ©e | Private Browsing
+4 - Nom ParamÃ¨tre JavaScript | JavaScript
+5 - Nom ParamÃ¨tre Choix Moteur | Define Search Engine
+6 - Nom ParamÃ¨tre Url Accueil | Define Home
+7 - Nom Action FenÃªtre Information | Information
 8 - Ajouter Page Favori | Add Page
 9 - Supprimer Page Favori | Delete Page
 10 - Supprimer Historique | Delete
-11 - Titre Fenêtre Choix Moteur | Default Search Engine
-12 - Contenu Fenêtre Choix Moteur | Choose default engine
-13 - Titre Fenêtre Url Accueil | Home URL
-14 - Contenu Fenêtre Url Accueil | Write the url of your home
+11 - Titre FenÃªtre Choix Moteur | Default Search Engine
+12 - Contenu FenÃªtre Choix Moteur | Choose default engine
+13 - Titre FenÃªtre Url Accueil | Home URL
+14 - Contenu FenÃªtre Url Accueil | Write the url of your home
 15 - Titre MessageBox Nouvelle Version | New Version
 16 - Contenu MessageBox Nouvelle Version 1 | The version
 17 - Contenu MessageBox Nouvelle Version 2 | just got out !\nhttps://github.com/LavaPower/PyWeb/releases
-18 - Préfix Navigation privé | [Private]
-19 - Titre MessageBox JS Désactivé | Disable JS
-20 - Contenu MessageBox JS Désactivé | Do you want to disable JavaScript ?
-21 - Titre MessageBox JS Activé | Enable JS
-22 - Contenu MessageBox JS Activé | Do you want to enable JavaScript ?
-23 - Titre MessageBox Déplacement Désactivé | Disable Moving
-24 - Contenu MessageBox Déplacement Désactivé | Do you want to disable moving when opening a tab ?
-25 - Titre MessageBox Déplacement Activé | Enable Moving
-26 - Contenu MessageBox Déplacement Désactivé | Do you want to enable moving when opening a tab ?
-27 - Titre MessageBox Nav Privée Désactivé | Disable Private Browsing
-28 - Contenu MessageBox Nav Privée Désactivé | Do you want to disable private browsing ?
-29 - Titre MessageBox Nav Privée Activé | Enable Private Browsing
-30 - Contenu MessageBox Nav Privée Activé | Do you want to enable private browsing ?
+18 - PrÃ©fix Navigation privÃ© | [Private]
+19 - Titre MessageBox JS DÃ©sactivÃ© | Disable JS
+20 - Contenu MessageBox JS DÃ©sactivÃ© | Do you want to disable JavaScript ?
+21 - Titre MessageBox JS ActivÃ© | Enable JS
+22 - Contenu MessageBox JS ActivÃ© | Do you want to enable JavaScript ?
+23 - Titre MessageBox DÃ©placement DÃ©sactivÃ© | Disable Moving
+24 - Contenu MessageBox DÃ©placement DÃ©sactivÃ© | Do you want to disable moving when opening a tab ?
+25 - Titre MessageBox DÃ©placement ActivÃ© | Enable Moving
+26 - Contenu MessageBox DÃ©placement DÃ©sactivÃ© | Do you want to enable moving when opening a tab ?
+27 - Titre MessageBox Nav PrivÃ©e DÃ©sactivÃ© | Disable Private Browsing
+28 - Contenu MessageBox Nav PrivÃ©e DÃ©sactivÃ© | Do you want to disable private browsing ?
+29 - Titre MessageBox Nav PrivÃ©e ActivÃ© | Enable Private Browsing
+30 - Contenu MessageBox Nav PrivÃ©e ActivÃ© | Do you want to enable private browsing ?
 31 - Titre MessageBox Quitter Onglet | Leave ?
 32 - Contenu MessageBox Quitter Onglet | You closed the last tab...\nWould you leave PyWeb ?
 33 - Titre MessageBox Annuler Quitter | Cancellation
@@ -43,8 +43,8 @@
 42 - Contenu MessageBox Supp Fav | This page is no longer in the favorites
 43 - Title MessageBox Annulation Pas Fav | Cancellation
 44 - Contenu MessageBox Annulation Pas Fav | This page is not in the favorites
-45 - Nom Paramètre Langue | Define Language
-46 - Title Fenêtre Choix Langue | Language
-47 - Contenu Fenêtre Choix Langue | Choose a language
+45 - Nom ParamÃ¨tre Langue | Define Language
+46 - Title FenÃªtre Choix Langue | Language
+47 - Contenu FenÃªtre Choix Langue | Choose a language
 48 - Title MessageBox Apply Langue | Language
 49 - Contenu MessageBox Apply Langue | You have to restart PyWeb to apply the change

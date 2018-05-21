@@ -1,50 +1,50 @@
-0 - Titre Fenêtre Information | Informations sur PyWeb
-1 - Contenu Fenêtre Information | V 2.1.0 : Language Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb
-2 - Nom Paramètre Déplacement Onglet | Déplacement Onglet
-3 - Nom Paramètre Navigation Privée | Navigation Privée
-4 - Nom Paramètre JavaScript | JavaScript
-5 - Nom Paramètre Choix Moteur | Définir Moteur
-6 - Nom Paramètre Url Accueil | Définir Accueil
-7 - Nom Action Fenêtre Information | Informations
+0 - Titre FenÃªtre Information | Informations sur PyWeb
+1 - Contenu FenÃªtre Information | V 2.1.0 : Language Update\nCrÃ©Ã© par LavaPower \nGithub : https://github.com/LavaPower/PyWeb
+2 - Nom ParamÃ¨tre DÃ©placement Onglet | DÃ©placement Onglet
+3 - Nom ParamÃ¨tre Navigation PrivÃ©e | Navigation PrivÃ©e
+4 - Nom ParamÃ¨tre JavaScript | JavaScript
+5 - Nom ParamÃ¨tre Choix Moteur | DÃ©finir Moteur
+6 - Nom ParamÃ¨tre Url Accueil | DÃ©finir Accueil
+7 - Nom Action FenÃªtre Information | Informations
 8 - Ajouter Page Favori | Ajouter Page
 9 - Supprimer Page Favori | Supprimer Page
 10 - Supprimer Historique | Supprimer
-11 - Titre Fenêtre Choix Moteur | Moteur par défaut
-12 - Contenu Fenêtre Choix Moteur | Choisissez le moteur par défaut
-13 - Titre Fenêtre Url Accueil | Url d'accueil
-14 - Contenu Fenêtre Url Accueil | Entrez l'url de votre page d'accueil
+11 - Titre FenÃªtre Choix Moteur | Moteur par dÃ©faut
+12 - Contenu FenÃªtre Choix Moteur | Choisissez le moteur par dÃ©faut
+13 - Titre FenÃªtre Url Accueil | Url d'accueil
+14 - Contenu FenÃªtre Url Accueil | Entrez l'url de votre page d'accueil
 15 - Titre MessageBox Nouvelle Version | Nouvelle Version
 16 - Contenu MessageBox Nouvelle Version 1 | La version
 17 - Contenu MessageBox Nouvelle Version 2 | vient de sortir !\nhttps://github.com/LavaPower/PyWeb/releases
-18 - Préfix Navigation privé | [Privé]
-19 - Titre MessageBox JS Désactivé | Désactiver JS
-20 - Contenu MessageBox JS Désactivé | Voulez vous désactiver le JavaScript ?
-21 - Titre MessageBox JS Activé | Activer JS
-22 - Contenu MessageBox JS Activé | Voulez vous activer le JavaScript ?
-23 - Titre MessageBox Déplacement Désactivé | Désactiver Déplacement
-24 - Contenu MessageBox Déplacement Désactivé | Voulez vous désactiver le déplacement à l'ouverture d'un onglet ?
-25 - Titre MessageBox Déplacement Activé | Activer Déplacement
-26 - Contenu MessageBox Déplacement Désactivé | Voulez vous activer le déplacement à l'ouverture d'un onglet ?
-27 - Titre MessageBox Nav Privée Désactivé | Désactiver Navigation Privée
-28 - Contenu MessageBox Nav Privée Désactivé | Voulez vous désactiver la navigation privée ?
-29 - Titre MessageBox Nav Privée Activé | Activer Navigation Privée
-30 - Contenu MessageBox Nav Privée Activé | Voulez vous activer la navigation privée ?
+18 - PrÃ©fix Navigation privÃ© | [PrivÃ©]
+19 - Titre MessageBox JS DÃ©sactivÃ© | DÃ©sactiver JS
+20 - Contenu MessageBox JS DÃ©sactivÃ© | Voulez vous dÃ©sactiver le JavaScript ?
+21 - Titre MessageBox JS ActivÃ© | Activer JS
+22 - Contenu MessageBox JS ActivÃ© | Voulez vous activer le JavaScript ?
+23 - Titre MessageBox DÃ©placement DÃ©sactivÃ© | DÃ©sactiver DÃ©placement
+24 - Contenu MessageBox DÃ©placement DÃ©sactivÃ© | Voulez vous dÃ©sactiver le dÃ©placement Ã  l'ouverture d'un onglet ?
+25 - Titre MessageBox DÃ©placement ActivÃ© | Activer DÃ©placement
+26 - Contenu MessageBox DÃ©placement DÃ©sactivÃ© | Voulez vous activer le dÃ©placement Ã  l'ouverture d'un onglet ?
+27 - Titre MessageBox Nav PrivÃ©e DÃ©sactivÃ© | DÃ©sactiver Navigation PrivÃ©e
+28 - Contenu MessageBox Nav PrivÃ©e DÃ©sactivÃ© | Voulez vous dÃ©sactiver la navigation privÃ©e ?
+29 - Titre MessageBox Nav PrivÃ©e ActivÃ© | Activer Navigation PrivÃ©e
+30 - Contenu MessageBox Nav PrivÃ©e ActivÃ© | Voulez vous activer la navigation privÃ©e ?
 31 - Titre MessageBox Quitter Onglet | Quitter ?
-32 - Contenu MessageBox Quitter Onglet | Vous avez fermé le dernier onglet... \nVoulez vous quitter PyWeb ?
+32 - Contenu MessageBox Quitter Onglet | Vous avez fermÃ© le dernier onglet... \nVoulez vous quitter PyWeb ?
 33 - Titre MessageBox Annuler Quitter | Annulation
-34 - Contenu MessageBox Annuler Quitter | Le dernier onglet a donc été réouvert
+34 - Contenu MessageBox Annuler Quitter | Le dernier onglet a donc Ã©tÃ© rÃ©ouvert
 35 - Titre MessageBox Historique Supp | Historique
-36 - Contenu MessageBox Historique Supp | Historique supprimé
+36 - Contenu MessageBox Historique Supp | Historique supprimÃ©
 37 - Title MessageBox Annulation Ajout Fav | Annulation
-38 - Contenu MessageBox Annulation Ajout Fav | Cette page est déjà dans les favoris
+38 - Contenu MessageBox Annulation Ajout Fav | Cette page est dÃ©jÃ  dans les favoris
 39 - Title MessageBox Ajout Fav | Ajouter
 40 - Contenu MessageBox Ajout Fav | Cette page est maintenant dans les favoris
 41 - Title MessageBox Supp Fav | Supprimer
 42 - Contenu MessageBox Supp Fav | Cette page n'est plus dans les favoris
 43 - Title MessageBox Annulation Pas Fav | Annulation
 44 - Contenu MessageBox Annulation Pas Fav | Cette page n'est pas dans les favoris
-45 - Nom Paramètre Langue | Définir Langue
-46 - Title Fenêtre Choix Langue | Langue
-47 - Contenu Fenêtre Choix Langue | Choisissez une langue
+45 - Nom ParamÃ¨tre Langue | DÃ©finir Langue
+46 - Title FenÃªtre Choix Langue | Langue
+47 - Contenu FenÃªtre Choix Langue | Choisissez une langue
 48 - Title MessageBox Apply Langue | Langue
-49 - Contenu MessageBox Apply Langue | Il faut redémarrer PyWeb pour appliquer le changement
+49 - Contenu MessageBox Apply Langue | Il faut redÃ©marrer PyWeb pour appliquer le changement
