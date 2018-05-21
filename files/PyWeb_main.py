@@ -132,6 +132,7 @@ class MainWindow(QWidget):
             i.setInteraction(self.history)
 
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
+        self.browser.iconChanged.connect(self.changeIcon)
         self.reload.clicked.connect(self.onglet1.reload)
         self.back.clicked.connect(self.onglet1.back)
         self.forward.clicked.connect(self.onglet1.forward)
@@ -173,6 +174,9 @@ class MainWindow(QWidget):
         else:
             titre = self.browser.title()
         self.tabOnglet.setTabText(self.tabOnglet.currentIndex(), titre)
+    
+    def changeIcon(self):
+        self.tabOnglet.setTabIcon(self.tabOnglet.currentIndex(), self.browser.icon())
 
     def moteurDefine(self):
         self.moteur.setWindowModality(Qt.ApplicationModal)
@@ -226,7 +230,7 @@ class MainWindow(QWidget):
     def addOnglet(self):
         onglet = Onglet(len(self.onglets)+1, self)
         self.onglets.append(onglet)
-        self.tabOnglet.addTab(onglet, "PyWeb")
+        self.tabOnglet.addTab(onglet, QIcon('pyweb.png'), "PyWeb")
         onglet.show()
         if self.deplacement_onglet:
             self.tabOnglet.setCurrentWidget(onglet)

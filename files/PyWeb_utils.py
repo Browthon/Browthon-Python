@@ -55,7 +55,7 @@ class TabOnglet(QTabWidget):
         super(TabOnglet, self).__init__()
         self.setTabPosition(QTabWidget.North)
         self.setMovable(True)
-        self.addTab(main.onglet1, "PyWeb")
+        self.addTab(main.onglet1, QIcon('pyweb.png'), "PyWeb")
         self.main = main
         self.main.browser.show()
 
