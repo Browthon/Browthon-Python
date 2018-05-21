@@ -1,5 +1,5 @@
 0 - Titre Fenêtre Information | Informations sur PyWeb
-1 - Contenu Fenêtre Information | V 2.1.0 : Language Update\nCréé par LavaPower \nGithub : https://github.com/LavaPower/PyWeb
+1 - Contenu Fenêtre Information | V 2.1.0 : Language Update \n Créé par LavaPower \n Github : https://github.com/LavaPower/PyWeb
 2 - Nom Paramètre Déplacement Onglet | Déplacement Onglet
 3 - Nom Paramètre Navigation Privée | Navigation Privée
 4 - Nom Paramètre JavaScript | JavaScript

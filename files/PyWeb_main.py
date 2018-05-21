@@ -109,7 +109,7 @@ class MainWindow(QWidget):
                     item = i.split(" | ")
                     self.historyArray.append(Item(self, item[0], item[1]))
         self.informations.setWindowTitle(self.texts[0])
-        self.informations.setText(self.texts[1])
+        self.informations.setText(self.texts[1].replace(" \\n ", "\n"))
         self.parametres.addAction(self.texts[2], self.deplaceDefine)
         self.parametres.addAction(self.texts[3], self.PrivateDefine)
         self.parametres.addAction(self.texts[4], self.JSDefine)
