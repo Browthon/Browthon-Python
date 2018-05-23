@@ -8,3 +8,4 @@ Autres/release_modèle.txt
 .vscode
 *.pyc
 *.txt
+launch.sh
