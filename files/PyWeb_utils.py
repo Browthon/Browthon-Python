@@ -84,6 +84,10 @@ class Onglet(QWebEngineView):
         self.titleChanged.connect(main.setTitle)
         self.loadFinished.connect(main.addHistory)
         self.page.fullScreenRequested.connect(self.page.makeFullScreen)
+        self.viewSource = QAction(self)
+        self.viewSource.setShortcut(Qt.Key_F2)
+        self.viewSource.triggered.connect(self.page.vSource)
+        self.addAction(self.viewSource)
 
 
 class Page(QWebEnginePage):
@@ -91,6 +95,12 @@ class Page(QWebEnginePage):
         super(Page, self).__init__()
         self.main = view.main
         self.view = view
+    
+    def vSource(self):
+        if "view-source:http" in self.url().toString():
+            self.load(QUrl(self.url().toString().split("view-source:")[1]))
+        else:
+            self.triggerAction(self.ViewSource)
     
     def ExitFS(self):
         self.triggerAction(self.ExitFullScreen)
