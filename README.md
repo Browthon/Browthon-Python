@@ -35,6 +35,9 @@ Navigateur web en python
 ## Changelog : 
 
 ### V X.X.X : XXX Update (IN DEV) :
+- Modification de l'icone du logiciel
+- Ajout de l'icone du site dans les onglets
+- Bug Fix : Changement du site PyWeb
 - Bug Fix : Sur Linux, les fichiers de langues n'était pas en UTF8 valide.
 - Bug Fix : Le texte des fenêtres "Nouvelle MAJ" et "Informations" n'avaient pas de retour à la ligne
 
