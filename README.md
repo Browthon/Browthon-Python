@@ -11,14 +11,14 @@ Navigateur web en python
 - Contributeur : x
 - Développé sous :
   - Système :
-    - Linux Manjaro / Windows 7 (V X.X.X --> Latest)
-    - Windows 10 (V 2.1.0 --> V X.X.X)
+    - Linux Manjaro / Windows 7 (V 2.2.0 --> Latest)
+    - Windows 10 (V 2.1.0 --> V 2.2.0)
     - Linux Ubuntu 17.10 (V 0.5.0 --> V 2.1.0)
     - Linux Debian 9 (V 0.2.0 --> V 0.5.0)
     - Windows 7 (V 0.1.0 --> V 0.2.0)
   - Version Python :
-    - 3.6.5 (V X.X.X --> Latest)
-    - 3.6.4 (V 2.1.0 --> V X.X.X)
+    - 3.6.5 (V 2.2.0 --> Latest)
+    - 3.6.4 (V 2.1.0 --> V 2.2.0)
     - 3.6.3 (V 0.5.0 --> V 2.1.0)
     - 3.5.3 (V 0.2.0 --> V 0.5.0)
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
@@ -34,14 +34,15 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V X.X.X : XXX Update (IN DEV) :
-- Modification de l'icone du logiciel
+### V 2.2.0 : Rebirth Update (LATEST) :
+- Possibilité de voir le code source de la page actuel via F2 puis de repasser en mode "normal" toujours avec F2
+- Modification de l'icone du logiciel (merci LechatGris)
 - Ajout de l'icone du site dans les onglets
 - Bug Fix : Changement du site PyWeb
 - Bug Fix : Sur Linux, les fichiers de langues n'était pas en UTF8 valide.
 - Bug Fix : Le texte des fenêtres "Nouvelle MAJ" et "Informations" n'avaient pas de retour à la ligne
 
-### V 2.1.0 : Language Update (LATEST) :
+### V 2.1.0 : Language Update :
 - Système de langue pour PyWeb (Francais et Anglais dispo par défaut)
 - Suppression de print() de debug qui avait été laissé par erreur
 - Paramètre : Url d'accueil modifiable depuis PyWeb
