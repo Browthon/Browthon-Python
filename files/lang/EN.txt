@@ -1,5 +1,5 @@
 0 - Titre Fenêtre Information | Information about PyWeb
-1 - Contenu Fenêtre Information | V 2.1.0 : Language Update \n Created by PastaGames \n Github : https://github.com/LavaPower/PyWeb
+1 - Contenu Fenêtre Information | V 2.2.1 : Fail Update \n Created by PastaGames \n Github : https://github.com/LavaPower/PyWeb
 2 - Nom Paramètre Déplacement Onglet | Move Tab
 3 - Nom Paramètre Navigation Privée | Private Browsing
 4 - Nom Paramètre JavaScript | JavaScript

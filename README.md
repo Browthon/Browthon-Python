@@ -34,6 +34,9 @@ Navigateur web en python
 
 ## Changelog : 
 
+### V 2.2.1 : Fail Update (LATEST) :
+- Update des versions dans le code et l'updater
+
 ### V 2.2.0 : Rebirth Update (LATEST) :
 - Possibilité de voir le code source de la page actuel via F2 puis de repasser en mode "normal" toujours avec F2
 - Modification de l'icone du logiciel (merci LechatGris)
