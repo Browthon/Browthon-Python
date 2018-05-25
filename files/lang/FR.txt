@@ -1,5 +1,5 @@
 0 - Titre Fenêtre Information | Informations sur PyWeb
-1 - Contenu Fenêtre Information | V 2.2.1 : Fail Update \n Créé par PastaGames \n Github : https://github.com/LavaPower/PyWeb
+1 - Contenu Fenêtre Information |  \n Créé par PastaGames \n Github : https://github.com/LavaPower/PyWeb
 2 - Nom Paramètre Déplacement Onglet | Déplacement Onglet
 3 - Nom Paramètre Navigation Privée | Navigation Privée
 4 - Nom Paramètre JavaScript | JavaScript
@@ -30,7 +30,7 @@
 29 - Titre MessageBox Nav Privée Activé | Activer Navigation Privée
 30 - Contenu MessageBox Nav Privée Activé | Voulez vous activer la navigation privée ?
 31 - Titre MessageBox Quitter Onglet | Quitter ?
-32 - Contenu MessageBox Quitter Onglet | Vous avez fermé le dernier onglet... \nVoulez vous quitter PyWeb ?
+32 - Contenu MessageBox Quitter Onglet | Vous avez fermé le dernier onglet... \n Voulez vous quitter PyWeb ?
 33 - Titre MessageBox Annuler Quitter | Annulation
 34 - Contenu MessageBox Annuler Quitter | Le dernier onglet a donc été réouvert
 35 - Titre MessageBox Historique Supp | Historique

@@ -18,6 +18,8 @@ class MainWindow(QWidget):
     def __init__(self, url):
         super(MainWindow, self).__init__()
         self.url = url
+        self.versionMinimal = "2.2.1"
+        self.versionAll = "V 2.2.1 : Fail Update"
         self.grid = QGridLayout()
         try:
             with open('config.txt'):
@@ -109,7 +111,7 @@ class MainWindow(QWidget):
                     item = i.split(" | ")
                     self.historyArray.append(Item(self, item[0], item[1]))
         self.informations.setWindowTitle(self.texts[0])
-        self.informations.setText(self.texts[1].replace(" \\n ", "\n"))
+        self.informations.setText(self.versionAll+self.texts[1].replace(" \\n ", "\n"))
         self.parametres.addAction(self.texts[2], self.deplaceDefine)
         self.parametres.addAction(self.texts[3], self.PrivateDefine)
         self.parametres.addAction(self.texts[4], self.JSDefine)
@@ -160,7 +162,7 @@ class MainWindow(QWidget):
         self.lang_box = LangBox(self, self.texts[46], self.texts[47])
         page = requests.get('http://lavapower.github.io/PyWeb-site/version.html', verify=False)
         strpage = page.text.replace("\n", "")
-        if "2.2.1" != strpage:
+        if self.versionMinimal != strpage:
             alert = QMessageBox().warning(self, self.texts[15], self.texts[16].replace(" \\n", "\n")+" "+strpage+" "+self.texts[17].replace(" \\n", "\n"))
 
     def setTitle(self):
