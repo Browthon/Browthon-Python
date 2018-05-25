@@ -82,6 +82,7 @@ class Onglet(QWebEngineView):
         self.load(QUrl(main.url))
         self.urlChanged.connect(main.urlInput.setUrl)
         self.titleChanged.connect(main.setTitle)
+        self.iconChanged.connect(main.changeIcon)
         self.loadFinished.connect(main.addHistory)
         self.page.fullScreenRequested.connect(self.page.makeFullScreen)
         self.viewSource = QAction(self)

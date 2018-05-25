@@ -132,7 +132,6 @@ class MainWindow(QWidget):
             i.setInteraction(self.history)
 
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
-        self.browser.iconChanged.connect(self.changeIcon)
         self.reload.clicked.connect(self.onglet1.reload)
         self.back.clicked.connect(self.onglet1.back)
         self.forward.clicked.connect(self.onglet1.forward)
