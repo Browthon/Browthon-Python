@@ -35,6 +35,5 @@ if len(sys.argv)>=2:
         else:
             url = "http://"+sys.argv[1]
 main = MainWindow(url)
-main.show()
 
 app.exec_()

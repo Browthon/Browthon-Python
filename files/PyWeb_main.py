@@ -13,10 +13,18 @@ import os
 import requests
 import sys
 
-
-class MainWindow(QWidget):
+class MainWindow(QMainWindow):
     def __init__(self, url):
         super(MainWindow, self).__init__()
+        self.layout = self.layout()
+        self.mainWidget = MainWidget(url, self.menuBar())
+        self.setCentralWidget(self.mainWidget)
+        self.show()
+        
+
+class MainWidget(QWidget):
+    def __init__(self, url, menuBar):
+        super(MainWidget, self).__init__()
         self.url = url
         self.versionMinimal = "2.2.1"
         self.versionAll = "V 2.2.1 : Fail Update"
@@ -73,17 +81,15 @@ class MainWindow(QWidget):
         self.ongletP = QPushButton("+")
         self.ongletM = QPushButton("-")
         self.urlInput = UrlInput(self)
-        self.historyB = QPushButton("H")
-        self.history = QMenu("")
-        self.favB = QPushButton("★")
-        self.fav = QMenu("")
         self.back = QPushButton("<")
         self.forward = QPushButton(">")
         self.reload = QPushButton("↺")
-        self.parametreB = QPushButton("⁞")
-        self.parametres = QMenu("")
         self.informations = QMessageBox()
         self.accueil = QPushButton("⌂")
+        self.menu = menuBar
+        self.history = self.menu.addMenu(self.texts[50])
+        self.fav = self.menu.addMenu(self.texts[51])
+        self.parametres = self.menu.addMenu(self.texts[52])
         self.onglet1 = Onglet(1, self)
         self.browser = self.onglet1
         self.onglets.append(self.onglet1)
@@ -120,9 +126,6 @@ class MainWindow(QWidget):
         self.parametres.addAction(self.texts[45], self.langDefine)
         self.parametres.addSeparator()
         self.parametres.addAction(self.texts[7], self.informations.open)
-        self.parametreB.setMenu(self.parametres)
-        self.historyB.setMenu(self.history)
-        self.favB.setMenu(self.fav)
         self.fav.addAction(self.texts[8], self.addFav)
         self.fav.addAction(self.texts[9], self.suppFav)
         self.fav.addSeparator()
@@ -138,9 +141,6 @@ class MainWindow(QWidget):
         self.back.clicked.connect(self.onglet1.back)
         self.forward.clicked.connect(self.onglet1.forward)
         self.urlInput.returnPressed.connect(self.urlInput.enterUrl)
-        self.parametreB.clicked.connect(self.parametreB.showMenu)
-        self.historyB.clicked.connect(self.history.show)
-        self.favB.clicked.connect(self.fav.show)
         self.ongletP.clicked.connect(self.addOnglet)
         self.ongletM.clicked.connect(self.closeOnglet)
         self.accueil.clicked.connect(self.urlAccueil)
@@ -148,13 +148,10 @@ class MainWindow(QWidget):
         self.grid.addWidget(self.reload, 1, 1)
         self.grid.addWidget(self.forward, 1, 2)
         self.grid.addWidget(self.urlInput, 1, 3, 1, 6)
-        self.grid.addWidget(self.accueil, 1, 9)
-        self.grid.addWidget(self.historyB, 0, 4, 1, 2)
-        self.grid.addWidget(self.favB, 0, 6, 1, 2)
-        self.grid.addWidget(self.parametreB, 0, 8, 1, 2)
-        self.grid.addWidget(self.tabOnglet, 2, 0, 1, 10)
-        self.grid.addWidget(self.ongletP, 0, 0, 1, 2)
-        self.grid.addWidget(self.ongletM, 0, 2, 1, 2)
+        self.grid.addWidget(self.accueil, 1, 11)
+        self.grid.addWidget(self.tabOnglet, 2, 0, 1, 12)
+        self.grid.addWidget(self.ongletP, 1, 9)
+        self.grid.addWidget(self.ongletM, 1, 10)
         self.setLayout(self.grid)
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True);
         self.moteur = MoteurBox(self.texts[11], self.texts[12])

@@ -48,3 +48,6 @@
 47 - Contenu Fenêtre Choix Langue | Choisissez une langue
 48 - Title MessageBox Apply Langue | Langue
 49 - Contenu MessageBox Apply Langue | Il faut redémarrer PyWeb pour appliquer le changement
+50 - Historique Menu Nom | Historique
+51 - Favori Menu Nom | Favoris
+52 - Paramètres Menu Nom | Paramètres
