@@ -157,6 +157,43 @@ class HomeBox(QWidget):
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
+        alert = QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])
+
+class StyleBox(QWidget):
+    def __init__(self, main, title, text):
+        super(StyleBox, self).__init__()
+        self.main = main
+        self.setWindowTitle(title)
+        self.grid = QGridLayout()
+
+        self.Texte = QLabel(text)
+        self.Url = QLineEdit()
+        
+        self.Url.returnPressed.connect(self.urlEnter)
+        
+        self.grid.addWidget(self.Texte, 1, 1)
+        self.grid.addWidget(self.Url, 2, 1)
+        
+        self.setLayout(self.grid)
+        
+    def urlEnter(self):
+        url = self.Url.text()
+        self.main.url = url
+        try:
+            with open('config.txt'):
+                pass
+        except IOError:
+            pass
+        else:
+            contenu = []
+            with open('config.txt', 'r') as fichier:
+                contenu = fichier.read().split('\n')
+                contenu[6] = contenu[6].split(" ")[0]+" "+url
+            contenu = "\n".join(contenu)
+            with open('config.txt', 'w') as fichier:
+                fichier.write(contenu)
+        self.close()
+        alert = QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])
 
 
 class MoteurBox(QWidget):

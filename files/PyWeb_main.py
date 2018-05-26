@@ -18,6 +18,24 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.layout = self.layout()
         self.mainWidget = MainWidget(url, self.menuBar())
+        try:
+            with open('config.txt'):
+                pass
+        except IOError:
+            self.styleSheetParam = "None"
+        else:
+            with open('config.txt', 'r') as fichier:
+                defall = fichier.read().split('\n')
+                self.styleSheetParam = defall[6].split(" ")[1]
+        if self.styleSheetParam != "None":
+            try:
+                with open('style/'+self.styleSheetParam+".pss"):
+                    pass
+            except:
+                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par PyWeb.\nPyWeb va donc utiliser le style par défaut")
+            else:
+                with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
+                    self.setStyleSheet(fichier.read())
         self.setCentralWidget(self.mainWidget)
         self.show()
         
@@ -124,6 +142,7 @@ class MainWidget(QWidget):
         self.parametres.addAction(self.texts[5], self.moteurDefine)
         self.parametres.addAction(self.texts[6], self.homeDefine)
         self.parametres.addAction(self.texts[45], self.langDefine)
+        self.parametres.addAction("Thèmes", self.styleDefine)
         self.parametres.addSeparator()
         self.parametres.addAction(self.texts[7], self.informations.open)
         self.fav.addAction(self.texts[8], self.addFav)
@@ -157,6 +176,7 @@ class MainWidget(QWidget):
         self.moteur = MoteurBox(self.texts[11], self.texts[12])
         self.home = HomeBox(self, self.texts[13], self.texts[14])
         self.lang_box = LangBox(self, self.texts[46], self.texts[47])
+        self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
         page = requests.get('http://lavapower.github.io/PyWeb-site/version.html', verify=False)
         strpage = page.text.replace("\n", "")
         if self.versionMinimal != strpage:
@@ -183,6 +203,10 @@ class MainWidget(QWidget):
     def homeDefine(self):
         self.home.setWindowModality(Qt.ApplicationModal)
         self.home.show()
+
+    def styleDefine(self):
+        self.styleBox.setWindowModality(Qt.ApplicationModal)
+        self.styleBox.show()
     
     def langDefine(self):
         self.lang_box.setWindowModality(Qt.ApplicationModal)
