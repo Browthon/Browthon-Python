@@ -17,7 +17,7 @@ class MainWindow(QMainWindow):
     def __init__(self, url):
         super(MainWindow, self).__init__()
         self.layout = self.layout()
-        self.mainWidget = MainWidget(url, self.menuBar())
+        self.mainWidget = MainWidget(url, self)
         try:
             with open('config.txt'):
                 pass
@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
                 with open('style/'+self.styleSheetParam+".pss"):
                     pass
             except:
-                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par PyWeb.\nPyWeb va donc utiliser le style par défaut")
+                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par PyWeb.")
             else:
                 with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
                     self.setStyleSheet(fichier.read())
@@ -41,8 +41,9 @@ class MainWindow(QMainWindow):
         
 
 class MainWidget(QWidget):
-    def __init__(self, url, menuBar):
+    def __init__(self, url, mainWindow):
         super(MainWidget, self).__init__()
+        self.mainWindow = mainWindow
         self.url = url
         self.versionMinimal = "2.2.1"
         self.versionAll = "V 2.2.1 : Fail Update"
@@ -104,7 +105,7 @@ class MainWidget(QWidget):
         self.reload = QPushButton("↺")
         self.informations = QMessageBox()
         self.accueil = QPushButton("⌂")
-        self.menu = menuBar
+        self.menu = self.mainWindow.menuBar()
         self.history = self.menu.addMenu(self.texts[50])
         self.fav = self.menu.addMenu(self.texts[51])
         self.parametres = self.menu.addMenu(self.texts[52])

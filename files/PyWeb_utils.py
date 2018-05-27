@@ -177,8 +177,18 @@ class StyleBox(QWidget):
         self.setLayout(self.grid)
         
     def urlEnter(self):
-        url = self.Url.text()
-        self.main.url = url
+        if self.Url.text() == "None":
+            self.main.mainWindow.setStyleSheet("")
+        else:
+            try:
+                with open('style/'+self.Url.text()+".pss"):
+                    pass
+            except:
+                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+self.Url.text()+" n'est pas reconnu par PyWeb.")
+                return
+            else:
+                with open('style/'+self.Url.text()+".pss", 'r') as fichier:
+                    self.main.mainWindow.setStyleSheet(fichier.read())
         try:
             with open('config.txt'):
                 pass
@@ -188,12 +198,12 @@ class StyleBox(QWidget):
             contenu = []
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-                contenu[6] = contenu[6].split(" ")[0]+" "+url
+                contenu[6] = contenu[6].split(" ")[0]+" "+self.Url.text()
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
-        alert = QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])
+        
 
 
 class MoteurBox(QWidget):
