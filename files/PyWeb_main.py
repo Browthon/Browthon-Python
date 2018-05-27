@@ -332,6 +332,17 @@ class MainWidget(QWidget):
             self.favB.showMenu()
         elif event.key() == 81:
             self.closeOnglet()
+        elif event.key() == 84:
+            self.refreshTheme()
+
+    def refreshTheme(self):
+        if self.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.mainWindow.setStyleSheet(fichier.read())
+                self.moteur.setStyleSheet(fichier.read())
+                self.home.setStyleSheet(fichier.read())
+                self.lang_box.setStyleSheet(fichier.read())
+                self.styleBox.setStyleSheet(fichier.read())
 
     def closeEvent(self, event):
         if self.historyArray == []:
