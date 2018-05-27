@@ -22,16 +22,17 @@ class MainWindow(QMainWindow):
             with open('config.txt'):
                 pass
         except IOError:
-            self.styleSheetParam = "None"
+            self.styleSheetParam = "Default"
         else:
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')
                 self.styleSheetParam = defall[6].split(" ")[1]
-        if self.styleSheetParam != "None":
+        if self.styleSheetParam != "Default":
             try:
                 with open('style/'+self.styleSheetParam+".pss"):
                     pass
             except:
+                self.styleSheetParam = "Default"
                 alert = QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par PyWeb.")
             else:
                 with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:

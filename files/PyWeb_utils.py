@@ -7,7 +7,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
-import os
+import os, glob
 
 
 class UrlInput(QLineEdit):
@@ -167,27 +167,32 @@ class StyleBox(QWidget):
         self.grid = QGridLayout()
 
         self.Texte = QLabel(text)
-        self.Url = QLineEdit()
-        
-        self.Url.returnPressed.connect(self.urlEnter)
-        
         self.grid.addWidget(self.Texte, 1, 1)
-        self.grid.addWidget(self.Url, 2, 1)
+        self.b1 = QPushButton("Default")
+        self.b1.clicked.connect(lambda: self.choose("Default"))
+        self.grid.addWidget(self.b1, 2, 1)
+        n=0
+        for i in glob.glob('style/*.pss'):
+            self.btemp = QPushButton(i.replace('style/', "").replace(".pss", ""))
+            self.btemp.clicked.connect(lambda: self.choose(i.replace('style/', "").replace(".pss", "")))
+            self.grid.addWidget(self.btemp, 3+n, 1)
+            n+=1
         
         self.setLayout(self.grid)
         
-    def urlEnter(self):
-        if self.Url.text() == "None":
+    def choose(self, choix):
+        print(choix)
+        if choix == "Default":
             self.main.mainWindow.setStyleSheet("")
         else:
             try:
-                with open('style/'+self.Url.text()+".pss"):
+                with open('style/'+choix+".pss"):
                     pass
             except:
-                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+self.Url.text()+" n'est pas reconnu par PyWeb.")
+                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+choix+" n'est pas reconnu par PyWeb.")
                 return
             else:
-                with open('style/'+self.Url.text()+".pss", 'r') as fichier:
+                with open('style/'+choix+".pss", 'r') as fichier:
                     self.main.mainWindow.setStyleSheet(fichier.read())
         try:
             with open('config.txt'):
@@ -198,7 +203,7 @@ class StyleBox(QWidget):
             contenu = []
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-                contenu[6] = contenu[6].split(" ")[0]+" "+self.Url.text()
+                contenu[6] = contenu[6].split(" ")[0]+" "+choix
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
