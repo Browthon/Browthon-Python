@@ -1,3 +1,8 @@
+QWidget {
+    background-color: #3f3f3f;
+    border-color: #3f3f3f;
+}
+
 QMenuBar {
     background-color: #3f3f3f;
 }
