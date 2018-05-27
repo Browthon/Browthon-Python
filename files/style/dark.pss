@@ -1,0 +1,51 @@
+QMenuBar {
+    background-color: #3f3f3f;
+}
+
+QMainWindow {
+    background-color: #3f3f3f;
+}
+
+QPushButton {
+    background-color: #565656;
+}
+
+QLineEdit {
+    background-color: #565656;
+}
+
+QMenu {
+    background-color: #3f3f3f; /* sets background of the menu */
+    border: 1px solid black;
+}
+
+
+QTabWidget::pane { 
+    border-top: 2px solid #C2C7CB;
+}
+
+QTabWidget::tab-bar {
+    left: 5px; 
+}
+
+QTabBar::tab {
+    background: #565656;
+    border: 2px solid #3f3f3f;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8ex;
+    padding: 2px;
+}
+
+QTabBar::tab:hover {
+    background: #595959;
+}
+
+QTabBar::tab:selected {
+    background: #595959;
+}
+
+QTabBar::tab:!selected {
+    margin-top: 2px; 
+    bacground: #565656; 
+}
