@@ -139,6 +139,9 @@ class HomeBox(QWidget):
         self.grid.addWidget(self.Url, 2, 1)
         
         self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.setStyleSheet(fichier.read())
         
     def urlEnter(self):
         url = self.Url.text()
@@ -179,6 +182,9 @@ class StyleBox(QWidget):
             n+=1
         
         self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.setStyleSheet(fichier.read())
         
     def choose(self, choix):
         print(choix)
@@ -212,8 +218,9 @@ class StyleBox(QWidget):
 
 
 class MoteurBox(QWidget):
-    def __init__(self, title, text):
+    def __init__(self, main, title, text):
         super(MoteurBox, self).__init__()
+        self.main = main
         
         self.setWindowTitle(title)
         self.grid = QGridLayout()
@@ -239,6 +246,9 @@ class MoteurBox(QWidget):
         self.grid.addWidget(self.Bing, 4, 1, 1, 2)
 
         self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.setStyleSheet(fichier.read())
 
     def setGoogle(self):
         self.setMoteur("https://www.google.fr/?gws_rd=ssl#q=")
@@ -293,6 +303,9 @@ class LangBox(QWidget):
         self.grid.addWidget(self.English, 2, 2)
 
         self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.setStyleSheet(fichier.read())
 
     def setFrench(self):
         self.setLang("FR")

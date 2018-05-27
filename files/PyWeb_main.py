@@ -17,7 +17,6 @@ class MainWindow(QMainWindow):
     def __init__(self, url):
         super(MainWindow, self).__init__()
         self.layout = self.layout()
-        self.mainWidget = MainWidget(url, self)
         try:
             with open('config.txt'):
                 pass
@@ -37,6 +36,7 @@ class MainWindow(QMainWindow):
             else:
                 with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
                     self.setStyleSheet(fichier.read())
+        self.mainWidget = MainWidget(url, self)
         self.setCentralWidget(self.mainWidget)
         self.show()
         
@@ -175,7 +175,7 @@ class MainWidget(QWidget):
         self.grid.addWidget(self.ongletM, 1, 10)
         self.setLayout(self.grid)
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True);
-        self.moteur = MoteurBox(self.texts[11], self.texts[12])
+        self.moteur = MoteurBox(self, self.texts[11], self.texts[12])
         self.home = HomeBox(self, self.texts[13], self.texts[14])
         self.lang_box = LangBox(self, self.texts[46], self.texts[47])
         self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
