@@ -35,7 +35,8 @@ Navigateur web en python
 ## Changelog : 
 
 ### V 2.3.0 : Appearance Update (IN DEV) :
-- Création de thèmes (sombre...)
+- Création d'un launcher pour télécharger les nouvelles versions automatiquements
+- Création de thèmes (juste le sombre pour l'instant)
 - Gestion basique des thèmes
 - Changement de traduction (modification et nouveaux ajouts)
 - Nouvelle apparence de PyWeb avec moins de boutons
