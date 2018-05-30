@@ -318,13 +318,13 @@ class MainWidget(QWidget):
         if event.key() == 16777268 or event.key() == 82:
             self.browser.reload()
         elif event.key() == 16777273 or event.key() == 80:
-            self.parametreB.showMenu()
+            self.parametres.show()
         elif event.key() == 78:
             self.addOnglet()
         elif event.key() == 72:
-            self.historyB.showMenu()
+            self.history.popup()
         elif event.key() == 70:
-            self.favB.showMenu()
+            self.fav.popup()
         elif event.key() == 81:
             self.closeOnglet()
         elif event.key() == 84:
