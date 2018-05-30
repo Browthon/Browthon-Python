@@ -34,8 +34,9 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 2.3.0 : Appearance Update (IN DEV) :
-- Création d'un launcher pour télécharger les nouvelles versions automatiquements
+### V 2.3.0 : Appearance Update (LATEST) :
+- Création d'un package sur l'AUR
+- Création d'un launcher pour télécharger les nouvelles versions automatiquement
 - Création de thèmes (juste le sombre pour l'instant)
 - Gestion basique des thèmes
 - Changement de traduction (modification et nouveaux ajouts)
@@ -44,7 +45,7 @@ Navigateur web en python
 - Bug Fix : L'icone de l'onglet ne changeait que si c'était le premier onglet
 - Bug Fix : Le texte de la fênetre de fermeture de PyWeb n'avaient pas de retour à la ligne
 
-### V 2.2.1 : Fail Update (LATEST) :
+### V 2.2.1 : Fail Update :
 - Update des versions dans le code et l'updater
 
 ### V 2.2.0 : Rebirth Update :

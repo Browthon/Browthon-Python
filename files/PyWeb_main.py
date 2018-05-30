@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
                     pass
             except:
                 self.styleSheetParam = "Default"
-                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par PyWeb.")
+                QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par PyWeb.")
             else:
                 with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
                     self.setStyleSheet(fichier.read())
@@ -45,8 +45,8 @@ class MainWidget(QWidget):
         super(MainWidget, self).__init__()
         self.mainWindow = mainWindow
         self.url = url
-        self.versionMinimal = "2.2.1"
-        self.versionAll = "V 2.2.1 : Fail Update"
+        self.versionMinimal = "2.3.0"
+        self.versionAll = "V 2.3.0 : Appearance Update"
         self.grid = QGridLayout()
         try:
             with open('config.txt'):
