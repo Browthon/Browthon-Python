@@ -35,7 +35,7 @@ Navigateur web en python
 ## Changelog : 
 
 ### V 2.3.0 : Appearance Update (LATEST) :
-- Création d'un package sur l'AUR
+- Création d'un package pour ArchLinux (et Manjaro)
 - Création d'un launcher pour télécharger les nouvelles versions automatiquement
 - Création de thèmes (juste le sombre pour l'instant)
 - Gestion basique des thèmes
