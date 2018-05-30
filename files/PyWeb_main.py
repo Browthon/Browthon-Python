@@ -10,7 +10,6 @@ from PyQt5.Qt import *
 from files.PyWeb_utils import *
 
 import os
-import requests
 import sys
 
 class MainWindow(QMainWindow):
@@ -174,16 +173,12 @@ class MainWidget(QWidget):
         self.grid.addWidget(self.ongletP, 1, 9)
         self.grid.addWidget(self.ongletM, 1, 10)
         self.setLayout(self.grid)
-        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True);
+        QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         self.moteur = MoteurBox(self, self.texts[11], self.texts[12])
         self.home = HomeBox(self, self.texts[13], self.texts[14])
         self.lang_box = LangBox(self, self.texts[46], self.texts[47])
         self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
-        page = requests.get('http://lavapower.github.io/PyWeb-site/version.html', verify=False)
-        strpage = page.text.replace("\n", "")
-        if self.versionMinimal != strpage:
-            alert = QMessageBox().warning(self, self.texts[15], self.texts[16].replace(" \\n", "\n")+" "+strpage+" "+self.texts[17].replace(" \\n", "\n"))
-
+        
     def setTitle(self):
         if self.private:
             self.setWindowTitle(self.texts[18]+" "+self.browser.title()+" - PyWeb")
