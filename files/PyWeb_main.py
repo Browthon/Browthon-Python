@@ -253,6 +253,14 @@ class MainWidget(QWidget):
         onglet.show()
         if self.deplacement_onglet:
             self.tabOnglet.setCurrentWidget(onglet)
+    
+    def addOngletWithUrl(self, url):
+        onglet = Onglet(len(self.onglets)+1, self)
+        self.onglets.append(onglet)
+        self.tabOnglet.addTab(onglet, QIcon('pyweb.png'), "PyWeb")
+        onglet.show()
+        self.tabOnglet.setCurrentWidget(onglet)
+        self.urlInput.enterUrlGiven(url)
 
     def closeOnglet(self):
         if self.tabOnglet.count() == 1:

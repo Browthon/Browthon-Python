@@ -89,7 +89,30 @@ class Onglet(QWebEngineView):
         self.viewSource.setShortcut(Qt.Key_F2)
         self.viewSource.triggered.connect(self.page.vSource)
         self.addAction(self.viewSource)
+    
+    def event(self, event):
+        if event.type() == QEvent.ChildAdded:
+            child_ev = event
+            widget = child_ev.child()
 
+            if widget:
+                widget.installEventFilter(self)
+            return True
+            
+        return super(Onglet, self).event(event)
+    
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.MouseButtonRelease:
+            if event.button() == Qt.MiddleButton:
+                self.clickedUrl = self.page.hitTestContent(event.pos()).linkUrl()
+                if self.clickedUrl.isEmpty():
+                    pass
+                else:
+                    self.main.addOngletWithUrl(self.clickedUrl.toString())
+                    event.accept()
+                    return True
+        return super(Onglet, self).eventFilter(obj, event)
+    
 
 class Page(QWebEnginePage):
     def __init__(self, view):
@@ -97,6 +120,27 @@ class Page(QWebEnginePage):
         self.main = view.main
         self.view = view
     
+    def hitTestContent(self, pos):
+        return WebHitTestResult(self, pos)
+    
+    def mapToViewport(self, pos):
+	    return QPointF(pos.x(), pos.y())
+    
+    def executeJavaScript(self, scriptSrc):
+        self.loop = QEventLoop()
+        self.result = QVariant()
+        QTimer.singleShot(500, self.loop.quit)
+
+        self.runJavaScript(scriptSrc, self.callbackJS)
+        self.loop.exec_()
+        del self.loop
+        return self.result
+
+    def callbackJS(self, res):
+        if self.loop and self.loop.isRunning():
+            self.result = res
+            self.loop.quit()
+
     def vSource(self):
         if "view-source:http" in self.url().toString():
             self.load(QUrl(self.url().toString().split("view-source:")[1]))
@@ -121,6 +165,55 @@ class Page(QWebEnginePage):
             del self.fullView
             self.setView(self.view)
         request.accept()
+
+
+class WebHitTestResult():
+    def __init__(self, page, pos):
+        self.page = page
+        self.pos = pos
+        self.m_linkUrl = self.page.url()
+        self.viewportPos = self.page.mapToViewport(self.pos)
+        self.source = "(function() {\n"+"var e = document.elementFromPoint("+str(self.viewportPos.x())+", "+str(self.viewportPos.y())+");\n"+"if (!e)\n"+"    return;\n"+"function isMediaElement(e) {\n"+"    return e.tagName == 'AUDIO' || e.tagName == 'VIDEO';\n"+"}\n"+"function isEditableElement(e) {\n"+"    if (e.isContentEditable)\n"+"        return true;\n"+"    if (e.tagName == 'INPUT' || e.tagName == 'TEXTAREA')\n"+"        return e.getAttribute('readonly') != 'readonly';\n"+"    return false;\n"+"}\n"+"function isSelected(e) {\n"+"    var selection = window.getSelection();\n"+"    if (selection.type != 'Range')\n"+"        return false;\n"+"    return window.getSelection().containsNode(e, true);\n"+"}\n"+"var res = {\n"+"    baseUrl: document.baseURI,\n"+"    alternateText: e.getAttribute('alt'),\n"+"    boundingRect: '',\n"+"    imageUrl: '',\n"+"    contentEditable: isEditableElement(e),\n"+"    contentSelected: isSelected(e),\n"+"    linkTitle: '',\n"+"    linkUrl: '',\n"+"    mediaUrl: '',\n"+"    tagName: e.tagName.toLowerCase()\n"+"};\n"+"var r = e.getBoundingClientRect();\n"+"res.boundingRect = [r.top, r.left, r.width, r.height];\n"+"if (e.tagName == 'IMG')\n"+"    res.imageUrl = e.getAttribute('src');\n"+"if (e.tagName == 'A') {\n"+"    res.linkTitle = e.text;\n"+"    res.linkUrl = e.getAttribute('href');\n"+"}\n"+"while (e) {\n"+"    if (res.linkTitle == ''& & e.tagName == 'A')\n"+"        res.linkTitle = e.text;\n"+"    if (res.linkUrl == ''& & e.tagName == 'A')\n"+"        res.linkUrl = e.getAttribute('href');\n"+"    if (res.mediaUrl == ''& & isMediaElement(e)) {\n"+"        res.mediaUrl = e.currentSrc;\n"+"        res.mediaPaused = e.paused;\n"+"        res.mediaMuted = e.muted;\n"+"    }\n"+"    e = e.parentElement;\n"+"}\n"+"return res;\n"+"})()"
+
+
+        self.js = self.source
+        self.url = self.page.url()
+        self.temp = self.page.executeJavaScript(self.js)
+        if self.temp == None:
+            return
+        self.map = self.temp.toMap()
+
+        if self.map.isEmpty():
+            return
+
+        self.m_isNull = False
+        self.m_baseUrl = self.map.value(QStringLiteral("baseUrl")).toUrl()
+        self.m_alternateText = self.map.value(QStringLiteral("alternateText")).toString()
+        self.m_imageUrl = self.map.value(QStringLiteral("imageUrl")).toUrl()
+        self.m_isContentEditable = self.map.value(QStringLiteral("contentEditable")).toBool()
+        self.m_isContentSelected = self.map.value(QStringLiteral("contentSelected")).toBool()
+        self.m_linkTitle = self.map.value(QStringLiteral("linkTitle")).toString()
+        self.m_linkUrl = self.map.value(QStringLiteral("linkUrl")).toUrl()
+        self.m_mediaUrl = self.map.value(QStringLiteral("mediaUrl")).toUrl()
+        self.m_mediaPaused = self.map.value(QStringLiteral("mediaPaused")).toBool()
+        self.m_mediaMuted = self.map.value(QStringLiteral("mediaMuted")).toBool()
+        self.m_tagName = self.map.value(QStringLiteral("tagName")).toString()
+
+        if self.m_imageUrl.isEmpty():
+            pass
+        else:
+            self.m_imageUrl = self.url.resolved(self.m_imageUrl)
+        if self.m_linkUrl.isEmpty():
+            pass
+        else:
+            self.m_linkUrl = self.m_baseUrl.resolved(self.m_linkUrl)
+        if self.m_mediaUrl.isEmpty():
+            pass
+        else:
+            self.m_mediaUrl = self.url.resolved(self.m_mediaUrl)
+    
+    def linkUrl(self):
+	    return self.m_linkUrl
 
 
 class HomeBox(QWidget):
