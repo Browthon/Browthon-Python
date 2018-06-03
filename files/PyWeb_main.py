@@ -108,6 +108,7 @@ class MainWidget(QWidget):
         self.menu = self.mainWindow.menuBar()
         self.history = self.menu.addMenu(self.texts[50])
         self.fav = self.menu.addMenu(self.texts[51])
+        self.session = self.menu.addMenu("Sessions")
         self.parametres = self.menu.addMenu(self.texts[52])
         self.onglet1 = Onglet(1, self)
         self.browser = self.onglet1
@@ -124,6 +125,17 @@ class MainWidget(QWidget):
                 for i in fichier.read().split('\n'):
                     item = i.split(" | ")
                     self.favArray.append(Item(self, item[0], item[1]))
+        self.sessionArray = []
+        try:
+            with open("session.txt"):
+                pass
+        except IOError:
+            pass
+        else:
+            with open("session.txt", "r") as fichier:
+                for i in fichier.read().split('\n'):
+                    item = i.split(" | ")
+                    self.sessionArray.append(ItemSession(self, item[0], item[1].split(" - ")))
         self.historyArray = []
         try:
             with open('history.txt'):
@@ -151,6 +163,10 @@ class MainWidget(QWidget):
         self.fav.addSeparator()
         for i in self.favArray:
             i.setInteraction(self.fav)
+        self.session.addAction("Ajouter Session", self.addSession)
+        self.session.addAction("Supprimer Session", self.removeSession)
+        for i in self.sessionArray:
+            i.setInteraction(self.session)
         self.history.addAction(self.texts[10], self.removeHistory)
         self.history.addSeparator()
         for i in self.historyArray:
@@ -178,6 +194,8 @@ class MainWidget(QWidget):
         self.home = HomeBox(self, self.texts[13], self.texts[14])
         self.lang_box = LangBox(self, self.texts[46], self.texts[47])
         self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
+        self.addSessionBox = AddSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
+        self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         
     def setTitle(self):
         if self.private:
@@ -280,6 +298,14 @@ class MainWidget(QWidget):
             self.history.addSeparator()
             for i in self.historyArray:
                 i.setInteraction(self.history)
+    
+    def addSession(self):
+        self.addSessionBox.setWindowModality(Qt.ApplicationModal)
+        self.addSessionBox.show()
+    
+    def removeSession(self):
+        self.removeSessionBox.setWindowModality(Qt.ApplicationModal)
+        self.removeSessionBox.show()
 
     def removeHistory(self):
         self.historyArray = []
@@ -358,6 +384,29 @@ class MainWidget(QWidget):
                         message += self.historyArray[i].title + " | " + self.historyArray[i].url
                     else:
                         message += self.historyArray[i].title + " | " + self.historyArray[i].url + "\n"
+                fichier.write(message)
+        if self.sessionArray == []:
+            try:
+                with open('session.txt'):
+                    pass
+            except IOError:
+                pass
+            else:
+                os.remove('session.txt')
+        else:
+            with open('session.txt', 'w') as fichier:
+                message = ""
+                for i in range(len(self.sessionArray)):
+                    urls = ""
+                    for y in self.sessionArray[i].urls:
+                        if y == self.sessionArray[i].urls[len(self.sessionArray[i].urls)-1]:
+                            urls += y
+                        else:
+                            urls += y + " - "
+                    if i == len(self.sessionArray)-1:
+                        message += self.sessionArray[i].title + " | " + urls
+                    else:
+                        message += self.sessionArray[i].title + " | " + urls + "\n"
                 fichier.write(message)
         if self.favArray == []:
             try:

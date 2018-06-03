@@ -216,6 +216,87 @@ class WebHitTestResult():
 	    return self.m_linkUrl
 
 
+class NameBox(QWidget):
+    def __init__(self, main, title, text):
+        super(NameBox, self).__init__()
+        self.main = main
+        self.result = ""
+        self.on = True
+        self.setWindowTitle(title)
+        self.grid = QGridLayout()
+
+        self.Texte = QLabel(text)
+        self.Url = QLineEdit()
+        
+        self.Url.returnPressed.connect(self.urlEnter)
+        
+        self.grid.addWidget(self.Texte, 1, 1)
+        self.grid.addWidget(self.Url, 2, 1)
+        
+        self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.setStyleSheet(fichier.read())
+        
+    def urlEnter(self):
+        pass
+
+
+class AddSessionBox(NameBox):
+    def __init__(self, main, title, text):
+        super(AddSessionBox, self).__init__(main, title, text)
+    
+    def urlEnter(self):
+        self.result = self.Url.text()
+        if self.result == "" or self.result == "ANNULER":
+            QMessageBox().about(self, "Création annulé", "La création de la session a été annulée")
+        else:
+            found = False
+            for i in range(len(self.main.sessionArray)):
+                if self.result == self.main.sessionArray[i].title:
+                    found = True
+            if found:
+                QMessageBox().about(self, "Création annulé", "La session "+self.result+" existe déjà !")
+            else:
+                urls = []
+                for i in range(self.main.tabOnglet.count()):
+                    urls.append(self.main.tabOnglet.widget(i).url().toString())
+                self.main.sessionArray.append(ItemSession(self, self.result, urls))
+                self.main.session.clear()
+                self.main.session.addAction("Ajouter Session", self.main.addSession)
+                self.main.session.addAction("Supprimer Session", self.main.removeSession)
+                self.main.session.addSeparator()
+                for i in self.main.sessionArray:
+                    i.setInteraction(self.main.session)
+                QMessageBox().about(self, "Session créée", "La session "+self.result+" a été créée !")
+        self.close()
+
+class RemoveSessionBox(NameBox):
+    def __init__(self, main, title, text):
+        super(RemoveSessionBox, self).__init__(main, title, text)
+    
+    def urlEnter(self):
+        self.result = self.Url.text()
+        if self.result == "" or self.result == "ANNULER":
+            QMessageBox().about(self, "Suppression annulé", "La suppression de la session a été annulée")
+        else:
+            found = False
+            for i in range(len(self.main.sessionArray)):
+                if self.result == self.main.sessionArray[i].title:
+                    del self.main.sessionArray[i]
+                    found = True
+            if found:
+                self.main.session.clear()
+                self.main.session.addAction("Ajouter Session", self.main.addSession)
+                self.main.session.addAction("Supprimer Session", self.main.removeSession)
+                self.main.session.addSeparator()
+                for i in self.main.sessionArray:
+                    i.setInteraction(self.main.session)
+                info = QMessageBox().about(self, "Session supprimée", "La session "+self.result+" a été supprimée !")
+            else:
+                info = QMessageBox().about(self, "Session non trouvée", "La session "+self.result+" n'a pas été trouvé !")
+        self.close()
+
 class HomeBox(QWidget):
     def __init__(self, main, title, text):
         super(HomeBox, self).__init__()
@@ -308,7 +389,6 @@ class StyleBox(QWidget):
                 fichier.write(contenu)
         self.close()
         
-
 
 class MoteurBox(QWidget):
     def __init__(self, main, title, text):
@@ -435,3 +515,16 @@ class Item:
 
     def load(self):
         self.main.urlInput.enterUrlGiven(self.url)
+
+class ItemSession:
+    def __init__(self, main, title, urls):
+        self.main = main
+        self.urls = urls
+        self.title = title
+    
+    def setInteraction(self, menu):
+        menu.addAction(self.title, self.load)
+    
+    def load(self):
+        for i in self.urls:
+            self.main.addOngletWithUrl(i)
