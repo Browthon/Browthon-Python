@@ -284,7 +284,7 @@ class MainWidget(QWidget):
         if self.tabOnglet.count() == 1:
             question = QMessageBox().question(self, self.texts[31], self.texts[32].replace(" \\n ", "\n"), QMessageBox.Yes, QMessageBox.No)
             if question == 16384:
-                self.close()
+                self.mainWindow.close()
             else:
                 info = QMessageBox().about(self, self.texts[33], self.texts[34])
         else:
