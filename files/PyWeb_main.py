@@ -410,6 +410,8 @@ class MainWidget(QWidget):
                 self.home.setStyleSheet(fichier.read())
                 self.lang_box.setStyleSheet(fichier.read())
                 self.styleBox.setStyleSheet(fichier.read())
+                self.addSessionBox.setStyleSheet(fichier.read())
+                self.removeSessionBox.setStyleSheet(fichier.read())
 
     def closeEvent(self, event):
         if self.historyArray == []:
