@@ -30,12 +30,13 @@ Navigateur web en python
 
 ## Bugs connus de la version en développement :
 
-- Les liens ouvrant un nouvel onglet n'ouvrent pas ce nouvel onglet.
+- X
 
 ## Changelog : 
 
 ### V 2.4.0 : XXX Update (In Dev) :
-- Ajout du système de sessions (nom, enregistrement, lancement...)
+- Ajout du système de session (nom, enregistrement, lancement...)
+- Enregistrement de la session avant de quitter (+ paramètre pour la charger automatiquement au lancement)
 - Mise à jour du thème dark
 - Ajout du clic molette pour ouvrir un lien dans un nouvel onglet
 - Bug Fix : Lorsque l'on fermait le dernier onglet, si on voulait fermer PyWeb, le widget disparaissait mais la fenêtre restée
