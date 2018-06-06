@@ -34,6 +34,12 @@ Navigateur web en python
 
 ## Changelog : 
 
+### V 2.4.0 : XXX Update (In Dev) :
+- Ajout du système de sessions (nom, enregistrement, lancement...)
+- Mise à jour du thème dark
+- Ajout du clic molette pour ouvrir un lien dans un nouvel onglet
+- Bug Fix : Lorsque l'on fermait le dernier onglet, si on voulait fermer PyWeb, le widget disparaissait mais la fenêtre restée
+
 ### V 2.3.0 : Appearance Update (LATEST) :
 - Création d'un package pour ArchLinux (et Manjaro)
 - Création d'un launcher pour télécharger les nouvelles versions automatiquement
