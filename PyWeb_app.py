@@ -14,7 +14,7 @@ from files.PyWeb_main import *
 
 def launch():
 	app = QApplication(sys.argv)
-	icon = QIcon('files/pyweb.png')
+	icon = QIcon('pyweb.png')
 	app.setWindowIcon(icon)
 	url = ""
 	try:
