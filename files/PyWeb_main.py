@@ -38,6 +38,9 @@ class MainWindow(QMainWindow):
         self.mainWidget = MainWidget(url, self)
         self.setCentralWidget(self.mainWidget)
         self.show()
+    
+    def closeEvent(self, event):
+        self.mainWidget.closeEvent(event)
         
 
 class MainWidget(QWidget):
@@ -349,14 +352,26 @@ class MainWidget(QWidget):
             info = QMessageBox().about(self, self.texts[43], self.texts[44])
 
     def keyPressEvent(self, event):
-        if event.key() == 16777268 or event.key() == 82:
+        if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
             self.browser.reload()
-        elif event.key() == 78:
+        elif event.key() == Qt.Key_N:
             self.addOnglet()
-        elif event.key() == 81:
+        elif event.key() == Qt.Key_Q:
             self.closeOnglet()
-        elif event.key() == 84:
+        elif event.key() == Qt.Key_T:
             self.refreshTheme()
+        elif event.key() == Qt.Key_L:
+            try:
+                with open("last.txt", "r") as fichier:
+                    contenu = fichier.read().split("\n")
+            except:
+                QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
+            else:
+                for i in range(len(contenu)):
+                    if i == 0:
+                        self.urlInput.enterUrlGiven(contenu[i])
+                    else:
+                        self.addOngletWithUrl(contenu[i])
 
     def refreshTheme(self):
         if self.mainWindow.styleSheetParam != "Default":
@@ -440,3 +455,11 @@ class MainWidget(QWidget):
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
+        with open('last.txt', 'w') as fichier:
+            contenu = ""
+            for i in range(self.tabOnglet.count()):
+                if i == self.tabOnglet.count() - 1:
+                    contenu += self.tabOnglet.widget(i).url().toString()
+                else:
+                    contenu += self.tabOnglet.widget(i).url().toString()+"\n"
+            fichier.write(contenu)
