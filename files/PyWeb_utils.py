@@ -388,13 +388,16 @@ class StyleBox(QWidget):
         self.grid.addWidget(self.Texte, 1, 1)
         self.b1 = QPushButton("Default")
         self.b1.clicked.connect(lambda: self.choose("Default"))
+        self.b2 = QPushButton("Dark")
+        self.b2.clicked.connect(lambda: self.choose("Dark"))
+        self.b3 = QPushButton("Blue")
+        self.b3.clicked.connect(lambda: self.choose("Blue"))
+        self.b4 = QPushButton("Red")
+        self.b4.clicked.connect(lambda: self.choose("Red"))
         self.grid.addWidget(self.b1, 2, 1)
-        n=0
-        for i in glob.glob('style/*.pss'):
-            self.btemp = QPushButton(i.replace('style/', "").replace(".pss", ""))
-            self.btemp.clicked.connect(lambda: self.choose(i.replace('style/', "").replace(".pss", "")))
-            self.grid.addWidget(self.btemp, 3+n, 1)
-            n+=1
+        self.grid.addWidget(self.b2, 3, 1)
+        self.grid.addWidget(self.b3, 4, 1)
+        self.grid.addWidget(self.b4, 5, 1)
         
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
@@ -402,7 +405,6 @@ class StyleBox(QWidget):
                 self.setStyleSheet(fichier.read())
         
     def choose(self, choix):
-        print(choix)
         if choix == "Default":
             self.main.mainWindow.setStyleSheet("")
         else:
