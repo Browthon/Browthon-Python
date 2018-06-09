@@ -7,7 +7,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
-from files.PyWeb_utils import *
+from files.Browthon_utils import *
+from files.Browthon_windows import *
 
 import os
 import sys
@@ -31,7 +32,7 @@ class MainWindow(QMainWindow):
                     pass
             except:
                 self.styleSheetParam = "Default"
-                QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par PyWeb.")
+                QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par Browthon.")
             else:
                 with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
                     self.setStyleSheet(fichier.read())
@@ -79,7 +80,7 @@ class MainWidget(QWidget):
                     with open("lang/"+defall[5].split(" ")[1]+".txt"):
                         pass
                 except IOError:
-                    alert = QMessageBox().warning(self, "Langue non reconnue", "La langue "+defall[5].split(" ")[1]+" n'est pas reconnu par PyWeb.\nPyWeb va donc utiliser le français")
+                    alert = QMessageBox().warning(self, "Langue non reconnue", "La langue "+defall[5].split(" ")[1]+" n'est pas reconnu par Browthon.\nBrowthon va donc utiliser le français")
                     self.lang = "FR"
                 else:
                     self.lang = defall[5].split(" ")[1]
@@ -92,10 +93,10 @@ class MainWidget(QWidget):
                 pass
         except IOError:
             if self.lang == "FR":
-                alert = QMessageBox().warning(self, "Fichier de langue", "Le fichier "+self.lang+".txt n'a pas pu être ouvert. Merci de rajouter le fichier trouvable sur le github.\nPyWeb va maintenant s'éteindre.")
+                alert = QMessageBox().warning(self, "Fichier de langue", "Le fichier "+self.lang+".txt n'a pas pu être ouvert. Merci de rajouter le fichier trouvable sur le github.\nBrowthon va maintenant s'éteindre.")
                 sys.exit()
             elif self.lang == "EN":
-                alert = QMessageBox().warning(self, "Language file", "The file "+self.lang+".txt can't be found. Can you add the file which is in Github ?\nPyWeb will shutdown.")
+                alert = QMessageBox().warning(self, "Language file", "The file "+self.lang+".txt can't be found. Can you add the file which is in Github ?\nBrowthon will shutdown.")
                 sys.exit()
         else:
             with open("lang/"+self.lang+".txt", 'r') as fichier:
@@ -221,9 +222,9 @@ class MainWidget(QWidget):
         
     def setTitle(self):
         if self.private:
-            self.mainWindow.setWindowTitle(self.texts[18]+" "+self.browser.title()+" - PyWeb")
+            self.mainWindow.setWindowTitle(self.texts[18]+" "+self.browser.title()+" - Browthon")
         else:
-            self.mainWindow.setWindowTitle(self.browser.title()+" - PyWeb")
+            self.mainWindow.setWindowTitle(self.browser.title()+" - Browthon")
         if len(self.browser.title()) >= 13:
             titre = self.browser.title()[:9]+"..."
         else:
@@ -299,7 +300,7 @@ class MainWidget(QWidget):
     def addOnglet(self):
         onglet = Onglet(len(self.onglets)+1, self)
         self.onglets.append(onglet)
-        self.tabOnglet.addTab(onglet, QIcon('pyweb.png'), "PyWeb")
+        self.tabOnglet.addTab(onglet, QIcon('logo.png'), "Browthon")
         onglet.show()
         if self.deplacement_onglet:
             self.tabOnglet.setCurrentWidget(onglet)
@@ -307,7 +308,7 @@ class MainWidget(QWidget):
     def addOngletWithUrl(self, url):
         onglet = Onglet(len(self.onglets)+1, self)
         self.onglets.append(onglet)
-        self.tabOnglet.addTab(onglet, QIcon('pyweb.png'), "PyWeb")
+        self.tabOnglet.addTab(onglet, QIcon('logo.png'), "Browthon")
         onglet.show()
         self.tabOnglet.setCurrentWidget(onglet)
         self.urlInput.enterUrlGiven(url)

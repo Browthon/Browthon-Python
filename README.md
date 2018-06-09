@@ -1,4 +1,4 @@
-# PyWeb
+# Browthon
 Navigateur web en python
 
 ## Dépendances :
@@ -23,18 +23,22 @@ Navigateur web en python
     - 3.5.3 (V 0.2.0 --> V 0.5.0)
     - 3.6.1 (V 0.1.0 --> V 0.2.0)
   - Libs :
-    - Requests (V 0.6.0 --> Latest)
     - PyQt5 (V 2.0.0 --> Latest)
+    - Requests (V 0.6.0 --> Latest)
     - PySide (V 0.2.0 --> V 2.0.0)
     - PyQt4 (V 0.1.0 --> V 0.2.0)
 
-## Bugs connus de la version en développement :
+## Remerciements :
+- Feldrise : https://github.com/Feldrise - Pour l'aide dans le développement
+- LechatGris : https://github.com/LechatGris - Pour l'idée du logo
 
+## Bugs connus de la version en développement :
 - X
 
 ## Changelog : 
 
 ### V 2.4.0 : XXX Update (In Dev) :
+- Changement du nom (de PyWeb à Browthon)
 - Ajout du système de session (nom, enregistrement, lancement...)
 - Enregistrement de la session avant de quitter (+ paramètre pour la charger automatiquement au lancement)
 - Mise à jour du thème dark
