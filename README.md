@@ -40,10 +40,13 @@ Navigateur web en python
 ### V 2.4.0 : XXX Update (In Dev) :
 - Changement du nom (de PyWeb à Browthon)
 - Ajout du système de session (nom, enregistrement, lancement...)
+- Ajout du système de raccourci URL
 - Enregistrement de la session avant de quitter (+ paramètre pour la charger automatiquement au lancement)
-- Mise à jour du thème dark
+- Mise à jour du thème Dark
+- Ajout des thèmes Red et Blue
 - Ajout du clic molette pour ouvrir un lien dans un nouvel onglet
-- Bug Fix : Lorsque l'on fermait le dernier onglet, si on voulait fermer PyWeb, le widget disparaissait mais la fenêtre restée
+- Suppression du système de langues
+- Plusieurs bugs fixes et optimisation
 
 ### V 2.3.0 : Appearance Update (LATEST) :
 - Création d'un package pour ArchLinux (et Manjaro)
