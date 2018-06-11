@@ -232,7 +232,7 @@ class HomeBox(QWidget):
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
-        alert = QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])
+        QMessageBox().warning(self, "Paramètres", "Il faut redémarrer Browthon pour appliquer le changement")
 
 class StyleBox(QWidget):
     def __init__(self, main, title, text):
@@ -353,52 +353,3 @@ class MoteurBox(QWidget):
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
-
-
-class LangBox(QWidget):
-    def __init__(self, main, title, text):
-        super(LangBox, self).__init__()
-        
-        self.main = main
-        
-        self.setWindowTitle(title)
-        self.grid = QGridLayout()
-
-        self.Texte = QLabel(text)
-        self.French = QPushButton("Francais")
-        self.English = QPushButton("English")
-
-        self.French.clicked.connect(self.setFrench)
-        self.English.clicked.connect(self.setEnglish)
-
-        self.grid.addWidget(self.Texte, 1, 1, 1, 2)
-        self.grid.addWidget(self.French, 2, 1)
-        self.grid.addWidget(self.English, 2, 2)
-
-        self.setLayout(self.grid)
-        if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
-
-    def setFrench(self):
-        self.setLang("FR")
-
-    def setEnglish(self):
-        self.setLang("EN")
-
-    def setLang(self, txt):
-        try:
-            with open('config.txt'):
-                pass
-        except IOError:
-            pass
-        else:
-            contenu = []
-            with open('config.txt', 'r') as fichier:
-                contenu = fichier.read().split('\n')
-                contenu[5] = contenu[5].split(" ")[0]+" "+txt
-            contenu = "\n".join(contenu)
-            with open('config.txt', 'w') as fichier:
-                fichier.write(contenu)
-        self.close()
-        QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])

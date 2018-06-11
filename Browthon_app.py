@@ -22,7 +22,7 @@ def launch():
 			pass
 	except IOError:
 		with open('config.txt', 'w') as fichier:
-			fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil http://pastagames.fr.nf/browthon/\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet True\nLangue FR\nStyle Default\nSession False")
+			fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil http://pastagames.fr.nf/browthon/\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet True\nStyle Default\nSession False")
 			url = "http://pastagames.fr.nf/browthon/"
 	else:
 		with open('config.txt', 'r') as fichier:

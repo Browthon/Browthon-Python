@@ -25,14 +25,14 @@ class MainWindow(QMainWindow):
         else:
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')
-                self.styleSheetParam = defall[6].split(" ")[1]
+                self.styleSheetParam = defall[5].split(" ")[1]
         if self.styleSheetParam != "Default":
             try:
                 with open('style/'+self.styleSheetParam+".pss"):
                     pass
             except:
                 self.styleSheetParam = "Default"
-                QMessageBox().warning(self, "Style inconnu", "Le style "+defall[6].split(" ")[1]+" n'est pas reconnu par Browthon.")
+                QMessageBox().warning(self, "Style inconnu", "Le style "+defall[5].split(" ")[1]+" n'est pas reconnu par Browthon.")
             else:
                 with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
                     self.setStyleSheet(fichier.read())
@@ -60,7 +60,6 @@ class MainWidget(QWidget):
             self.private = False
             self.sessionRecovery = False
             self.deplacement_onglet = True
-            self.lang = "FR"
         else:
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')
@@ -76,35 +75,10 @@ class MainWidget(QWidget):
                     self.deplacement_onglet = True
                 else:
                     self.deplacement_onglet = False
-                try:
-                    with open("lang/"+defall[5].split(" ")[1]+".txt"):
-                        pass
-                except IOError:
-                    alert = QMessageBox().warning(self, "Langue non reconnue", "La langue "+defall[5].split(" ")[1]+" n'est pas reconnu par Browthon.\nBrowthon va donc utiliser le français")
-                    self.lang = "FR"
-                else:
-                    self.lang = defall[5].split(" ")[1]
-                if defall[7].split(" ")[1] == "True":
+                if defall[6].split(" ")[1] == "True":
                     self.sessionRecovery = True
                 else:
                     self.sessionRecovery = False
-        try:
-            with open("lang/"+self.lang+".txt"):
-                pass
-        except IOError:
-            if self.lang == "FR":
-                alert = QMessageBox().warning(self, "Fichier de langue", "Le fichier "+self.lang+".txt n'a pas pu être ouvert. Merci de rajouter le fichier trouvable sur le github.\nBrowthon va maintenant s'éteindre.")
-                sys.exit()
-            elif self.lang == "EN":
-                alert = QMessageBox().warning(self, "Language file", "The file "+self.lang+".txt can't be found. Can you add the file which is in Github ?\nBrowthon will shutdown.")
-                sys.exit()
-        else:
-            with open("lang/"+self.lang+".txt", 'r') as fichier:
-                self.texts = []
-                defall = fichier.read().split('\n')
-                for i in defall:
-                    if " | " in i:
-                        self.texts.append(i.split(" | ")[1])
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.ongletM = QPushButton("-")
@@ -115,11 +89,11 @@ class MainWidget(QWidget):
         self.informations = QMessageBox()
         self.accueil = QPushButton("⌂")
         self.menu = self.mainWindow.menuBar()
-        self.history = self.menu.addMenu(self.texts[50])
-        self.fav = self.menu.addMenu(self.texts[51])
-        self.session = self.menu.addMenu("Sessions")
+        self.history = self.menu.addMenu("Historique"))
+        self.fav = self.menu.addMenu("Favoris")
+        self.session = self.menu.addMenu("Session")
         self.raccourci = self.menu.addMenu("Raccourci URL")
-        self.parametres = self.menu.addMenu(self.texts[52])
+        self.parametres = self.menu.addMenu("Paramètres")
         self.onglet1 = Onglet(1, self)
         self.browser = self.onglet1
         self.onglets.append(self.onglet1)
@@ -168,20 +142,19 @@ class MainWidget(QWidget):
                 for i in fichier.read().split("\n"):
                     item = i.split(" | ")
                     self.historyArray.append(Item(self, item[0], item[1]))
-        self.informations.setWindowTitle(self.texts[0])
-        self.informations.setText(self.versionAll+self.texts[1].replace(" \\n ", "\n"))
-        self.parametres.addAction(self.texts[2], self.deplaceDefine)
-        self.parametres.addAction(self.texts[3], self.PrivateDefine)
-        self.parametres.addAction(self.texts[4], self.JSDefine)
-        self.parametres.addAction(self.texts[5], self.moteurDefine)
-        self.parametres.addAction(self.texts[6], self.homeDefine)
-        self.parametres.addAction(self.texts[45], self.langDefine)
+        self.informations.setWindowTitle('Informations sur Browthon')
+        self.informations.setText(self.versionAll+"\n Créé par PastaGames \n Github : https://github.com/LavaPower/Browthon".replace(" \\n ", "\n"))
+        self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
+        self.parametres.addAction("Navigation Privée", self.PrivateDefine)
+        self.parametres.addAction("JavaScript", self.JSDefine)
+        self.parametres.addAction("Définir Moteur", self.moteurDefine)
+        self.parametres.addAction("Définir Accueil", self.homeDefine)
         self.parametres.addAction("Dernière Session", self.sessionDefine)
         self.parametres.addAction("Thèmes", self.styleDefine)
         self.parametres.addSeparator()
-        self.parametres.addAction(self.texts[7], self.informations.open)
-        self.fav.addAction(self.texts[8], self.addFav)
-        self.fav.addAction(self.texts[9], self.suppFav)
+        self.parametres.addAction("Informations", self.informations.open)
+        self.fav.addAction("Ajouter Page", self.addFav)
+        self.fav.addAction("Supprimer Page", self.suppFav)
         self.fav.addSeparator()
         for i in self.favArray:
             i.setInteraction(self.fav)
@@ -195,7 +168,7 @@ class MainWidget(QWidget):
         self.raccourci.addSeparator()
         for i in self.raccourciArray:
             i.setInteraction(self.raccourci)
-        self.history.addAction(self.texts[10], self.removeHistory)
+        self.history.addAction("Supprimer", self.removeHistory)
         self.history.addSeparator()
         for i in self.historyArray:
             i.setInteraction(self.history)
@@ -218,9 +191,8 @@ class MainWidget(QWidget):
         self.grid.addWidget(self.ongletM, 1, 10)
         self.setLayout(self.grid)
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        self.moteur = MoteurBox(self, self.texts[11], self.texts[12])
-        self.home = HomeBox(self, self.texts[13], self.texts[14])
-        self.lang_box = LangBox(self, self.texts[46], self.texts[47])
+        self.moteur = MoteurBox(self, "Moteur par défaut", "Choisissez le moteur par défaut")
+        self.home = HomeBox(self, "Url d'accueil", "Entrez l'url de votre page d'accueil")
         self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
         self.addSessionBox = AddSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
@@ -242,7 +214,7 @@ class MainWidget(QWidget):
         
     def setTitle(self):
         if self.private:
-            self.mainWindow.setWindowTitle(self.texts[18]+" "+self.browser.title()+" - Browthon")
+            self.mainWindow.setWindowTitle("[Privé]"+" "+self.browser.title()+" - Browthon")
         else:
             self.mainWindow.setWindowTitle(self.browser.title()+" - Browthon")
         if len(self.browser.title()) >= 13:
@@ -265,22 +237,18 @@ class MainWidget(QWidget):
     def styleDefine(self):
         self.styleBox.setWindowModality(Qt.ApplicationModal)
         self.styleBox.show()
-    
-    def langDefine(self):
-        self.lang_box.setWindowModality(Qt.ApplicationModal)
-        self.lang_box.show()
 
     def urlAccueil(self):
         self.browser.load(QUrl(self.url))
 
     def JSDefine(self):
         if self.js:
-            rep = QMessageBox().question(self, self.texts[19], self.texts[20], QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, "Désactiver JS", "Voulez vous désactiver le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
                 self.js = False
         else:
-            rep = QMessageBox().question(self, self.texts[21], self.texts[22], QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, "Activer JS", "Voulez vous activer le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
                 self.js = True
@@ -297,22 +265,22 @@ class MainWidget(QWidget):
 
     def deplaceDefine(self):
         if self.deplacement_onglet:
-            rep = QMessageBox().question(self, self.texts[23], self.texts[24], QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, "Désactiver Déplacement", "Voulez vous désactiver le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 self.deplacement_onglet = False
         else:
-            rep = QMessageBox().question(self, self.texts[25], self.texts[26], QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, "Activer Déplacement", "Voulez vous activer le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 self.deplacement_onglet = True
 
     def PrivateDefine(self):
         if self.private:
-            rep = QMessageBox().question(self, self.texts[27], self.texts[28], QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, "Désactiver Navigation Privée", "Voulez vous désactiver la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.DiskHttpCache)
                 self.private = False
         else:
-            rep = QMessageBox().question(self, self.texts[29], self.texts[30], QMessageBox.Yes, QMessageBox.No)
+            rep = QMessageBox().question(self, "Activer Navigation Privée", "Voulez vous activer la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
             if rep == 16384:
                 QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.MemoryHttpCache)
                 self.private = True
@@ -335,11 +303,11 @@ class MainWidget(QWidget):
 
     def closeOnglet(self):
         if self.tabOnglet.count() == 1:
-            question = QMessageBox().question(self, self.texts[31], self.texts[32].replace(" \\n ", "\n"), QMessageBox.Yes, QMessageBox.No)
+            question = QMessageBox().question(self, "Quitter ?", "Vous avez fermé le dernier onglet... \n Voulez vous quitter Browthon ?".replace(" \\n ", "\n"), QMessageBox.Yes, QMessageBox.No)
             if question == 16384:
                 self.mainWindow.close()
             else:
-                info = QMessageBox().about(self, self.texts[33], self.texts[34])
+                QMessageBox().about(self, "Annulation", "Le dernier onglet a donc été réouvert")
         else:
             self.tabOnglet.removeTab(self.tabOnglet.currentIndex())
 
@@ -347,7 +315,7 @@ class MainWidget(QWidget):
         if not self.private:
             self.historyArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
             self.history.clear()
-            self.history.addAction(self.texts[10], self.removeHistory)
+            self.history.addAction("Supprimer", self.removeHistory)
             self.history.addSeparator()
             for i in self.historyArray:
                 i.setInteraction(self.history)
@@ -371,9 +339,9 @@ class MainWidget(QWidget):
     def removeHistory(self):
         self.historyArray = []
         self.history.clear()
-        self.history.addAction(self.texts[10], self.removeHistory)
+        self.history.addAction("Supprimer", self.removeHistory)
         self.history.addSeparator()
-        info = QMessageBox().about(self, self.texts[35], self.texts[36])
+        info = QMessageBox().about(self, "Historique", "Historique supprimé")
 
     def addFav(self):
         found = False
@@ -381,16 +349,16 @@ class MainWidget(QWidget):
             if self.browser.url().toString() == i.url:
                 found = True
         if found:
-            info = QMessageBox().about(self, self.texts[37], self.texts[38])
+            QMessageBox().about(self, "Annulation", "Cette page est déjà dans les favoris")
         else:
             self.favArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
             self.fav.clear()
-            self.fav.addAction(self.texts[8], self.addFav)
-            self.fav.addAction(self.texts[9], self.suppFav)
+            self.fav.addAction("Ajouter Page", self.addFav)
+            self.fav.addAction("Supprimer Page", self.suppFav)
             self.fav.addSeparator()
             for i in self.favArray:
                 i.setInteraction(self.fav)
-            info = QMessageBox().about(self, self.texts[39], self.texts[40])
+            QMessageBox().about(self, "Ajouter", "Cette page est maintenant dans les favoris")
 
     def suppFav(self):
         found = False
@@ -400,14 +368,14 @@ class MainWidget(QWidget):
                 found = True
         if found:
             self.fav.clear()
-            self.fav.addAction(self.texts[8], self.addFav)
-            self.fav.addAction(self.texts[9], self.suppFav)
+            self.fav.addAction("Ajouter Page", self.addFav)
+            self.fav.addAction("Supprimer Page", self.suppFav)
             self.fav.addSeparator()
             for i in self.favArray:
                 i.setInteraction(self.fav)
-            info = QMessageBox().about(self, self.texts[41], self.texts[42])
+            QMessageBox().about(self, "Supprimer", "Cette page n'est plus dans les favoris")
         else:
-            info = QMessageBox().about(self, self.texts[43], self.texts[44])
+            QMessageBox().about(self, "Annulation", "Cette page n'est pas dans les favoris")
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
@@ -437,10 +405,11 @@ class MainWidget(QWidget):
                 self.mainWindow.setStyleSheet(fichier.read())
                 self.moteur.setStyleSheet(fichier.read())
                 self.home.setStyleSheet(fichier.read())
-                self.lang_box.setStyleSheet(fichier.read())
                 self.styleBox.setStyleSheet(fichier.read())
                 self.addSessionBox.setStyleSheet(fichier.read())
                 self.removeSessionBox.setStyleSheet(fichier.read())
+                self.addRaccourciBox.setStyleSheet(fichier.read())
+                self.removeRaccourciBox.setStyleSheet(fichier.read())
 
     def closeEvent(self, event):
         if self.historyArray == []:
@@ -529,7 +498,7 @@ class MainWidget(QWidget):
             contenu[2] = contenu[2].split(" ")[0]+" "+str(self.js)
             contenu[3] = contenu[3].split(" ")[0]+" "+str(self.private)
             contenu[4] = contenu[4].split(" ")[0]+" "+str(self.deplacement_onglet)
-            contenu[7] = contenu[7].split(" ")[0]+" "+str(self.sessionRecovery)
+            contenu[6] = contenu[6].split(" ")[0]+" "+str(self.sessionRecovery)
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
