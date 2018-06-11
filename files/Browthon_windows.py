@@ -264,16 +264,18 @@ class StyleBox(QWidget):
     def choose(self, choix):
         if choix == "Default":
             self.main.mainWindow.setStyleSheet("")
+            self.main.mainWindow.styleSheetParam = "Default"
         else:
             try:
                 with open('style/'+choix+".pss"):
                     pass
             except:
-                alert = QMessageBox().warning(self, "Style inconnu", "Le style "+choix+" n'est pas reconnu par Browthon.")
+                QMessageBox().warning(self, "Style inconnu", "Le style "+choix+" n'est pas reconnu par Browthon.")
                 return
             else:
                 with open('style/'+choix+".pss", 'r') as fichier:
                     self.main.mainWindow.setStyleSheet(fichier.read())
+                    self.main.mainWindow.styleSheetParam = choix
         try:
             with open('config.txt'):
                 pass
@@ -283,11 +285,12 @@ class StyleBox(QWidget):
             contenu = []
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-                contenu[6] = contenu[6].split(" ")[0]+" "+choix
+                contenu[5] = contenu[5].split(" ")[0]+" "+choix
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
+        self.main.refreshTheme()
         
 
 class MoteurBox(QWidget):

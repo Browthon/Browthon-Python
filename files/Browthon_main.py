@@ -402,14 +402,17 @@ class MainWidget(QWidget):
     def refreshTheme(self):
         if self.mainWindow.styleSheetParam != "Default":
             with open('style/'+self.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.mainWindow.setStyleSheet(fichier.read())
-                self.moteur.setStyleSheet(fichier.read())
-                self.home.setStyleSheet(fichier.read())
-                self.styleBox.setStyleSheet(fichier.read())
-                self.addSessionBox.setStyleSheet(fichier.read())
-                self.removeSessionBox.setStyleSheet(fichier.read())
-                self.addRaccourciBox.setStyleSheet(fichier.read())
-                self.removeRaccourciBox.setStyleSheet(fichier.read())
+                pss = fichier.read()
+        else:
+            pss = ""
+        self.mainWindow.setStyleSheet(pss)
+        self.moteur.setStyleSheet(pss)
+        self.home.setStyleSheet(pss)
+        self.styleBox.setStyleSheet(pss)
+        self.addSessionBox.setStyleSheet(pss)
+        self.removeSessionBox.setStyleSheet(pss)
+        self.addRaccourciBox.setStyleSheet(pss)
+        self.removeRaccourciBox.setStyleSheet(pss)
 
     def closeEvent(self, event):
         if self.historyArray == []:
