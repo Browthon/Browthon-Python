@@ -89,7 +89,7 @@ class MainWidget(QWidget):
         self.informations = QMessageBox()
         self.accueil = QPushButton("⌂")
         self.menu = self.mainWindow.menuBar()
-        self.history = self.menu.addMenu("Historique"))
+        self.history = self.menu.addMenu("Historique")
         self.fav = self.menu.addMenu("Favoris")
         self.session = self.menu.addMenu("Session")
         self.raccourci = self.menu.addMenu("Raccourci URL")
