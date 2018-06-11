@@ -82,7 +82,8 @@ class Onglet(QWebEngineView):
         self.main = main
         self.page = Page(self)
         self.setPage(self.page)
-        self.load(QUrl(main.url))
+        self.load(QUrl(main.urltemp))
+        self.main.urltemp = self.main.url
         self.urlChanged.connect(main.urlInput.setUrl)
         self.titleChanged.connect(main.setTitle)
         self.iconChanged.connect(main.changeIcon)

@@ -14,7 +14,7 @@ import os
 import sys
 
 class MainWindow(QMainWindow):
-    def __init__(self, url):
+    def __init__(self, url, urltemp):
         super(MainWindow, self).__init__()
         self.layout = self.layout()
         try:
@@ -45,10 +45,11 @@ class MainWindow(QMainWindow):
         
 
 class MainWidget(QWidget):
-    def __init__(self, url, mainWindow):
+    def __init__(self, url, urltemp, mainWindow):
         super(MainWidget, self).__init__()
         self.mainWindow = mainWindow
         self.url = url
+        self.urltemp = urltemp
         self.versionMinimal = "2.3.0"
         self.versionAll = "V 2.3.0 : Appearance Update"
         self.grid = QGridLayout()

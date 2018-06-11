@@ -12,7 +12,7 @@ from PyQt5.Qt import *
 
 from files.Browthon_main import *
 
-def launch():
+def launch(sys):
 	app = QApplication(sys.argv)
 	icon = QIcon('logo.png')
 	app.setWindowIcon(icon)
@@ -27,18 +27,18 @@ def launch():
 	else:
 		with open('config.txt', 'r') as fichier:
 			url = fichier.read().split("\n")[1].split(" ")[1]
-
+	urltemp = url
 	if len(sys.argv)>=2:
 		if "." in sys.argv[1]:
 			if "http://" in sys.argv[1] or "https://" in sys.argv[1]:
-				url = sys.argv[1]
+				urltemp = sys.argv[1]
 			else:
-				url = "http://"+sys.argv[1]
-	MainWindow(url)
+				urltemp = "http://"+sys.argv[1]
+	MainWindow(url, urltemp)
 
 	app.exec_()
 
 
 if __name__ == '__main__':
 	os.chdir("files")
-	launch()
+	launch(sys)
