@@ -17,6 +17,9 @@ class UrlInput(QLineEdit):
 
     def enterUrl(self):
         urlT = self.text()
+        for i in self.main.raccourciArray:
+            if urlT == i.title:
+                urlT = i.url
         if "http://" in urlT or "https://" in urlT:
             url = QUrl(urlT)
         else:
@@ -280,3 +283,4 @@ class ItemSession:
     def load(self):
         for i in self.urls:
             self.main.addOngletWithUrl(i)
+    

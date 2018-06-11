@@ -118,6 +118,7 @@ class MainWidget(QWidget):
         self.history = self.menu.addMenu(self.texts[50])
         self.fav = self.menu.addMenu(self.texts[51])
         self.session = self.menu.addMenu("Sessions")
+        self.raccourci = self.menu.addMenu("Raccourci URL")
         self.parametres = self.menu.addMenu(self.texts[52])
         self.onglet1 = Onglet(1, self)
         self.browser = self.onglet1
@@ -145,6 +146,17 @@ class MainWidget(QWidget):
                 for i in fichier.read().split('\n'):
                     item = i.split(" | ")
                     self.sessionArray.append(ItemSession(self, item[0], item[1].split(" - ")))
+        self.raccourciArray = []
+        try:
+            with open("raccourci.txt"):
+                pass
+        except IOError:
+            pass
+        else:
+            with open("raccourci.txt", "r") as fichier:
+                for i in fichier.read().split("\n"):
+                    item = i.split(" | ")
+                    self.raccourciArray.append(Item(self, item[0], item[1]))
         self.historyArray = []
         try:
             with open('history.txt'):
@@ -177,6 +189,11 @@ class MainWidget(QWidget):
         self.session.addAction("Supprimer Session", self.removeSession)
         for i in self.sessionArray:
             i.setInteraction(self.session)
+        self.raccourci.addAction("Ajouter Raccourci", self.addRaccourci)
+        self.raccourci.addAction("Supprimer Raccourci", self.removeRaccourci)
+        self.raccourci.addSeparator()
+        for i in self.raccourciArray:
+            i.setInteraction(self.raccourci)
         self.history.addAction(self.texts[10], self.removeHistory)
         self.history.addSeparator()
         for i in self.historyArray:
@@ -206,6 +223,8 @@ class MainWidget(QWidget):
         self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
         self.addSessionBox = AddSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
+        self.addRaccourciBox = AddRaccourciBox(self, "Nom Raccourci", "Entrez le nom et l'url du raccourci ou ANNULER")
+        self.removeRaccourciBox = RemoveRaccourciBox(self, "Nom Raccourci", "Entrez le nom du raccourci ou ANNULER")
 
         if self.sessionRecovery:
             try:
@@ -339,6 +358,14 @@ class MainWidget(QWidget):
     def removeSession(self):
         self.removeSessionBox.setWindowModality(Qt.ApplicationModal)
         self.removeSessionBox.show()
+    
+    def addRaccourci(self):
+        self.addRaccourciBox.setWindowModality(Qt.ApplicationModal)
+        self.addRaccourciBox.show()
+    
+    def removeRaccourci(self):
+        self.removeRaccourciBox.setWindowModality(Qt.ApplicationModal)
+        self.removeRaccourciBox.show()
 
     def removeHistory(self):
         self.historyArray = []
@@ -431,6 +458,23 @@ class MainWidget(QWidget):
                         message += self.historyArray[i].title + " | " + self.historyArray[i].url
                     else:
                         message += self.historyArray[i].title + " | " + self.historyArray[i].url + "\n"
+                fichier.write(message)
+        if self.raccourciArray == []:
+            try:
+                with open('raccourci.txt'):
+                    pass
+            except IOError:
+                pass
+            else:
+                os.remove('raccourci.txt')
+        else:
+            with open('raccourci.txt', 'w') as fichier:
+                message = ""
+                for i in range(len(self.raccourciArray)):
+                    if i == len(self.raccourciArray)-1:
+                        message += self.raccourciArray[i].title + " | " + self.raccourciArray[i].url
+                    else:
+                        message += self.raccourciArray[i].title + " | " + self.raccourciArray[i].url + '\n'
                 fichier.write(message)
         if self.sessionArray == []:
             try:
