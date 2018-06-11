@@ -267,28 +267,21 @@ class StyleBox(QWidget):
             self.main.mainWindow.styleSheetParam = "Default"
         else:
             try:
-                with open('style/'+choix+".pss"):
-                    pass
-            except:
-                QMessageBox().warning(self, "Style inconnu", "Le style "+choix+" n'est pas reconnu par Browthon.")
-                return
-            else:
                 with open('style/'+choix+".pss", 'r') as fichier:
                     self.main.mainWindow.setStyleSheet(fichier.read())
                     self.main.mainWindow.styleSheetParam = choix
+            except:
+                QMessageBox().warning(self, "Style inconnu", "Le style "+choix+" n'est pas reconnu par Browthon.")
+                return
         try:
-            with open('config.txt'):
-                pass
-        except IOError:
-            pass
-        else:
-            contenu = []
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
                 contenu[5] = contenu[5].split(" ")[0]+" "+choix
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
+        except IOError:
+            pass            
         self.close()
         self.main.refreshTheme()
         
@@ -343,16 +336,12 @@ class MoteurBox(QWidget):
 
     def setMoteur(self, txt):
         try:
-            with open('config.txt'):
-                pass
-        except IOError:
-            pass
-        else:
-            contenu = []
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
                 contenu[0] = contenu[0].split(" ")[0]+" "+txt
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
+        except IOError:
+            pass
         self.close()

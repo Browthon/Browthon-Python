@@ -18,25 +18,19 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.layout = self.layout()
         try:
-            with open('config.txt'):
-                pass
-        except IOError:
-            self.styleSheetParam = "Default"
-        else:
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')
                 self.styleSheetParam = defall[5].split(" ")[1]
+        except IOError:
+            self.styleSheetParam = "Default"                
         if self.styleSheetParam != "Default":
             try:
-                with open('style/'+self.styleSheetParam+".pss"):
-                    pass
+                with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
+                    self.setStyleSheet(fichier.read())
             except:
                 self.styleSheetParam = "Default"
                 QMessageBox().warning(self, "Style inconnu", "Le style "+defall[5].split(" ")[1]+" n'est pas reconnu par Browthon.")
-            else:
-                with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
-                    self.setStyleSheet(fichier.read())
-        self.mainWidget = MainWidget(url, self)
+        self.mainWidget = MainWidget(url, urltemp, self)
         self.setCentralWidget(self.mainWidget)
         self.show()
     
@@ -54,14 +48,6 @@ class MainWidget(QWidget):
         self.versionAll = "V 2.3.0 : Appearance Update"
         self.grid = QGridLayout()
         try:
-            with open('config.txt'):
-                pass
-        except IOError:
-            self.js = True
-            self.private = False
-            self.sessionRecovery = False
-            self.deplacement_onglet = True
-        else:
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')
                 if defall[2].split(" ")[1] == "True":
@@ -80,6 +66,11 @@ class MainWidget(QWidget):
                     self.sessionRecovery = True
                 else:
                     self.sessionRecovery = False
+        except IOError:
+            self.js = True
+            self.private = False
+            self.sessionRecovery = False
+            self.deplacement_onglet = True                
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.ongletM = QPushButton("-")
@@ -101,48 +92,36 @@ class MainWidget(QWidget):
         self.tabOnglet = TabOnglet(self)
         self.favArray = []
         try:
-            with open("fav.txt"):
-                pass
-        except IOError:
-            pass
-        else:
-            with open("fav.txt", "r") as fichier:
+            with open("fav.txt", 'r') as fichier:
                 for i in fichier.read().split('\n'):
                     item = i.split(" | ")
                     self.favArray.append(Item(self, item[0], item[1]))
-        self.sessionArray = []
-        try:
-            with open("session.txt"):
-                pass
         except IOError:
             pass
-        else:
-            with open("session.txt", "r") as fichier:
+        self.sessionArray = []
+        try:
+            with open("session.txt", 'r') as fichier:
                 for i in fichier.read().split('\n'):
                     item = i.split(" | ")
                     self.sessionArray.append(ItemSession(self, item[0], item[1].split(" - ")))
+        except IOError:
+            pass                
         self.raccourciArray = []
         try:
-            with open("raccourci.txt"):
-                pass
-        except IOError:
-            pass
-        else:
             with open("raccourci.txt", "r") as fichier:
                 for i in fichier.read().split("\n"):
                     item = i.split(" | ")
                     self.raccourciArray.append(Item(self, item[0], item[1]))
-        self.historyArray = []
-        try:
-            with open('history.txt'):
-                pass
         except IOError:
             pass
-        else:
+        self.historyArray = []
+        try:
             with open('history.txt', 'r') as fichier:
                 for i in fichier.read().split("\n"):
                     item = i.split(" | ")
                     self.historyArray.append(Item(self, item[0], item[1]))
+        except IOError:
+            pass
         self.informations.setWindowTitle('Informations sur Browthon')
         self.informations.setText(self.versionAll+"\n Créé par PastaGames \n Github : https://github.com/LavaPower/Browthon".replace(" \\n ", "\n"))
         self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
@@ -199,19 +178,17 @@ class MainWidget(QWidget):
         self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.addRaccourciBox = AddRaccourciBox(self, "Nom Raccourci", "Entrez le nom et l'url du raccourci ou ANNULER")
         self.removeRaccourciBox = RemoveRaccourciBox(self, "Nom Raccourci", "Entrez le nom du raccourci ou ANNULER")
-
         if self.sessionRecovery:
             try:
                 with open("last.txt", "r") as fichier:
                     contenu = fichier.read().split("\n")
+                    for i in range(len(contenu)):
+                        if i == 0:
+                            self.urlInput.enterUrlGiven(contenu[i])
+                        else:
+                            self.addOngletWithUrl(contenu[i])
             except:
                 QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
-            else:
-                for i in range(len(contenu)):
-                    if i == 0:
-                        self.urlInput.enterUrlGiven(contenu[i])
-                    else:
-                        self.addOngletWithUrl(contenu[i])
         
     def setTitle(self):
         if self.private:
@@ -307,8 +284,6 @@ class MainWidget(QWidget):
             question = QMessageBox().question(self, "Quitter ?", "Vous avez fermé le dernier onglet... \n Voulez vous quitter Browthon ?".replace(" \\n ", "\n"), QMessageBox.Yes, QMessageBox.No)
             if question == 16384:
                 self.mainWindow.close()
-            else:
-                QMessageBox().about(self, "Annulation", "Le dernier onglet a donc été réouvert")
         else:
             self.tabOnglet.removeTab(self.tabOnglet.currentIndex())
 
@@ -342,7 +317,7 @@ class MainWidget(QWidget):
         self.history.clear()
         self.history.addAction("Supprimer", self.removeHistory)
         self.history.addSeparator()
-        info = QMessageBox().about(self, "Historique", "Historique supprimé")
+        QMessageBox().about(self, "Historique", "Historique supprimé")
 
     def addFav(self):
         found = False
@@ -391,14 +366,13 @@ class MainWidget(QWidget):
             try:
                 with open("last.txt", "r") as fichier:
                     contenu = fichier.read().split("\n")
+                    for i in range(len(contenu)):
+                        if i == 0:
+                            self.urlInput.enterUrlGiven(contenu[i])
+                        else:
+                            self.addOngletWithUrl(contenu[i])
             except:
                 QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
-            else:
-                for i in range(len(contenu)):
-                    if i == 0:
-                        self.urlInput.enterUrlGiven(contenu[i])
-                    else:
-                        self.addOngletWithUrl(contenu[i])
 
     def refreshTheme(self):
         if self.mainWindow.styleSheetParam != "Default":

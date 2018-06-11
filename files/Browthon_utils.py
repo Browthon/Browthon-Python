@@ -29,13 +29,10 @@ class UrlInput(QLineEdit):
             else:
                 moteur = ""
                 try:
-                    with open('config.txt'):
-                        pass
-                except IOError:
-                    moteur = "https://www.google.fr/?gws_rd=ssl#q="
-                else:
                     with open('config.txt', 'r') as fichier:
                         moteur = fichier.read().split("\n")[0].split(" ")[1]
+                except IOError:
+                    moteur = "https://www.google.fr/?gws_rd=ssl#q="
                 urlT = moteur+urlT
                 url = QUrl(urlT)
         self.main.browser.load(url)
@@ -111,7 +108,6 @@ class Onglet(QWebEngineView):
                 temp = self.page.hitTestContent(event.pos())
                 self.clickedUrl = temp.linkUrl()
                 self.baseUrl = temp.baseUrl()
-                print(self.clickedUrl)
                 if self.clickedUrl != self.baseUrl and self.clickedUrl != '':
                     if 'http://' in self.clickedUrl or 'https://' in self.clickedUrl:
                         self.main.addOngletWithUrl(self.clickedUrl)
