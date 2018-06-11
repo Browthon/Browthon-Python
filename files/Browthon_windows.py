@@ -159,7 +159,7 @@ class AddSessionBox(NameBox):
                 urls = []
                 for i in range(self.main.tabOnglet.count()):
                     urls.append(self.main.tabOnglet.widget(i).url().toString())
-                self.main.sessionArray.append(ItemSession(self, self.result, urls))
+                self.main.sessionArray.append(ItemSession(self.main, self.result, urls))
                 self.main.session.clear()
                 self.main.session.addAction("Ajouter Session", self.main.addSession)
                 self.main.session.addAction("Supprimer Session", self.main.removeSession)
@@ -190,9 +190,9 @@ class RemoveSessionBox(NameBox):
                 self.main.session.addSeparator()
                 for i in self.main.sessionArray:
                     i.setInteraction(self.main.session)
-                info = QMessageBox().about(self, "Session supprimée", "La session "+self.result+" a été supprimée !")
+                QMessageBox().about(self, "Session supprimée", "La session "+self.result+" a été supprimée !")
             else:
-                info = QMessageBox().about(self, "Session non trouvée", "La session "+self.result+" n'a pas été trouvé !")
+                QMessageBox().about(self, "Session non trouvée", "La session "+self.result+" n'a pas été trouvé !")
         self.close()
 
 class HomeBox(QWidget):
@@ -401,4 +401,4 @@ class LangBox(QWidget):
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
-        alert = QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])
+        QMessageBox().warning(self, self.main.texts[48], self.main.texts[49])

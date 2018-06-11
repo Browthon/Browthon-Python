@@ -187,6 +187,7 @@ class MainWidget(QWidget):
             i.setInteraction(self.fav)
         self.session.addAction("Ajouter Session", self.addSession)
         self.session.addAction("Supprimer Session", self.removeSession)
+        self.session.addSeparator()
         for i in self.sessionArray:
             i.setInteraction(self.session)
         self.raccourci.addAction("Ajouter Raccourci", self.addRaccourci)
