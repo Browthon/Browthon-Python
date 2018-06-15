@@ -289,7 +289,7 @@ class MainWidget(QWidget):
             self.tabOnglet.removeTab(self.tabOnglet.currentIndex())
 
     def addHistory(self):
-        if not self.private:
+        if not self.private and self.browser.title() != "":
             self.historyArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
             self.history.clear()
             self.history.addAction("Supprimer", self.removeHistory)
