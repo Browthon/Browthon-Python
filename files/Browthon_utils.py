@@ -144,7 +144,10 @@ class WebHitTestResult():
 	    return self.m_isContentSelected
     
     def imageUrl(self):
-	    return self.m_imageUrl
+        try:
+            return self.m_imageUrl
+        except:
+            return ""
     
     def mediaUrl(self):
 	    return self.m_mediaUrl
