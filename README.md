@@ -41,6 +41,7 @@ Navigateur web en python
 - Changement du nom (de PyWeb à Browthon)
 - Ajout du système de session (nom, enregistrement, lancement...)
 - Ajout du système de raccourci URL
+- Ajout d'un menu de clique droit complètement personnalisé
 - Enregistrement de la session avant de quitter (+ paramètre pour la charger automatiquement au lancement)
 - Mise à jour du thème Dark
 - Ajout des thèmes Red et Blue
