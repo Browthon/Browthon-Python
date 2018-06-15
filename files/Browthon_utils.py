@@ -13,7 +13,6 @@ class ContextMenu(QMenu):
     def __init__(self, onglet, event):
         super(ContextMenu, self).__init__()
         self.onglet = onglet
-        self.event = event
         self.addAction("Retour", self.onglet.back)
         self.addAction("Avancer", self.onglet.forward)
         self.addAction("Recharger", self.onglet.reload)
@@ -28,11 +27,9 @@ class ContextMenu(QMenu):
         else:
             self.addAction("Ajouter Favori", self.onglet.main.addFav)
         self.addSeparator()
-        self.hit = self.onglet.page.hitTestContent(self.event.pos())
-        print(self.event.pos())
+        self.hit = self.onglet.page.hitTestContent(event.pos())
         self.clickedUrl = self.hit.linkUrl()
         self.baseUrl = self.hit.baseUrl()
-        print(self.clickedUrl, " 666 ", self.baseUrl)
         if self.clickedUrl != self.baseUrl and self.clickedUrl != '':
             if 'http://' in self.clickedUrl or 'https://' in self.clickedUrl:
                 self.addAction("Ouvrir Nouvel Onglet", lambda: self.onglet.main.addOngletWithUrl(self.clickedUrl))
@@ -44,8 +41,8 @@ class WebHitTestResult():
     def __init__(self, page, pos):
         self.page = page
         self.pos = pos
-        self.m_linkUrl = self.page.url()
-        self.m_baseUrl = self.page.url()
+        self.m_linkUrl = self.page.url().toString()
+        self.m_baseUrl = self.page.url().toString()
         self.viewportPos = self.page.mapToViewport(self.pos)
         self.source = """(function() {
         let e = document.elementFromPoint(%1, %2)
@@ -105,7 +102,6 @@ class WebHitTestResult():
         })()"""
         
         self.js = self.source.replace("%1", str(self.viewportPos.x())).replace("%2", str(self.viewportPos.y()))
-        self.url = self.page.url()
         self.dic = self.page.executeJavaScript(self.js)
         if self.dic == None:
             return

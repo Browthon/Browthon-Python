@@ -116,14 +116,14 @@ class Onglet(QWebEngineView):
     def eventFilter(self, obj, event):
         if event.type() == QEvent.MouseButtonRelease:
             if event.button() == Qt.MiddleButton:
-                temp = self.page.hitTestContent(event.pos())
-                print(event.pos())
-                self.clickedUrl = temp.linkUrl()
-                self.baseUrl = temp.baseUrl()
-                print(self.clickedUrl, " 666 ", self.baseUrl)
+                self.hit = self.page.hitTestContent(event.pos())
+                self.clickedUrl = self.hit.linkUrl()
+                self.baseUrl = self.hit.baseUrl()
                 if self.clickedUrl != self.baseUrl and self.clickedUrl != '':
                     if 'http://' in self.clickedUrl or 'https://' in self.clickedUrl:
                         self.main.addOngletWithUrl(self.clickedUrl)
+                    elif self.clickedUrl == "#":
+                        self.main.addOngletWithUrl(self.baseUrl+self.clickedUrl)
                     else:
                         self.main.addOngletWithUrl("http://"+self.baseUrl.split("/")[2]+self.clickedUrl)
                     event.accept()
