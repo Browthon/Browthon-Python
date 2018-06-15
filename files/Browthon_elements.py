@@ -104,30 +104,34 @@ class Onglet(QWebEngineView):
         return super(Onglet, self).event(event)
     
     def contextMenuEvent(self, event):
-        menu = ContextMenu(self, event)
+        hit = self.page.hitTestContent(event.pos())
+        menu = ContextMenu(self, hit)
         if self.main.mainWindow.styleSheetParam != "Default":
             with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
                 pss = fichier.read()
         else:
             pss = ""
         menu.setStyleSheet(pss)
-        menu.exec_(event.globalPos())
+        pos = event.globalPos()
+        p = QPoint(pos.x(), pos.y() + 1)
+        menu.exec_(p)
     
     def eventFilter(self, obj, event):
         if event.type() == QEvent.MouseButtonRelease:
             if event.button() == Qt.MiddleButton:
-                self.hit = self.page.hitTestContent(event.pos())
-                self.clickedUrl = self.hit.linkUrl()
-                self.baseUrl = self.hit.baseUrl()
-                if self.clickedUrl != self.baseUrl and self.clickedUrl != '':
-                    if 'http://' in self.clickedUrl or 'https://' in self.clickedUrl:
-                        self.main.addOngletWithUrl(self.clickedUrl)
-                    elif self.clickedUrl == "#":
-                        self.main.addOngletWithUrl(self.baseUrl+self.clickedUrl)
+                hit = self.page.hitTestContent(event.pos())
+                clickedUrl = hit.linkUrl()
+                baseUrl = hit.baseUrl()
+                if clickedUrl != baseUrl and clickedUrl != '':
+                    if 'http://' in clickedUrl or 'https://' in clickedUrl:
+                        result = clickedUrl
+                    elif clickedUrl == "#":
+                        result = baseUrl+clickedUrl
                     else:
-                        self.main.addOngletWithUrl("http://"+self.baseUrl.split("/")[2]+self.clickedUrl)
-                    event.accept()
-                    return True
+                        result = "http://"+baseUrl.split("/")[2]+clickedUrl
+                    self.main.addOngletWithUrl(result)
+                event.accept()
+                return True
         return super(Onglet, self).eventFilter(obj, event)
     
 
@@ -147,7 +151,7 @@ class Page(QWebEnginePage):
     def executeJavaScript(self, scriptSrc):
         self.loop = QEventLoop()
         self.result = QVariant()
-        QTimer.singleShot(500, self.loop.quit)
+        QTimer.singleShot(250, self.loop.quit)
 
         self.runJavaScript(scriptSrc, self.callbackJS)
         self.loop.exec_()
@@ -164,6 +168,15 @@ class Page(QWebEnginePage):
             self.load(QUrl(self.url().toString().split("view-source:")[1]))
         else:
             self.triggerAction(self.ViewSource)
+    
+    def cutAction(self):
+        self.triggerAction(self.Cut)
+    
+    def copyAction(self):
+        self.triggerAction(self.Copy)
+    
+    def pasteAction(self):
+        self.triggerAction(self.Paste)
     
     def ExitFS(self):
         self.triggerAction(self.ExitFullScreen)
