@@ -9,6 +9,7 @@ from PyQt5.Qt import *
 
 from files.Browthon_utils import *
 from files.Browthon_windows import *
+from files.Browthon_elements import *
 
 import os
 import sys
