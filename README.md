@@ -33,12 +33,13 @@ Navigateur web en python
 - LechatGris : https://github.com/LechatGris - Pour l'idée du logo
 
 ## Bugs connus de la version en développement :
-- X
+- Les téléchargements ne sont pas possibles
 
 ## Changelog : 
 
-### V 2.4.0 : XXX Update (In Dev) :
+### V 2.4.0 : Browthon Update (LATEST) :
 - Changement du nom (de PyWeb à Browthon)
+- Réécriture du launcher
 - Ajout du système de session (nom, enregistrement, lancement...)
 - Ajout du système de raccourci URL
 - Ajout d'un menu de clique droit complètement personnalisé
@@ -49,7 +50,7 @@ Navigateur web en python
 - Suppression du système de langues
 - Plusieurs bugs fixes et optimisation
 
-### V 2.3.0 : Appearance Update (LATEST) :
+### V 2.3.0 : Appearance Update :
 - Création d'un package pour ArchLinux (et Manjaro)
 - Création d'un launcher pour télécharger les nouvelles versions automatiquement
 - Création de thèmes (juste le sombre pour l'instant)

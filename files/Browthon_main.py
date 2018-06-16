@@ -45,8 +45,8 @@ class MainWidget(QWidget):
         self.mainWindow = mainWindow
         self.url = url
         self.urltemp = urltemp
-        self.versionMinimal = "2.3.0"
-        self.versionAll = "V 2.3.0 : Appearance Update"
+        self.versionMinimal = "2.4.0"
+        self.versionAll = "V 2.4.0 : Browthon Update"
         self.grid = QGridLayout()
         try:
             with open('config.txt', 'r') as fichier:
