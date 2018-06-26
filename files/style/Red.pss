@@ -11,6 +11,10 @@ QMenuBar::item {
     color: #f5f5f5;
 }
 
+QListWidget::item {
+    color: #f5f5f5;
+}
+
 QMainWindow {
     background-color: #c01e1e;
 }
