@@ -11,6 +11,74 @@ import os, glob
 
 from files.Browthon_utils import *
 
+class ListeBox(QWidget):
+    def __init__(self, main, liste, texte):
+        super(ListeBox, self).__init__()
+        self.main = main
+        self.liste = liste
+        self.texte = texte
+        self.on = True
+        self.setWindowTitle(texte)
+        self.grid = QGridLayout()
+
+        self.title = QLabel(texte)
+        self.listeW = ListWidget(liste)
+        self.supprimer = QPushButton("Supprimer")
+        self.supprimerT = QPushButton("Tout Supprimer")
+
+        self.listeW.itemDoubleClicked.connect(self.launch)
+        self.supprimerT.clicked.connect(self.deleteAll)
+        self.supprimer.clicked.connect(self.delete)
+        
+        self.grid.addWidget(self.title, 1, 1,  1, 2)
+        self.grid.addWidget(self.listeW, 2, 1,  1, 2)
+        self.grid.addWidget(self.supprimer, 3, 1)
+        self.grid.addWidget(self.supprimerT, 3, 2)
+
+        if self.texte == "Favoris":
+            self.addFav = QPushButton("Ajouter Favori")
+            self.addFav.clicked.connect(self.addFavF)
+            self.grid.addWidget(self.addFav, 4, 1, 1, 2)
+
+        self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.setStyleSheet(fichier.read())
+    
+    def addFavF(self):
+        self.main.addFav()
+        self.close()
+    
+    def launch(self):
+        if self.listeW.currentItem():
+            for i in self.liste:
+                if i.title == self.listeW.currentItem().text():
+                    self.main.addOngletWithUrl(i.url)
+                    self.close()
+                    break
+    
+    def showUpdate(self, liste):
+        self.liste = liste
+        self.listeW.updateList(self.liste)
+        self.show()
+
+    def delete(self):
+        if self.listeW.currentItem():
+            for i in self.liste:
+                if i.title == self.listeW.currentItem().text():
+                    if self.texte == "Historique":
+                        self.main.removeHistory(i.url)
+                    else:
+                        self.main.removeFav(i.url)
+                    self.close()
+    
+    def deleteAll(self):
+        self.listeW.deleteAllItems()
+        if self.texte == "Historique":
+            self.main.removeAllHistory()
+        else:
+            self.main.removeAllFav()
+
 class AddRaccourciBox(QWidget):
     def __init__(self, main, title, text):
         super(AddRaccourciBox, self).__init__()

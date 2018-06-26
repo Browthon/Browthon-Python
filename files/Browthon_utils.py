@@ -9,6 +9,23 @@ from PyQt5.Qt import *
 
 import os, glob
 
+class ListWidget(QListWidget):
+    def __init__(self, liste):
+        super(ListWidget, self).__init__()
+        self.liste = liste
+        for i in self.liste:
+            self.addItem(i.title)
+    
+    def deleteAllItems(self):
+        for i in range(self.count()-1, -1, -1):
+            self.takeItem(i)
+    
+    def updateList(self, liste):
+        self.liste = liste
+        self.deleteAllItems()
+        for i in self.liste:
+            self.addItem(i.title)
+
 class ContextMenu(QMenu):
     def __init__(self, onglet, hitTest):
         super(ContextMenu, self).__init__()

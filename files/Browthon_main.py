@@ -82,8 +82,8 @@ class MainWidget(QWidget):
         self.informations = QMessageBox()
         self.accueil = QPushButton("⌂")
         self.menu = self.mainWindow.menuBar()
-        self.history = self.menu.addMenu("Historique")
-        self.fav = self.menu.addMenu("Favoris")
+        self.menu.addAction("Historique", self.openHistory)
+        self.menu.addAction("Favoris", self.openFav)
         self.session = self.menu.addMenu("Session")
         self.raccourci = self.menu.addMenu("Raccourci URL")
         self.parametres = self.menu.addMenu("Paramètres")
@@ -134,11 +134,6 @@ class MainWidget(QWidget):
         self.parametres.addAction("Thèmes", self.styleDefine)
         self.parametres.addSeparator()
         self.parametres.addAction("Informations", self.informations.open)
-        self.fav.addAction("Ajouter Page", self.addFav)
-        self.fav.addAction("Supprimer Page", self.suppFav)
-        self.fav.addSeparator()
-        for i in self.favArray:
-            i.setInteraction(self.fav)
         self.session.addAction("Ajouter Session", self.addSession)
         self.session.addAction("Supprimer Session", self.removeSession)
         self.session.addSeparator()
@@ -149,10 +144,6 @@ class MainWidget(QWidget):
         self.raccourci.addSeparator()
         for i in self.raccourciArray:
             i.setInteraction(self.raccourci)
-        self.history.addAction("Supprimer", self.removeHistory)
-        self.history.addSeparator()
-        for i in self.historyArray:
-            i.setInteraction(self.history)
 
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
         self.reload.clicked.connect(self.onglet1.reload)
@@ -179,6 +170,8 @@ class MainWidget(QWidget):
         self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.addRaccourciBox = AddRaccourciBox(self, "Nom Raccourci", "Entrez le nom et l'url du raccourci ou ANNULER")
         self.removeRaccourciBox = RemoveRaccourciBox(self, "Nom Raccourci", "Entrez le nom du raccourci ou ANNULER")
+        self.historyBox = ListeBox(self, self.historyArray, "Historique")
+        self.favBox = ListeBox(self, self.favArray, "Favoris")
         if self.sessionRecovery:
             try:
                 with open("last.txt", "r") as fichier:
@@ -288,14 +281,28 @@ class MainWidget(QWidget):
         else:
             self.tabOnglet.removeTab(self.tabOnglet.currentIndex())
 
+    def openHistory(self):
+        self.historyBox.setWindowModality(Qt.ApplicationModal)
+        self.historyBox.showUpdate(self.historyArray)
+
     def addHistory(self):
         if not self.private and self.browser.title() != "":
             self.historyArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
-            self.history.clear()
-            self.history.addAction("Supprimer", self.removeHistory)
-            self.history.addSeparator()
-            for i in self.historyArray:
-                i.setInteraction(self.history)
+
+    def removeAllHistory(self):
+        self.historyArray = []
+        QMessageBox().about(self, "Historique", "Historique supprimé")
+
+    def removeHistory(self, urlToFind):
+        found = False
+        for i in range(len(self.historyArray)-1, -1, -1):
+            if urlToFind == self.historyArray[i].url:
+                del self.historyArray[i]
+                found = True
+        if found:
+            QMessageBox().about(self, "Supprimer", "Cette page n'est plus dans l'historique")
+        else:
+            QMessageBox().about(self, "Annulation", "Cette page n'est pas dans l'historique")
     
     def addSession(self):
         self.addSessionBox.setWindowModality(Qt.ApplicationModal)
@@ -313,12 +320,9 @@ class MainWidget(QWidget):
         self.removeRaccourciBox.setWindowModality(Qt.ApplicationModal)
         self.removeRaccourciBox.show()
 
-    def removeHistory(self):
-        self.historyArray = []
-        self.history.clear()
-        self.history.addAction("Supprimer", self.removeHistory)
-        self.history.addSeparator()
-        QMessageBox().about(self, "Historique", "Historique supprimé")
+    def openFav(self):
+        self.favBox.setWindowModality(Qt.ApplicationModal)
+        self.favBox.showUpdate(self.favArray)
 
     def addFav(self):
         found = False
@@ -329,27 +333,19 @@ class MainWidget(QWidget):
             QMessageBox().about(self, "Annulation", "Cette page est déjà dans les favoris")
         else:
             self.favArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
-            self.fav.clear()
-            self.fav.addAction("Ajouter Page", self.addFav)
-            self.fav.addAction("Supprimer Page", self.suppFav)
-            self.fav.addSeparator()
-            for i in self.favArray:
-                i.setInteraction(self.fav)
             QMessageBox().about(self, "Ajouter", "Cette page est maintenant dans les favoris")
 
-    def suppFav(self):
+    def removeAllFav(self):
+        self.favArray = []
+        QMessageBox().about(self, "Favoris", "Favoris supprimé")
+
+    def removeFav(self, url):
         found = False
-        for i in range(len(self.favArray)):
-            if self.browser.url().toString() == self.favArray[i].url:
+        for i in range(len(self.favArray)-1, -1, -1):
+            if url == self.favArray[i].url:
                 del self.favArray[i]
                 found = True
         if found:
-            self.fav.clear()
-            self.fav.addAction("Ajouter Page", self.addFav)
-            self.fav.addAction("Supprimer Page", self.suppFav)
-            self.fav.addSeparator()
-            for i in self.favArray:
-                i.setInteraction(self.fav)
             QMessageBox().about(self, "Supprimer", "Cette page n'est plus dans les favoris")
         else:
             QMessageBox().about(self, "Annulation", "Cette page n'est pas dans les favoris")
@@ -363,6 +359,12 @@ class MainWidget(QWidget):
             self.closeOnglet()
         elif event.key() == Qt.Key_T:
             self.refreshTheme()
+        elif event.key() == Qt.Key_H:
+            self.historyBox.setWindowModality(Qt.ApplicationModal)
+            self.historyBox.showUpdate(self.historyArray)
+        elif event.key() == Qt.Key_F:
+            self.favBox.setWindowModality(Qt.ApplicationModal)
+            self.favBox.showUpdate(self.favArray)
         elif event.key() == Qt.Key_L:
             try:
                 with open("last.txt", "r") as fichier:
@@ -389,6 +391,8 @@ class MainWidget(QWidget):
         self.removeSessionBox.setStyleSheet(pss)
         self.addRaccourciBox.setStyleSheet(pss)
         self.removeRaccourciBox.setStyleSheet(pss)
+        self.historyBox.setStyleSheet(pss)
+        self.favBox.setStyleSheet(pss)
 
     def closeEvent(self, event):
         if self.historyArray == []:
