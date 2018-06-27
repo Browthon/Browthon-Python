@@ -141,6 +141,15 @@ class Page(QWebEnginePage):
         self.main = view.main
         self.view = view
         self.loop = None
+
+    def javaScriptConsoleMessage(self, level, msg, line, sourceID):
+        """Override javaScriptConsoleMessage to use debug log."""
+        if level == QWebEnginePage.InfoMessageLevel:
+            self.main.mainWindow.logger.info("JS - Ligne {} : {}".format(line, msg))
+        elif level == QWebEnginePage.WarningMessageLevel:
+            self.main.mainWindow.logger.warning("JS - Ligne {} : {}".format(line, msg))
+        else:
+            self.main.mainWindow.logger.error("JS - Ligne {} : {}".format(line, msg))
     
     def hitTestContent(self, pos):
         return WebHitTestResult(self, pos)
