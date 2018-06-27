@@ -37,6 +37,10 @@ Navigateur web en python
 
 ## Changelog : 
 
+### V X.X.X : XXX Update (IN DEV):
+- Nouveau menu pour l'historique et les favoris (avec raccourci H et F)
+- Nouveau système de logs
+
 ### V 2.4.0 : Browthon Update (LATEST) :
 - Changement du nom (de PyWeb à Browthon)
 - Réécriture du launcher
