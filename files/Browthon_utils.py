@@ -9,6 +9,23 @@ from PyQt5.Qt import *
 
 import os, glob
 
+def parseTheme(bssString):
+    bssList = bssString.split("\n")
+    i = 0
+    while i < len(bssList):
+        if bssList[i] != "":
+            if bssList[i][0] == "#":
+                del bssList[i]
+        i+=1
+    bssString = "\n".join(bssList)
+    bssString.replace("bproperty", "qproperty")
+    bssString.replace("blineargradient", "qlineargradient")
+
+    bssString.replace("\\4", "")
+
+    return bssString
+
+
 class ListWidget(QListWidget):
     def __init__(self, liste):
         super(ListWidget, self).__init__()
