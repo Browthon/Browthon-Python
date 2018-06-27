@@ -9,3 +9,5 @@ Autres/release_modèle.txt
 *.pyc
 *.txt
 launch.sh
+
+*.log
