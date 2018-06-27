@@ -107,11 +107,12 @@ class Onglet(QWebEngineView):
         hit = self.page.hitTestContent(event.pos())
         menu = ContextMenu(self, hit)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                pss = fichier.read()
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                bss = fichier.read()
         else:
-            pss = ""
-        menu.setStyleSheet(pss)
+            bss = ""
+        menu.setStyleSheet(bss)
         pos = event.globalPos()
         p = QPoint(pos.x(), pos.y() + 1)
         menu.exec_(p)

@@ -11,7 +11,7 @@ from files.Browthon_utils import *
 from files.Browthon_windows import *
 from files.Browthon_elements import *
 
-import os
+import os, glob
 import sys
 import logging
 import logging.handlers
@@ -47,13 +47,14 @@ class MainWindow(QMainWindow):
         self.logger.info("Lancement de Browthon")
         if self.styleSheetParam != "Default":
             try:
-                with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
-                    self.setStyleSheet(fichier.read())
+                with open('style/'+self.styleSheetParam+".bss", 'r') as fichier:
+                    bss = parseTheme(fichier.read())
+                    self.setStyleSheet(bss)
                     self.logger.debug("Le thème %s a été chargé", defall[5].split(" ")[1])
-            except:
+            except Exception as e:
                 self.styleSheetParam = "Default"
                 QMessageBox().warning(self, "Style inconnu", "Le style "+defall[5].split(" ")[1]+" n'est pas reconnu par Browthon.")
-                self.logger.warning("Le thème %s est inconnu", defall[5].split(" ")[1])
+                self.logger.warning("Le thème %s est inconnu. Erreur : %s", defall[5].split(" ")[1], e)
         self.mainWidget = MainWidget(url, urltemp, self)
         self.setCentralWidget(self.mainWidget)
         self.show()
@@ -419,20 +420,20 @@ class MainWidget(QWidget):
 
     def refreshTheme(self):
         if self.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                pss = fichier.read()
+            with open('style/'+self.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
         else:
-            pss = ""
-        self.mainWindow.setStyleSheet(pss)
-        self.moteur.setStyleSheet(pss)
-        self.home.setStyleSheet(pss)
-        self.styleBox.setStyleSheet(pss)
-        self.addSessionBox.setStyleSheet(pss)
-        self.removeSessionBox.setStyleSheet(pss)
-        self.addRaccourciBox.setStyleSheet(pss)
-        self.removeRaccourciBox.setStyleSheet(pss)
-        self.historyBox.setStyleSheet(pss)
-        self.favBox.setStyleSheet(pss)
+            bss = ""
+        self.mainWindow.setStyleSheet(bss)
+        self.moteur.setStyleSheet(bss)
+        self.home.setStyleSheet(bss)
+        self.styleBox.setStyleSheet(bss)
+        self.addSessionBox.setStyleSheet(bss)
+        self.removeSessionBox.setStyleSheet(bss)
+        self.addRaccourciBox.setStyleSheet(bss)
+        self.removeRaccourciBox.setStyleSheet(bss)
+        self.historyBox.setStyleSheet(bss)
+        self.favBox.setStyleSheet(bss)
         self.mainWindow.logger.debug("Thème %s rechargé", self.mainWindow.styleSheetParam)
 
     def closeEvent(self, event):

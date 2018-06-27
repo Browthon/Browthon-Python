@@ -42,8 +42,9 @@ class ListeBox(QWidget):
 
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
     
     def addFavF(self):
         self.main.addFav()
@@ -102,8 +103,9 @@ class AddRaccourciBox(QWidget):
         
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
     
     def urlEnter(self):
         self.result = self.Titre.text()
@@ -158,8 +160,9 @@ class RemoveRaccourciBox(QWidget):
         
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
     
     def urlEnter(self):
         self.result = self.Titre.text()
@@ -202,8 +205,9 @@ class NameBox(QWidget):
         
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
         
     def urlEnter(self):
         pass
@@ -280,8 +284,9 @@ class HomeBox(QWidget):
         
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
         
     def urlEnter(self):
         url = self.Url.text()
@@ -329,8 +334,9 @@ class LogBox(QWidget):
         
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
         
     def choose(self, choix):
         try:
@@ -369,8 +375,9 @@ class StyleBox(QWidget):
         
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
         
     def choose(self, choix):
         if choix == "Default":
@@ -378,8 +385,9 @@ class StyleBox(QWidget):
             self.main.mainWindow.styleSheetParam = "Default"
         else:
             try:
-                with open('style/'+choix+".pss", 'r') as fichier:
-                    self.main.mainWindow.setStyleSheet(fichier.read())
+                with open('style/'+choix+".bss", 'r') as fichier:
+                    bss = parseTheme(fichier.read())
+                    self.main.mainWindow.setStyleSheet(bss)
                     self.main.mainWindow.styleSheetParam = choix
             except:
                 QMessageBox().warning(self, "Style inconnu", "Le style "+choix+" n'est pas reconnu par Browthon.")
@@ -427,8 +435,9 @@ class MoteurBox(QWidget):
 
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
-                self.setStyleSheet(fichier.read())
+            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
 
     def setGoogle(self):
         self.setMoteur("https://www.google.fr/?gws_rd=ssl#q=")
