@@ -13,6 +13,8 @@ from files.Browthon_elements import *
 
 import os
 import sys
+import logging
+import logging.handlers
 
 class MainWindow(QMainWindow):
     def __init__(self, url, urltemp):
@@ -22,15 +24,36 @@ class MainWindow(QMainWindow):
             with open('config.txt', 'r') as fichier:
                 defall = fichier.read().split('\n')
                 self.styleSheetParam = defall[5].split(" ")[1]
+                self.niveauLog = defall[7].split(" ")[1]
         except IOError:
-            self.styleSheetParam = "Default"                
+            self.styleSheetParam = "Default"     
+            self.niveauLog = "INFO"           
+        self.logger = logging.getLogger("logger")
+        if self.niveauLog == "DEBUG":
+            self.logger.setLevel(logging.DEBUG)
+        elif self.niveauLog == "WARNING":
+            self.logger.setLevel(logging.WARNING)
+        elif self.niveauLog == "ERROR":
+            self.logger.setLevel(logging.ERROR)
+        elif self.niveauLog == "CRITICAL":
+            self.logger.setLevel(logging.CRITICAL)
+        else:
+            self.logger.setLevel(logging.INFO)
+        handler = logging.handlers.RotatingFileHandler(
+                "logs/browthon.log", maxBytes=10000, backupCount=3)
+        formatter = logging.Formatter('[%(levelname)s] %(filename)s:%(lineno)d - %(message)s (%(asctime)s)')
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
+        self.logger.info("Lancement de Browthon")
         if self.styleSheetParam != "Default":
             try:
                 with open('style/'+self.styleSheetParam+".pss", 'r') as fichier:
                     self.setStyleSheet(fichier.read())
+                    self.logger.debug("Le thème %s a été chargé", defall[5].split(" ")[1])
             except:
                 self.styleSheetParam = "Default"
                 QMessageBox().warning(self, "Style inconnu", "Le style "+defall[5].split(" ")[1]+" n'est pas reconnu par Browthon.")
+                self.logger.warning("Le thème %s est inconnu", defall[5].split(" ")[1])
         self.mainWidget = MainWidget(url, urltemp, self)
         self.setCentralWidget(self.mainWidget)
         self.show()
@@ -67,11 +90,13 @@ class MainWidget(QWidget):
                     self.sessionRecovery = True
                 else:
                     self.sessionRecovery = False
+            self.mainWindow.logger.debug("Config chargé")
         except IOError:
             self.js = True
             self.private = False
             self.sessionRecovery = False
-            self.deplacement_onglet = True                
+            self.deplacement_onglet = True
+            self.mainWindow.logger.warning("Le fichier de config n'a pas été trouvé")                
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.ongletM = QPushButton("-")
@@ -132,6 +157,7 @@ class MainWidget(QWidget):
         self.parametres.addAction("Définir Accueil", self.homeDefine)
         self.parametres.addAction("Dernière Session", self.sessionDefine)
         self.parametres.addAction("Thèmes", self.styleDefine)
+        self.parametres.addAction("Logs", self.logDefine)
         self.parametres.addSeparator()
         self.parametres.addAction("Informations", self.informations.open)
         self.session.addAction("Ajouter Session", self.addSession)
@@ -166,6 +192,7 @@ class MainWidget(QWidget):
         self.moteur = MoteurBox(self, "Moteur par défaut", "Choisissez le moteur par défaut")
         self.home = HomeBox(self, "Url d'accueil", "Entrez l'url de votre page d'accueil")
         self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
+        self.logBox = LogBox(self, "Niveau des logs", "Choisissez le niveau minimum des logs")
         self.addSessionBox = AddSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.addRaccourciBox = AddRaccourciBox(self, "Nom Raccourci", "Entrez le nom et l'url du raccourci ou ANNULER")
@@ -183,6 +210,8 @@ class MainWidget(QWidget):
                             self.addOngletWithUrl(contenu[i])
             except:
                 QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
+                self.mainWindow.logger.warning("Tentativement de chargement d'ancienne session alors qu'il n'y en a pas")
+        self.mainWindow.logger.info("Browthon chargé")
         
     def setTitle(self):
         if self.private:
@@ -209,6 +238,10 @@ class MainWidget(QWidget):
     def styleDefine(self):
         self.styleBox.setWindowModality(Qt.ApplicationModal)
         self.styleBox.show()
+    
+    def logDefine(self):
+        self.logBox.setWindowModality(Qt.ApplicationModal)
+        self.logBox.show()
 
     def urlAccueil(self):
         self.browser.load(QUrl(self.url))
@@ -292,6 +325,7 @@ class MainWidget(QWidget):
     def removeAllHistory(self):
         self.historyArray = []
         QMessageBox().about(self, "Historique", "Historique supprimé")
+        self.mainWindow.logger.debug("Totalité de l'historique supprimé")
 
     def removeHistory(self, urlToFind):
         found = False
@@ -301,8 +335,10 @@ class MainWidget(QWidget):
                 found = True
         if found:
             QMessageBox().about(self, "Supprimer", "Cette page n'est plus dans l'historique")
+            self.mainWindow.logger.debug("Page %s de l'historique supprimé", urlToFind)
         else:
             QMessageBox().about(self, "Annulation", "Cette page n'est pas dans l'historique")
+            self.mainWindow.logger.warning("Page %s n'est pas dans l'historique", urlToFind)
     
     def addSession(self):
         self.addSessionBox.setWindowModality(Qt.ApplicationModal)
@@ -331,13 +367,16 @@ class MainWidget(QWidget):
                 found = True
         if found:
             QMessageBox().about(self, "Annulation", "Cette page est déjà dans les favoris")
+            self.mainWindow.logger.warning("Page %s déja dans les favoris", self.browser.url().toString())
         else:
             self.favArray.append(Item(self, self.browser.title(), self.browser.url().toString()))
             QMessageBox().about(self, "Ajouter", "Cette page est maintenant dans les favoris")
+            self.mainWindow.logger.debug("Page %s n'est plus dans les favoris", self.browser.url().toString())
 
     def removeAllFav(self):
         self.favArray = []
         QMessageBox().about(self, "Favoris", "Favoris supprimé")
+        self.mainWindow.logger.debug("Totalité de l'historique supprimé")
 
     def removeFav(self, url):
         found = False
@@ -376,6 +415,7 @@ class MainWidget(QWidget):
                             self.addOngletWithUrl(contenu[i])
             except:
                 QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
+                self.mainWindow.logger.warning("Tentativement de chargement d'ancienne session alors qu'il n'y en a pas")
 
     def refreshTheme(self):
         if self.mainWindow.styleSheetParam != "Default":
@@ -393,6 +433,7 @@ class MainWidget(QWidget):
         self.removeRaccourciBox.setStyleSheet(pss)
         self.historyBox.setStyleSheet(pss)
         self.favBox.setStyleSheet(pss)
+        self.mainWindow.logger.debug("Thème %s rechargé", self.mainWindow.styleSheetParam)
 
     def closeEvent(self, event):
         if self.historyArray == []:
@@ -493,3 +534,4 @@ class MainWidget(QWidget):
                 else:
                     contenu += self.tabOnglet.widget(i).url().toString()+"\n"
             fichier.write(contenu)
+        self.mainWindow.logger.info("Fermeture de Browthon complète")

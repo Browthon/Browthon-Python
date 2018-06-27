@@ -290,7 +290,7 @@ class HomeBox(QWidget):
             with open('config.txt'):
                 pass
         except IOError:
-            pass
+            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
         else:
             contenu = []
             with open('config.txt', 'r') as fichier:
@@ -299,6 +299,49 @@ class HomeBox(QWidget):
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
+        self.close()
+        QMessageBox().warning(self, "Paramètres", "Il faut redémarrer Browthon pour appliquer le changement")
+
+class LogBox(QWidget):
+    def __init__(self, main, title, text):
+        super(LogBox, self).__init__()
+        self.main = main
+        self.setWindowTitle(title)
+        self.grid = QGridLayout()
+
+        self.Texte = QLabel(text)
+        self.grid.addWidget(self.Texte, 1, 1)
+        self.b1 = QPushButton("DEBUG")
+        self.b1.clicked.connect(lambda: self.choose("DEBUG"))
+        self.b2 = QPushButton("INFO")
+        self.b2.clicked.connect(lambda: self.choose("INFO"))
+        self.b3 = QPushButton("WARNING")
+        self.b3.clicked.connect(lambda: self.choose("WARNING"))
+        self.b4 = QPushButton("ERROR")
+        self.b4.clicked.connect(lambda: self.choose("ERROR"))
+        self.b5 = QPushButton("CRITICAL")
+        self.b5.clicked.connect(lambda: self.choose("CRITICAL"))
+        self.grid.addWidget(self.b1, 2, 1)
+        self.grid.addWidget(self.b2, 3, 1)
+        self.grid.addWidget(self.b3, 4, 1)
+        self.grid.addWidget(self.b4, 5, 1)
+        self.grid.addWidget(self.b5, 6, 1)
+        
+        self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/'+self.main.mainWindow.styleSheetParam+".pss", 'r') as fichier:
+                self.setStyleSheet(fichier.read())
+        
+    def choose(self, choix):
+        try:
+            with open('config.txt', 'r') as fichier:
+                contenu = fichier.read().split('\n')
+                contenu[7] = contenu[7].split(" ")[0]+" "+choix
+            contenu = "\n".join(contenu)
+            with open('config.txt', 'w') as fichier:
+                fichier.write(contenu)
+        except IOError:
+            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")        
         self.close()
         QMessageBox().warning(self, "Paramètres", "Il faut redémarrer Browthon pour appliquer le changement")
 
@@ -349,7 +392,7 @@ class StyleBox(QWidget):
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         except IOError:
-            pass            
+            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")        
         self.close()
         self.main.refreshTheme()
         
@@ -411,5 +454,5 @@ class MoteurBox(QWidget):
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         except IOError:
-            pass
+            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
         self.close()

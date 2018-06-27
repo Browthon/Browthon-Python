@@ -13,6 +13,14 @@ from PyQt5.Qt import *
 from files.Browthon_main import *
 
 def launch(sys):
+	if not os.path.isdir('logs'):
+		os.mkdir("logs")
+	try:
+		with open('logs/browthon.log'):
+			pass
+	except IOError:
+		with open('logs/browthon.log', 'w') as fichier:
+			fichier.write("--- Fichier de log : Browthon ---\n")
 	app = QApplication(sys.argv)
 	icon = QIcon('logo.png')
 	app.setWindowIcon(icon)
@@ -22,7 +30,7 @@ def launch(sys):
 			pass
 	except IOError:
 		with open('config.txt', 'w') as fichier:
-			fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil http://pastagames.fr.nf/browthon/\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet True\nStyle Default\nSession False")
+			fichier.write("UrlMoteur https://www.google.fr/?gws_rd=ssl#q=\nUrlAccueil http://pastagames.fr.nf/browthon/\nJavaScript True\nNavigationPrivée False\nDéplacementOnglet True\nStyle Default\nSession False\nNiveauLog INFO")
 			url = "http://pastagames.fr.nf/browthon/"
 	else:
 		with open('config.txt', 'r') as fichier:
