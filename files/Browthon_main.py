@@ -191,7 +191,7 @@ class MainWidget(QWidget):
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         self.moteur = MoteurBox(self, "Moteur par défaut", "Choisissez le moteur par défaut")
         self.home = HomeBox(self, "Url d'accueil", "Entrez l'url de votre page d'accueil")
-        self.styleBox = StyleBox(self, "Choix du thème", "Entrez le nom du fichier .pss du thème")
+        self.styleBox = StyleBox(self, "Choix du thème", "Choisissez le thème de Browthon")
         self.logBox = LogBox(self, "Niveau des logs", "Choisissez le niveau minimum des logs")
         self.addSessionBox = AddSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
