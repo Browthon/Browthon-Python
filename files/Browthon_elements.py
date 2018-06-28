@@ -9,7 +9,6 @@ from PyQt5.Qt import *
 
 from files.Browthon_utils import *
 
-import os, glob
 
 class UrlInput(QLineEdit):
     def __init__(self, main):
@@ -25,7 +24,7 @@ class UrlInput(QLineEdit):
             url = QUrl(urlT)
         else:
             if "." in urlT:
-                urlT = "http://"+urlT
+                urlT = "http://" + urlT
                 url = QUrl(urlT)
             else:
                 moteur = ""
@@ -34,7 +33,7 @@ class UrlInput(QLineEdit):
                         moteur = fichier.read().split("\n")[0].split(" ")[1]
                 except IOError:
                     moteur = "https://www.google.fr/?gws_rd=ssl#q="
-                urlT = moteur+urlT
+                urlT = moteur + urlT
                 url = QUrl(urlT)
         self.main.browser.load(url)
 
@@ -43,7 +42,7 @@ class UrlInput(QLineEdit):
         if "http://" in urlT or "https://" in urlT:
             url = QUrl(urlT)
         else:
-            urlT = "http://"+urlT
+            urlT = "http://" + urlT
             url = QUrl(urlT)
         self.main.browser.load(url)
 
@@ -91,7 +90,7 @@ class Onglet(QWebEngineView):
         self.viewSource.setShortcut(Qt.Key_F2)
         self.viewSource.triggered.connect(self.page.vSource)
         self.addAction(self.viewSource)
-    
+
     def event(self, event):
         if event.type() == QEvent.ChildAdded:
             child_ev = event
@@ -100,14 +99,14 @@ class Onglet(QWebEngineView):
             if widget:
                 widget.installEventFilter(self)
             return True
-            
+
         return super(Onglet, self).event(event)
-    
+
     def contextMenuEvent(self, event):
         hit = self.page.hitTestContent(event.pos())
         menu = ContextMenu(self, hit)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 bss = fichier.read()
         else:
@@ -116,7 +115,7 @@ class Onglet(QWebEngineView):
         pos = event.globalPos()
         p = QPoint(pos.x(), pos.y() + 1)
         menu.exec_(p)
-    
+
     def eventFilter(self, obj, event):
         if event.type() == QEvent.MouseButtonRelease:
             if event.button() == Qt.MiddleButton:
@@ -127,14 +126,14 @@ class Onglet(QWebEngineView):
                     if 'http://' in clickedUrl or 'https://' in clickedUrl:
                         result = clickedUrl
                     elif clickedUrl == "#":
-                        result = baseUrl+clickedUrl
+                        result = baseUrl + clickedUrl
                     else:
-                        result = "http://"+baseUrl.split("/")[2]+clickedUrl
+                        result = "http://" + baseUrl.split("/")[2] + clickedUrl
                     self.main.addOngletWithUrl(result)
                 event.accept()
                 return True
         return super(Onglet, self).eventFilter(obj, event)
-    
+
 
 class Page(QWebEnginePage):
     def __init__(self, view):
@@ -151,13 +150,13 @@ class Page(QWebEnginePage):
             self.main.mainWindow.logger.warning("JS - Ligne {} : {}".format(line, msg))
         else:
             self.main.mainWindow.logger.error("JS - Ligne {} : {}".format(line, msg))
-    
+
     def hitTestContent(self, pos):
         return WebHitTestResult(self, pos)
-    
+
     def mapToViewport(self, pos):
-	    return QPointF(pos.x(), pos.y())
-    
+        return QPointF(pos.x(), pos.y())
+
     def executeJavaScript(self, scriptSrc):
         self.loop = QEventLoop()
         self.result = QVariant()
@@ -169,7 +168,7 @@ class Page(QWebEnginePage):
         return self.result
 
     def callbackJS(self, res):
-        if self.loop != None and self.loop.isRunning():
+        if self.loop is not None and self.loop.isRunning():
             self.result = res
             self.loop.quit()
 
@@ -178,26 +177,26 @@ class Page(QWebEnginePage):
             self.load(QUrl(self.url().toString().split("view-source:")[1]))
         else:
             self.triggerAction(self.ViewSource)
-    
+
     def cutAction(self):
         self.triggerAction(self.Cut)
-    
+
     def copyAction(self):
         self.triggerAction(self.Copy)
-    
+
     def pasteAction(self):
         self.triggerAction(self.Paste)
-    
+
     def ExitFS(self):
         self.triggerAction(self.ExitFullScreen)
-    
+
     def makeFullScreen(self, request):
         if request.toggleOn():
             self.fullView = QWebEngineView()
             self.exitFSAction = QAction(self.fullView)
             self.exitFSAction.setShortcut(Qt.Key_Escape)
             self.exitFSAction.triggered.connect(self.ExitFS)
-        
+
             self.fullView.addAction(self.exitFSAction)
             self.setView(self.fullView)
             self.fullView.showFullScreen()

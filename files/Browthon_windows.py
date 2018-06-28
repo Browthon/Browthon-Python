@@ -7,9 +7,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
-import os, glob
-
 from files.Browthon_utils import *
+
 
 class ListeBox(QWidget):
     def __init__(self, main, liste, texte):
@@ -29,9 +28,9 @@ class ListeBox(QWidget):
         self.listeW.itemDoubleClicked.connect(self.launch)
         self.supprimerT.clicked.connect(self.deleteAll)
         self.supprimer.clicked.connect(self.delete)
-        
-        self.grid.addWidget(self.title, 1, 1,  1, 2)
-        self.grid.addWidget(self.listeW, 2, 1,  1, 2)
+
+        self.grid.addWidget(self.title, 1, 1, 1, 2)
+        self.grid.addWidget(self.listeW, 2, 1, 1, 2)
         self.grid.addWidget(self.supprimer, 3, 1)
         self.grid.addWidget(self.supprimerT, 3, 2)
 
@@ -42,14 +41,14 @@ class ListeBox(QWidget):
 
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
-    
+
     def addFavF(self):
         self.main.addFav()
         self.close()
-    
+
     def launch(self):
         if self.listeW.currentItem():
             for i in self.liste:
@@ -57,7 +56,7 @@ class ListeBox(QWidget):
                     self.main.addOngletWithUrl(i.url)
                     self.close()
                     break
-    
+
     def showUpdate(self, liste):
         self.liste = liste
         self.listeW.updateList(self.liste)
@@ -72,13 +71,14 @@ class ListeBox(QWidget):
                     else:
                         self.main.removeFav(i.url)
                     self.close()
-    
+
     def deleteAll(self):
         self.listeW.deleteAllItems()
         if self.texte == "Historique":
             self.main.removeAllHistory()
         else:
             self.main.removeAllFav()
+
 
 class AddRaccourciBox(QWidget):
     def __init__(self, main, title, text):
@@ -93,20 +93,20 @@ class AddRaccourciBox(QWidget):
         self.Titre = QLineEdit()
         self.Url = QLineEdit()
         self.bValider = QPushButton("Valider")
-        
+
         self.bValider.clicked.connect(self.urlEnter)
-        
+
         self.grid.addWidget(self.Texte, 1, 1)
         self.grid.addWidget(self.Titre, 2, 1)
         self.grid.addWidget(self.Url, 3, 1)
         self.grid.addWidget(self.bValider, 4, 1)
-        
+
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
-    
+
     def urlEnter(self):
         self.result = self.Titre.text()
         if self.result == "" or self.result == "ANNULER":
@@ -117,7 +117,7 @@ class AddRaccourciBox(QWidget):
                 if self.result == self.main.raccourciArray[i].title:
                     found = True
             if found:
-                QMessageBox().about(self, "Création annulé", "Le raccourci "+self.result+" existe déjà !")
+                QMessageBox().about(self, "Création annulé", "Le raccourci " + self.result + " existe déjà !")
             else:
                 self.url = self.Url.text()
                 found = False
@@ -127,7 +127,7 @@ class AddRaccourciBox(QWidget):
                     if "." in self.url:
                         found = True
                 if not found:
-                    QMessageBox().about(self, "Création annulé", "Le raccourci "+self.result+" n'a pas un url valide !")
+                    QMessageBox().about(self, "Création annulé", "Le raccourci " + self.result + " n'a pas un url valide !")
                 else:
                     self.main.raccourciArray.append(Item(self.main, self.result, self.url))
                     self.main.raccourci.clear()
@@ -136,8 +136,9 @@ class AddRaccourciBox(QWidget):
                     self.main.raccourci.addSeparator()
                     for i in self.main.raccourciArray:
                         i.setInteraction(self.main.raccourci)
-                    QMessageBox().about(self, "Raccourci créée", "Le raccourci "+self.result+" a été créée !")
+                    QMessageBox().about(self, "Raccourci créée", "Le raccourci " + self.result + " a été créée !")
         self.close()
+
 
 class RemoveRaccourciBox(QWidget):
     def __init__(self, main, title, text):
@@ -151,19 +152,19 @@ class RemoveRaccourciBox(QWidget):
         self.Texte = QLabel(text)
         self.Titre = QLineEdit()
         self.bValider = QPushButton("Valider")
-        
+
         self.bValider.clicked.connect(self.urlEnter)
-        
+
         self.grid.addWidget(self.Texte, 1, 1)
         self.grid.addWidget(self.Titre, 2, 1)
         self.grid.addWidget(self.bValider, 3, 1)
-        
+
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
-    
+
     def urlEnter(self):
         self.result = self.Titre.text()
         if self.result == "" or self.result == "ANNULER":
@@ -181,10 +182,11 @@ class RemoveRaccourciBox(QWidget):
                 self.main.raccourci.addSeparator()
                 for i in self.main.raccourciArray:
                     i.setInteraction(self.main.raccourci)
-                QMessageBox().about(self, "Raccourci supprimée", "Le raccourci "+self.result+" a été supprimée !")
+                QMessageBox().about(self, "Raccourci supprimée", "Le raccourci " + self.result + " a été supprimée !")
             else:
-                QMessageBox().about(self, "Raccourci non trouvée", "Le raccourci "+self.result+" n'a pas été trouvé !")
+                QMessageBox().about(self, "Raccourci non trouvée", "Le raccourci " + self.result + " n'a pas été trouvé !")
         self.close()
+
 
 class NameBox(QWidget):
     def __init__(self, main, title, text):
@@ -197,25 +199,26 @@ class NameBox(QWidget):
 
         self.Texte = QLabel(text)
         self.Url = QLineEdit()
-        
+
         self.Url.returnPressed.connect(self.urlEnter)
-        
+
         self.grid.addWidget(self.Texte, 1, 1)
         self.grid.addWidget(self.Url, 2, 1)
-        
+
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
-        
+
     def urlEnter(self):
         pass
+
 
 class AddSessionBox(NameBox):
     def __init__(self, main, title, text):
         super(AddSessionBox, self).__init__(main, title, text)
-    
+
     def urlEnter(self):
         self.result = self.Url.text()
         if self.result == "" or self.result == "ANNULER":
@@ -226,7 +229,7 @@ class AddSessionBox(NameBox):
                 if self.result == self.main.sessionArray[i].title:
                     found = True
             if found:
-                QMessageBox().about(self, "Création annulé", "La session "+self.result+" existe déjà !")
+                QMessageBox().about(self, "Création annulé", "La session " + self.result + " existe déjà !")
             else:
                 urls = []
                 for i in range(self.main.tabOnglet.count()):
@@ -238,13 +241,14 @@ class AddSessionBox(NameBox):
                 self.main.session.addSeparator()
                 for i in self.main.sessionArray:
                     i.setInteraction(self.main.session)
-                QMessageBox().about(self, "Session créée", "La session "+self.result+" a été créée !")
+                QMessageBox().about(self, "Session créée", "La session " + self.result + " a été créée !")
         self.close()
+
 
 class RemoveSessionBox(NameBox):
     def __init__(self, main, title, text):
         super(RemoveSessionBox, self).__init__(main, title, text)
-    
+
     def urlEnter(self):
         self.result = self.Url.text()
         if self.result == "" or self.result == "ANNULER":
@@ -262,10 +266,11 @@ class RemoveSessionBox(NameBox):
                 self.main.session.addSeparator()
                 for i in self.main.sessionArray:
                     i.setInteraction(self.main.session)
-                QMessageBox().about(self, "Session supprimée", "La session "+self.result+" a été supprimée !")
+                QMessageBox().about(self, "Session supprimée", "La session " + self.result + " a été supprimée !")
             else:
-                QMessageBox().about(self, "Session non trouvée", "La session "+self.result+" n'a pas été trouvé !")
+                QMessageBox().about(self, "Session non trouvée", "La session " + self.result + " n'a pas été trouvé !")
         self.close()
+
 
 class HomeBox(QWidget):
     def __init__(self, main, title, text):
@@ -276,18 +281,18 @@ class HomeBox(QWidget):
 
         self.Texte = QLabel(text)
         self.Url = QLineEdit()
-        
+
         self.Url.returnPressed.connect(self.urlEnter)
-        
+
         self.grid.addWidget(self.Texte, 1, 1)
         self.grid.addWidget(self.Url, 2, 1)
-        
+
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
-        
+
     def urlEnter(self):
         url = self.Url.text()
         self.main.url = url
@@ -300,12 +305,13 @@ class HomeBox(QWidget):
             contenu = []
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-                contenu[1] = contenu[1].split(" ")[0]+" "+url
+                contenu[1] = contenu[1].split(" ")[0] + " " + url
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         self.close()
         QMessageBox().warning(self, "Paramètres", "Il faut redémarrer Browthon pour appliquer le changement")
+
 
 class LogBox(QWidget):
     def __init__(self, main, title, text):
@@ -331,23 +337,23 @@ class LogBox(QWidget):
         self.grid.addWidget(self.b3, 4, 1)
         self.grid.addWidget(self.b4, 5, 1)
         self.grid.addWidget(self.b5, 6, 1)
-        
+
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
-        
+
     def choose(self, choix):
         try:
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-                contenu[7] = contenu[7].split(" ")[0]+" "+choix
+                contenu[7] = contenu[7].split(" ")[0] + " " + choix
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         except IOError:
-            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")        
+            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
         self.close()
         QMessageBox().warning(self, "Paramètres", "Il faut redémarrer Browthon pour appliquer le changement")
 
@@ -372,44 +378,44 @@ class StyleBox(QWidget):
         self.grid.addWidget(self.b2, 3, 1)
         self.grid.addWidget(self.b3, 4, 1)
         self.grid.addWidget(self.b4, 5, 1)
-        
+
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
-        
+
     def choose(self, choix):
         if choix == "Default":
             self.main.mainWindow.setStyleSheet("")
             self.main.mainWindow.styleSheetParam = "Default"
         else:
             try:
-                with open('style/'+choix+".bss", 'r') as fichier:
+                with open('style/' + choix + ".bss", 'r') as fichier:
                     bss = parseTheme(fichier.read())
                     self.main.mainWindow.setStyleSheet(bss)
                     self.main.mainWindow.styleSheetParam = choix
             except:
-                QMessageBox().warning(self, "Style inconnu", "Le style "+choix+" n'est pas reconnu par Browthon.")
+                QMessageBox().warning(self, "Style inconnu", "Le style " + choix + " n'est pas reconnu par Browthon.")
                 return
         try:
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-                contenu[5] = contenu[5].split(" ")[0]+" "+choix
+                contenu[5] = contenu[5].split(" ")[0] + " " + choix
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
         except IOError:
-            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")        
+            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
         self.close()
         self.main.refreshTheme()
-        
+
 
 class MoteurBox(QWidget):
     def __init__(self, main, title, text):
         super(MoteurBox, self).__init__()
         self.main = main
-        
+
         self.setWindowTitle(title)
         self.grid = QGridLayout()
 
@@ -435,7 +441,7 @@ class MoteurBox(QWidget):
 
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.main.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + elf.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
 
@@ -458,7 +464,7 @@ class MoteurBox(QWidget):
         try:
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-                contenu[0] = contenu[0].split(" ")[0]+" "+txt
+                contenu[0] = contenu[0].split(" ")[0] + " " + txt
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)

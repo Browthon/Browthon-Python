@@ -7,7 +7,6 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
-import os, glob
 
 def parseTheme(bssString):
     bssList = bssString.split("\n")
@@ -16,7 +15,7 @@ def parseTheme(bssString):
         if bssList[i] != "":
             if bssList[i][0] == "#":
                 del bssList[i]
-        i+=1
+        i += 1
     bssString = "\n".join(bssList)
     bssString.replace("bproperty", "qproperty")
     bssString.replace("blineargradient", "qlineargradient")
@@ -32,16 +31,17 @@ class ListWidget(QListWidget):
         self.liste = liste
         for i in self.liste:
             self.addItem(i.title)
-    
+
     def deleteAllItems(self):
-        for i in range(self.count()-1, -1, -1):
+        for i in range(self.count() - 1, -1, -1):
             self.takeItem(i)
-    
+
     def updateList(self, liste):
         self.liste = liste
         self.deleteAllItems()
         for i in self.liste:
             self.addItem(i.title)
+
 
 class ContextMenu(QMenu):
     def __init__(self, onglet, hitTest):
@@ -77,9 +77,9 @@ class ContextMenu(QMenu):
             if 'http://' in clickedUrl or 'https://' in clickedUrl:
                 url = clickedUrl
             elif clickedUrl == "#":
-                url = baseUrl+clickedUrl
+                url = baseUrl + clickedUrl
             else:
-                url = "http://"+baseUrl.split("/")[2]+clickedUrl
+                url = "http://" + baseUrl.split("/")[2] + clickedUrl
             self.addAction("Ouvrir Nouvel Onglet", lambda: self.onglet.main.addOngletWithUrl(url))
 
 
@@ -133,10 +133,10 @@ class WebHitTestResult():
         while (e) {
             if (res.linkTitle === '' && e.tagName === 'A') {
                 res.linkTitle = e.text;
-        	    if(res.linkUrl === '') {
-        		res.linkUrl = e.getAttribute('href');
-        	    }
-        	}
+                if(res.linkUrl === '') {
+                res.linkUrl = e.getAttribute('href');
+                }
+            }
             if (res.mediaUrl === '' && isMediaElement(e)) {
                 res.mediaUrl = e.currentSrc;
                 res.mediaPaused = e.paused;
@@ -146,10 +146,10 @@ class WebHitTestResult():
         }
         return res;
         })()"""
-        
+
         self.js = self.source.replace("%1", str(self.viewportPos.x())).replace("%2", str(self.viewportPos.y()))
         self.dic = self.page.executeJavaScript(self.js)
-        if self.dic == None:
+        if self.dic is None:
             return
 
         self.m_isNull = False
@@ -167,34 +167,34 @@ class WebHitTestResult():
         except:
             pass
         self.m_tagName = self.dic["tagName"]
-    
+
     def linkUrl(self):
-	    return self.m_linkUrl
-    
+        return self.m_linkUrl
+
     def isContentEditable(self):
-	    return self.m_isContentEditable
-    
+        return self.m_isContentEditable
+
     def isContentSelected(self):
-	    return self.m_isContentSelected
-    
+        return self.m_isContentSelected
+
     def imageUrl(self):
         try:
             return self.m_imageUrl
         except:
             return ""
-    
+
     def mediaUrl(self):
-	    return self.m_mediaUrl
-    
+        return self.m_mediaUrl
+
     def baseUrl(self):
         return self.m_baseUrl
-    
+
     def updateWithContextMenuData(self, data):
         if data.isValid():
             pass
         else:
             return
-        
+
         self.m_linkTitle = data.linkText()
         self.m_linkUrl = data.linkUrl().toString()
         self.m_isContentEditable = data.isContentEditable()
@@ -213,7 +213,7 @@ class Item:
         self.main = main
         self.url = url
         self.title = title
-    
+
     def setInteraction(self, menu):
         menu.addAction(self.title, self.load)
 
@@ -225,11 +225,10 @@ class ItemSession:
         self.main = main
         self.urls = urls
         self.title = title
-    
+
     def setInteraction(self, menu):
         menu.addAction(self.title, self.load)
-    
+
     def load(self):
         for i in self.urls:
             self.main.addOngletWithUrl(i)
-    

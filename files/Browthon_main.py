@@ -10,11 +10,11 @@ from PyQt5.Qt import *
 from files.Browthon_utils import *
 from files.Browthon_windows import *
 from files.Browthon_elements import *
+from files.Browthon_download import DownloadManagerWidget
 
-import os, glob
-import sys
 import logging
 import logging.handlers
+
 
 class MainWindow(QMainWindow):
     def __init__(self, url, urltemp):
@@ -26,8 +26,8 @@ class MainWindow(QMainWindow):
                 self.styleSheetParam = defall[5].split(" ")[1]
                 self.niveauLog = defall[7].split(" ")[1]
         except IOError:
-            self.styleSheetParam = "Default"     
-            self.niveauLog = "INFO"           
+            self.styleSheetParam = "Default"
+            self.niveauLog = "INFO"
         self.logger = logging.getLogger("logger")
         if self.niveauLog == "DEBUG":
             self.logger.setLevel(logging.DEBUG)
@@ -47,21 +47,21 @@ class MainWindow(QMainWindow):
         self.logger.info("Lancement de Browthon")
         if self.styleSheetParam != "Default":
             try:
-                with open('style/'+self.styleSheetParam+".bss", 'r') as fichier:
+                with open('style/' + self.styleSheetParam + ".bss", 'r') as fichier:
                     bss = parseTheme(fichier.read())
                     self.setStyleSheet(bss)
                     self.logger.debug("Le thème %s a été chargé", defall[5].split(" ")[1])
             except Exception as e:
                 self.styleSheetParam = "Default"
-                QMessageBox().warning(self, "Style inconnu", "Le style "+defall[5].split(" ")[1]+" n'est pas reconnu par Browthon.")
+                QMessageBox().warning(self, "Style inconnu", "Le style " + defall[5].split(" ")[1] + " n'est pas reconnu par Browthon.")
                 self.logger.warning("Le thème %s est inconnu. Erreur : %s", defall[5].split(" ")[1], e)
         self.mainWidget = MainWidget(url, urltemp, self)
         self.setCentralWidget(self.mainWidget)
         self.show()
-    
+
     def closeEvent(self, event):
         self.mainWidget.closeEvent(event)
-        
+
 
 class MainWidget(QWidget):
     def __init__(self, url, urltemp, mainWindow):
@@ -97,7 +97,7 @@ class MainWidget(QWidget):
             self.private = False
             self.sessionRecovery = False
             self.deplacement_onglet = True
-            self.mainWindow.logger.warning("Le fichier de config n'a pas été trouvé")                
+            self.mainWindow.logger.warning("Le fichier de config n'a pas été trouvé")
         self.onglets = []
         self.ongletP = QPushButton("+")
         self.ongletM = QPushButton("-")
@@ -132,7 +132,7 @@ class MainWidget(QWidget):
                     item = i.split(" | ")
                     self.sessionArray.append(ItemSession(self, item[0], item[1].split(" - ")))
         except IOError:
-            pass                
+            pass
         self.raccourciArray = []
         try:
             with open("raccourci.txt", "r") as fichier:
@@ -150,7 +150,7 @@ class MainWidget(QWidget):
         except IOError:
             pass
         self.informations.setWindowTitle('Informations sur Browthon')
-        self.informations.setText(self.versionAll+"\n Créé par PastaGames \n Github : https://github.com/LavaPower/Browthon".replace(" \\n ", "\n"))
+        self.informations.setText(self.versionAll + "\nCréé par PastaGames \nGithub : https://github.com/LavaPower/Browthon".replace(" \\n ", "\n"))
         self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
         self.parametres.addAction("Navigation Privée", self.PrivateDefine)
         self.parametres.addAction("JavaScript", self.JSDefine)
@@ -213,18 +213,18 @@ class MainWidget(QWidget):
                 QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
                 self.mainWindow.logger.warning("Tentativement de chargement d'ancienne session alors qu'il n'y en a pas")
         self.mainWindow.logger.info("Browthon chargé")
-        
+
     def setTitle(self):
         if self.private:
-            self.mainWindow.setWindowTitle("[Privé]"+" "+self.browser.title()+" - Browthon")
+            self.mainWindow.setWindowTitle("[Privé]" + " " + self.browser.title() + " - Browthon")
         else:
-            self.mainWindow.setWindowTitle(self.browser.title()+" - Browthon")
+            self.mainWindow.setWindowTitle(self.browser.title() + " - Browthon")
         if len(self.browser.title()) >= 13:
-            titre = self.browser.title()[:9]+"..."
+            titre = self.browser.title()[:9] + "..."
         else:
             titre = self.browser.title()
         self.tabOnglet.setTabText(self.tabOnglet.currentIndex(), titre)
-    
+
     def changeIcon(self):
         self.tabOnglet.setTabIcon(self.tabOnglet.currentIndex(), self.browser.icon())
 
@@ -239,7 +239,7 @@ class MainWidget(QWidget):
     def styleDefine(self):
         self.styleBox.setWindowModality(Qt.ApplicationModal)
         self.styleBox.show()
-    
+
     def logDefine(self):
         self.logBox.setWindowModality(Qt.ApplicationModal)
         self.logBox.show()
@@ -258,7 +258,7 @@ class MainWidget(QWidget):
             if rep == 16384:
                 QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
                 self.js = True
-    
+
     def sessionDefine(self):
         if self.sessionRecovery:
             rep = QMessageBox().question(self, "Dernière session", "Voulez-vous ne plus recharger la dernière session ?", QMessageBox.Yes, QMessageBox.No)
@@ -292,15 +292,15 @@ class MainWidget(QWidget):
                 self.private = True
 
     def addOnglet(self):
-        onglet = Onglet(len(self.onglets)+1, self)
+        onglet = Onglet(len(self.onglets) + 1, self)
         self.onglets.append(onglet)
         self.tabOnglet.addTab(onglet, QIcon('logo.png'), "Browthon")
         onglet.show()
         if self.deplacement_onglet:
             self.tabOnglet.setCurrentWidget(onglet)
-    
+
     def addOngletWithUrl(self, url):
-        onglet = Onglet(len(self.onglets)+1, self)
+        onglet = Onglet(len(self.onglets) + 1, self)
         self.onglets.append(onglet)
         self.tabOnglet.addTab(onglet, QIcon('logo.png'), "Browthon")
         onglet.show()
@@ -330,7 +330,7 @@ class MainWidget(QWidget):
 
     def removeHistory(self, urlToFind):
         found = False
-        for i in range(len(self.historyArray)-1, -1, -1):
+        for i in range(len(self.historyArray) - 1, -1, -1):
             if urlToFind == self.historyArray[i].url:
                 del self.historyArray[i]
                 found = True
@@ -340,19 +340,19 @@ class MainWidget(QWidget):
         else:
             QMessageBox().about(self, "Annulation", "Cette page n'est pas dans l'historique")
             self.mainWindow.logger.warning("Page %s n'est pas dans l'historique", urlToFind)
-    
+
     def addSession(self):
         self.addSessionBox.setWindowModality(Qt.ApplicationModal)
         self.addSessionBox.show()
-    
+
     def removeSession(self):
         self.removeSessionBox.setWindowModality(Qt.ApplicationModal)
         self.removeSessionBox.show()
-    
+
     def addRaccourci(self):
         self.addRaccourciBox.setWindowModality(Qt.ApplicationModal)
         self.addRaccourciBox.show()
-    
+
     def removeRaccourci(self):
         self.removeRaccourciBox.setWindowModality(Qt.ApplicationModal)
         self.removeRaccourciBox.show()
@@ -381,7 +381,7 @@ class MainWidget(QWidget):
 
     def removeFav(self, url):
         found = False
-        for i in range(len(self.favArray)-1, -1, -1):
+        for i in range(len(self.favArray) - 1, -1, -1):
             if url == self.favArray[i].url:
                 del self.favArray[i]
                 found = True
@@ -420,7 +420,7 @@ class MainWidget(QWidget):
 
     def refreshTheme(self):
         if self.mainWindow.styleSheetParam != "Default":
-            with open('style/'+self.mainWindow.styleSheetParam+".bss", 'r') as fichier:
+            with open('style/' + self.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
         else:
             bss = ""
@@ -434,6 +434,7 @@ class MainWidget(QWidget):
         self.removeRaccourciBox.setStyleSheet(bss)
         self.historyBox.setStyleSheet(bss)
         self.favBox.setStyleSheet(bss)
+        self.logBox.setStyleSheet(bss)
         self.mainWindow.logger.debug("Thème %s rechargé", self.mainWindow.styleSheetParam)
 
     def closeEvent(self, event):
@@ -449,7 +450,7 @@ class MainWidget(QWidget):
             with open('history.txt', 'w') as fichier:
                 message = ""
                 for i in range(len(self.historyArray)):
-                    if i == len(self.historyArray)-1:
+                    if i == len(self.historyArray) - 1:
                         message += self.historyArray[i].title + " | " + self.historyArray[i].url
                     else:
                         message += self.historyArray[i].title + " | " + self.historyArray[i].url + "\n"
@@ -466,7 +467,7 @@ class MainWidget(QWidget):
             with open('raccourci.txt', 'w') as fichier:
                 message = ""
                 for i in range(len(self.raccourciArray)):
-                    if i == len(self.raccourciArray)-1:
+                    if i == len(self.raccourciArray) - 1:
                         message += self.raccourciArray[i].title + " | " + self.raccourciArray[i].url
                     else:
                         message += self.raccourciArray[i].title + " | " + self.raccourciArray[i].url + '\n'
@@ -485,11 +486,11 @@ class MainWidget(QWidget):
                 for i in range(len(self.sessionArray)):
                     urls = ""
                     for y in self.sessionArray[i].urls:
-                        if y == self.sessionArray[i].urls[len(self.sessionArray[i].urls)-1]:
+                        if y == self.sessionArray[i].urls[len(self.sessionArray[i].urls) - 1]:
                             urls += y
                         else:
                             urls += y + " - "
-                    if i == len(self.sessionArray)-1:
+                    if i == len(self.sessionArray) - 1:
                         message += self.sessionArray[i].title + " | " + urls
                     else:
                         message += self.sessionArray[i].title + " | " + urls + "\n"
@@ -506,7 +507,7 @@ class MainWidget(QWidget):
             with open('fav.txt', 'w') as fichier:
                 message = ""
                 for i in range(len(self.favArray)):
-                    if i == len(self.favArray)-1:
+                    if i == len(self.favArray) - 1:
                         message += self.favArray[i].title + " | " + self.favArray[i].url
                     else:
                         message += self.favArray[i].title + " | " + self.favArray[i].url + '\n'
@@ -520,10 +521,10 @@ class MainWidget(QWidget):
             contenu = []
             with open('config.txt', 'r') as fichier:
                 contenu = fichier.read().split('\n')
-            contenu[2] = contenu[2].split(" ")[0]+" "+str(self.js)
-            contenu[3] = contenu[3].split(" ")[0]+" "+str(self.private)
-            contenu[4] = contenu[4].split(" ")[0]+" "+str(self.deplacement_onglet)
-            contenu[6] = contenu[6].split(" ")[0]+" "+str(self.sessionRecovery)
+            contenu[2] = contenu[2].split(" ")[0] + " " + str(self.js)
+            contenu[3] = contenu[3].split(" ")[0] + " " + str(self.private)
+            contenu[4] = contenu[4].split(" ")[0] + " " + str(self.deplacement_onglet)
+            contenu[6] = contenu[6].split(" ")[0] + " " + str(self.sessionRecovery)
             contenu = "\n".join(contenu)
             with open('config.txt', 'w') as fichier:
                 fichier.write(contenu)
@@ -533,6 +534,6 @@ class MainWidget(QWidget):
                 if i == self.tabOnglet.count() - 1:
                     contenu += self.tabOnglet.widget(i).url().toString()
                 else:
-                    contenu += self.tabOnglet.widget(i).url().toString()+"\n"
+                    contenu += self.tabOnglet.widget(i).url().toString() + "\n"
             fichier.write(contenu)
         self.mainWindow.logger.info("Fermeture de Browthon complète")
