@@ -117,6 +117,7 @@ class MainWidget(QWidget):
         self.browser = self.onglet1
         self.onglets.append(self.onglet1)
         self.tabOnglet = TabOnglet(self)
+        self.downloadManager = DownloadManagerWidget(self)
         self.favArray = []
         try:
             with open("fav.txt", 'r') as fichier:
@@ -180,6 +181,7 @@ class MainWidget(QWidget):
         self.ongletP.clicked.connect(self.addOnglet)
         self.ongletM.clicked.connect(self.closeOnglet)
         self.accueil.clicked.connect(self.urlAccueil)
+        QWebEngineProfile.defaultProfile().downloadRequested.connect(self.downloadManager.downloadRequested)
         self.grid.addWidget(self.back, 1, 0)
         self.grid.addWidget(self.reload, 1, 1)
         self.grid.addWidget(self.forward, 1, 2)
@@ -402,6 +404,8 @@ class MainWidget(QWidget):
         elif event.key() == Qt.Key_H:
             self.historyBox.setWindowModality(Qt.ApplicationModal)
             self.historyBox.showUpdate(self.historyArray)
+        elif event.key() == Qt.Key_D:
+            self.downloadManager.show()
         elif event.key() == Qt.Key_F:
             self.favBox.setWindowModality(Qt.ApplicationModal)
             self.favBox.showUpdate(self.favArray)
