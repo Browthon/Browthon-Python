@@ -13,3 +13,5 @@ launch.sh
 *.log
 
 *.nja
+
+files/logs/
