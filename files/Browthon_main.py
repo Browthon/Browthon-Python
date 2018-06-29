@@ -444,6 +444,7 @@ class MainWidget(QWidget):
         self.historyBox.setStyleSheet(bss)
         self.favBox.setStyleSheet(bss)
         self.logBox.setStyleSheet(bss)
+        self.downloadManager.setStyleSheet(bss)
         self.mainWindow.logger.debug("Thème %s rechargé", self.mainWindow.styleSheetParam)
 
     def closeEvent(self, event):

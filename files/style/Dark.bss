@@ -42,12 +42,12 @@ QMenu::item {
     color: #f5f5f5;
 }
 
-QTabWidget::pane { 
+QTabWidget::pane {
     border-top: 2px solid #C2C7CB;
 }
 
 QTabWidget::tab-bar {
-    left: 5px; 
+    left: 5px;
 }
 
 QTabBar::tab {
@@ -69,6 +69,6 @@ QTabBar::tab:selected {
 }
 
 QTabBar::tab:!selected {
-    margin-top: 2px; 
-    background: #565656; 
+    margin-top: 2px;
+    background: #565656;
 }

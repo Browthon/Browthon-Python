@@ -441,7 +441,7 @@ class MoteurBox(QWidget):
 
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/' + elf.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
                 bss = parseTheme(fichier.read())
                 self.setStyleSheet(bss)
 

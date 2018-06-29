@@ -7,6 +7,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
+from files.Browthon_utils import parseTheme
+
 
 class DownloadSignal(QObject):
     removeClicked = pyqtSignal()
@@ -148,3 +150,7 @@ class DownloadManagerWidget(QWidget):
         self.layout = QVBoxLayout(self.container)
         self.label = QLabel("Pas de téléchargement")
         self.layout.addWidget(self.label)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
