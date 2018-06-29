@@ -111,8 +111,8 @@ class MainWidget(QWidget):
         self.menu.addAction("Historique", self.openHistory)
         self.menu.addAction("Favoris", self.openFav)
         self.menu.addAction("Téléchargement", self.openDownload)
-        self.session = self.menu.addMenu("Session")
-        self.raccourci = self.menu.addMenu("Raccourci URL")
+        self.menu.addAction("Sessions", self.openSession)
+        self.menu.addAction("Raccourcis URL", self.openRaccourci)
         self.parametres = self.menu.addMenu("Paramètres")
         self.onglet1 = Onglet(1, self)
         self.browser = self.onglet1
@@ -163,17 +163,6 @@ class MainWidget(QWidget):
         self.parametres.addAction("Logs", self.logDefine)
         self.parametres.addSeparator()
         self.parametres.addAction("Informations", self.informations.open)
-        self.session.addAction("Ajouter Session", self.addSession)
-        self.session.addAction("Supprimer Session", self.removeSession)
-        self.session.addSeparator()
-        for i in self.sessionArray:
-            i.setInteraction(self.session)
-        self.raccourci.addAction("Ajouter Raccourci", self.addRaccourci)
-        self.raccourci.addAction("Supprimer Raccourci", self.removeRaccourci)
-        self.raccourci.addSeparator()
-        for i in self.raccourciArray:
-            i.setInteraction(self.raccourci)
-
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
         self.reload.clicked.connect(self.onglet1.reload)
         self.back.clicked.connect(self.onglet1.back)
@@ -203,6 +192,8 @@ class MainWidget(QWidget):
         self.removeRaccourciBox = RemoveRaccourciBox(self, "Nom Raccourci", "Entrez le nom du raccourci ou ANNULER")
         self.historyBox = ListeBox(self, self.historyArray, "Historique")
         self.favBox = ListeBox(self, self.favArray, "Favoris")
+        self.raccourciBox = ListeBox(self, self.raccourciArray, "Raccourcis URL")
+        self.sessionBox = ListeBox(self, self.sessionArray, "Sessions")
         if self.sessionRecovery:
             try:
                 with open("last.txt", "r") as fichier:
@@ -348,6 +339,10 @@ class MainWidget(QWidget):
             QMessageBox().about(self, "Annulation", "Cette page n'est pas dans l'historique")
             self.mainWindow.logger.warning("Page %s n'est pas dans l'historique", urlToFind)
 
+    def openSession(self):
+        self.sessionBox.setWindowModality(Qt.ApplicationModal)
+        self.sessionBox.showUpdate(self.sessionArray)
+
     def addSession(self):
         self.addSessionBox.setWindowModality(Qt.ApplicationModal)
         self.addSessionBox.show()
@@ -355,6 +350,20 @@ class MainWidget(QWidget):
     def removeSession(self):
         self.removeSessionBox.setWindowModality(Qt.ApplicationModal)
         self.removeSessionBox.show()
+
+    def removeAllSession(self):
+        self.raccourciArray = []
+        QMessageBox().about(self, "Sessions", "Sessions supprimées")
+        self.mainWindow.logger.debug("Totalité des sesssions supprimées")
+
+    def openRaccourci(self):
+        self.raccourciBox.setWindowModality(Qt.ApplicationModal)
+        self.raccourciBox.showUpdate(self.raccourciArray)
+
+    def removeAllRaccourci(self):
+        self.raccourciArray = []
+        QMessageBox().about(self, "Raccourcis URL", "Raccourcis supprimés")
+        self.mainWindow.logger.debug("Totalité de les raccourcis URL supprimés")
 
     def addRaccourci(self):
         self.addRaccourciBox.setWindowModality(Qt.ApplicationModal)
@@ -409,6 +418,12 @@ class MainWidget(QWidget):
         elif event.key() == Qt.Key_H:
             self.historyBox.setWindowModality(Qt.ApplicationModal)
             self.historyBox.showUpdate(self.historyArray)
+        elif event.key() == Qt.Key_S:
+            self.sessionBox.setWindowModality(Qt.ApplicationModal)
+            self.sessionBox.showUpdate(self.sessionArray)
+        elif event.key() == Qt.Key_U:
+            self.raccourciBox.setWindowModality(Qt.ApplicationModal)
+            self.raccourciBox.showUpdate(self.raccourciArray)
         elif event.key() == Qt.Key_D:
             self.downloadManager.show()
         elif event.key() == Qt.Key_F:

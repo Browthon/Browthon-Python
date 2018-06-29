@@ -38,6 +38,14 @@ class ListeBox(QWidget):
             self.addFav = QPushButton("Ajouter Favori")
             self.addFav.clicked.connect(self.addFavF)
             self.grid.addWidget(self.addFav, 4, 1, 1, 2)
+        elif self.texte == "Raccourcis URL":
+            self.addRaccourci = QPushButton("Ajouter Raccourci")
+            self.addRaccourci.clicked.connect(self.addRaccourciF)
+            self.grid.addWidget(self.addRaccourci, 4, 1, 1, 2)
+        elif self.texte == "Sessions":
+            self.addSession = QPushButton("Ajouter Session")
+            self.addSession.clicked.connect(self.addSessionF)
+            self.grid.addWidget(self.addSession, 4, 1, 1, 2)
 
         self.setLayout(self.grid)
         if self.main.mainWindow.styleSheetParam != "Default":
@@ -46,15 +54,23 @@ class ListeBox(QWidget):
                 self.setStyleSheet(bss)
 
     def addFavF(self):
-        self.main.addFav()
         self.close()
+        self.main.addFav()
+
+    def addRaccourciF(self):
+        self.close()
+        self.main.addRaccourci()
+
+    def addSessionF(self):
+        self.close()
+        self.main.addSession()
 
     def launch(self):
         if self.listeW.currentItem():
             for i in self.liste:
                 if i.title == self.listeW.currentItem().text():
-                    self.main.addOngletWithUrl(i.url)
                     self.close()
+                    i.load()
                     break
 
     def showUpdate(self, liste):
@@ -66,16 +82,24 @@ class ListeBox(QWidget):
         if self.listeW.currentItem():
             for i in self.liste:
                 if i.title == self.listeW.currentItem().text():
+                    self.close()
                     if self.texte == "Historique":
                         self.main.removeHistory(i.url)
+                    elif self.texte == "Sessions":
+                        self.main.removeSession()
+                    elif self.texte == "Raccourcis URL":
+                        self.main.removeRaccourci()
                     else:
                         self.main.removeFav(i.url)
-                    self.close()
 
     def deleteAll(self):
         self.listeW.deleteAllItems()
         if self.texte == "Historique":
             self.main.removeAllHistory()
+        elif self.texte == "Sessions":
+            self.main.removeAllSession()
+        elif self.texte == "Raccourcis URL":
+            self.main.removeAllRaccourci()
         else:
             self.main.removeAllFav()
 
@@ -130,12 +154,6 @@ class AddRaccourciBox(QWidget):
                     QMessageBox().about(self, "Création annulé", "Le raccourci " + self.result + " n'a pas un url valide !")
                 else:
                     self.main.raccourciArray.append(Item(self.main, self.result, self.url))
-                    self.main.raccourci.clear()
-                    self.main.raccourci.addAction("Ajouter Raccourci", self.main.addRaccourci)
-                    self.main.raccourci.addAction("Supprimer Raccourci", self.main.removeRaccourci)
-                    self.main.raccourci.addSeparator()
-                    for i in self.main.raccourciArray:
-                        i.setInteraction(self.main.raccourci)
                     QMessageBox().about(self, "Raccourci créée", "Le raccourci " + self.result + " a été créée !")
         self.close()
 
@@ -176,10 +194,6 @@ class RemoveRaccourciBox(QWidget):
                     del self.main.raccourciArray[i]
                     found = True
             if found:
-                self.main.raccourci.clear()
-                self.main.raccourci.addAction("Ajouter Raccourci", self.main.addRaccourci)
-                self.main.raccourci.addAction("Supprimer Raccourci", self.main.removeRaccourci)
-                self.main.raccourci.addSeparator()
                 for i in self.main.raccourciArray:
                     i.setInteraction(self.main.raccourci)
                 QMessageBox().about(self, "Raccourci supprimée", "Le raccourci " + self.result + " a été supprimée !")
@@ -235,12 +249,6 @@ class AddSessionBox(NameBox):
                 for i in range(self.main.tabOnglet.count()):
                     urls.append(self.main.tabOnglet.widget(i).url().toString())
                 self.main.sessionArray.append(ItemSession(self.main, self.result, urls))
-                self.main.session.clear()
-                self.main.session.addAction("Ajouter Session", self.main.addSession)
-                self.main.session.addAction("Supprimer Session", self.main.removeSession)
-                self.main.session.addSeparator()
-                for i in self.main.sessionArray:
-                    i.setInteraction(self.main.session)
                 QMessageBox().about(self, "Session créée", "La session " + self.result + " a été créée !")
         self.close()
 
@@ -260,12 +268,6 @@ class RemoveSessionBox(NameBox):
                     del self.main.sessionArray[i]
                     found = True
             if found:
-                self.main.session.clear()
-                self.main.session.addAction("Ajouter Session", self.main.addSession)
-                self.main.session.addAction("Supprimer Session", self.main.removeSession)
-                self.main.session.addSeparator()
-                for i in self.main.sessionArray:
-                    i.setInteraction(self.main.session)
                 QMessageBox().about(self, "Session supprimée", "La session " + self.result + " a été supprimée !")
             else:
                 QMessageBox().about(self, "Session non trouvée", "La session " + self.result + " n'a pas été trouvé !")
