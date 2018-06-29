@@ -110,6 +110,7 @@ class MainWidget(QWidget):
         self.menu = self.mainWindow.menuBar()
         self.menu.addAction("Historique", self.openHistory)
         self.menu.addAction("Favoris", self.openFav)
+        self.menu.addAction("Téléchargement", self.openDownload)
         self.session = self.menu.addMenu("Session")
         self.raccourci = self.menu.addMenu("Raccourci URL")
         self.parametres = self.menu.addMenu("Paramètres")
@@ -316,6 +317,10 @@ class MainWidget(QWidget):
                 self.mainWindow.close()
         else:
             self.tabOnglet.removeTab(self.tabOnglet.currentIndex())
+
+    def openDownload(self):
+        self.downloadManager.setWindowModality(Qt.ApplicationModal)
+        self.downloadManager.show()
 
     def openHistory(self):
         self.historyBox.setWindowModality(Qt.ApplicationModal)
