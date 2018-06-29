@@ -218,7 +218,7 @@ class Item:
         menu.addAction(self.title, self.load)
 
     def load(self):
-        self.main.urlInput.enterUrlGiven(self.url)
+        self.main.addOngletWithUrl(self.url)
 
 class ItemSession:
     def __init__(self, main, title, urls):
