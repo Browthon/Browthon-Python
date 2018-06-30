@@ -149,6 +149,7 @@ class DownloadManagerWidget(QWidget):
         self.scroll.setWidget(self.container)
         self.layout = QVBoxLayout(self.container)
         self.label = QLabel("Pas de téléchargement")
+        self.label.setAlignment(Qt.AlignHCenter)
         self.layout.addWidget(self.label)
         if self.main.mainWindow.styleSheetParam != "Default":
             with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:

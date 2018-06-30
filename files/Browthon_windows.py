@@ -21,6 +21,7 @@ class ListeBox(QWidget):
         self.grid = QGridLayout()
 
         self.title = QLabel(texte)
+        self.title.setAlignment(Qt.AlignHCenter)
         self.listeW = ListWidget(liste)
         self.supprimer = QPushButton("Supprimer")
         self.supprimerT = QPushButton("Tout Supprimer")
