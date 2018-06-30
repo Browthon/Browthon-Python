@@ -44,6 +44,7 @@ class MainWindow(QMainWindow):
         formatter = logging.Formatter('[%(levelname)s] %(filename)s:%(lineno)d - %(message)s (%(asctime)s)')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
+        self.logger.info("=====================")
         self.logger.info("Lancement de Browthon")
         if self.styleSheetParam != "Default":
             try:
@@ -105,7 +106,6 @@ class MainWidget(QWidget):
         self.back = QPushButton("<")
         self.forward = QPushButton(">")
         self.reload = QPushButton("↺")
-        self.informations = QMessageBox()
         self.accueil = QPushButton("⌂")
         self.menu = self.mainWindow.menuBar()
         self.menu.addAction("Historique", self.openHistory)
@@ -114,11 +114,15 @@ class MainWidget(QWidget):
         self.menu.addAction("Sessions", self.openSession)
         self.menu.addAction("Raccourcis URL", self.openRaccourci)
         self.parametres = self.menu.addMenu("Paramètres")
+        self.about = self.menu.addMenu("Informations")
         self.onglet1 = Onglet(1, self)
         self.browser = self.onglet1
         self.onglets.append(self.onglet1)
         self.tabOnglet = TabOnglet(self)
         self.downloadManager = DownloadManagerWidget(self)
+        self.browthonInfo = InformationBox(self, "Browthon")
+        self.pyqtInfo = InformationBox(self, "PyQt")
+        self.qtInfo = InformationBox(self, "Qt")
         self.favArray = []
         try:
             with open("fav.txt", 'r') as fichier:
@@ -151,8 +155,9 @@ class MainWidget(QWidget):
                     self.historyArray.append(Item(self, item[0], item[1]))
         except IOError:
             pass
-        self.informations.setWindowTitle('Informations sur Browthon')
-        self.informations.setText(self.versionAll + "\nCréé par PastaGames \nGithub : https://github.com/LavaPower/Browthon".replace(" \\n ", "\n"))
+        self.about.addAction("Sur Browthon", lambda: self.openInfo("Browthon"))
+        self.about.addAction("Sur PyQt", lambda: self.openInfo("PyQt"))
+        self.about.addAction("Sur Qt", lambda: self.openInfo("Qt"))
         self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
         self.parametres.addAction("Navigation Privée", self.PrivateDefine)
         self.parametres.addAction("JavaScript", self.JSDefine)
@@ -161,8 +166,6 @@ class MainWidget(QWidget):
         self.parametres.addAction("Dernière Session", self.sessionDefine)
         self.parametres.addAction("Thèmes", self.styleDefine)
         self.parametres.addAction("Logs", self.logDefine)
-        self.parametres.addSeparator()
-        self.parametres.addAction("Informations", self.informations.open)
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
         self.reload.clicked.connect(self.onglet1.reload)
         self.back.clicked.connect(self.onglet1.back)
@@ -218,6 +221,17 @@ class MainWidget(QWidget):
         else:
             titre = self.browser.title()
         self.tabOnglet.setTabText(self.tabOnglet.currentIndex(), titre)
+
+    def openInfo(self, about):
+        if about == "Browthon":
+            self.browthonInfo.setWindowModality(Qt.ApplicationModal)
+            self.browthonInfo.show()
+        elif about == "PyQt":
+            self.pyqtInfo.setWindowModality(Qt.ApplicationModal)
+            self.pyqtInfo.show()
+        elif about == "Qt":
+            self.qtInfo.setWindowModality(Qt.ApplicationModal)
+            self.qtInfo.show()
 
     def changeIcon(self):
         self.tabOnglet.setTabIcon(self.tabOnglet.currentIndex(), self.browser.icon())

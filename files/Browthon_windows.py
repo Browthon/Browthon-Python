@@ -105,6 +105,38 @@ class ListeBox(QWidget):
             self.main.removeAllFav()
 
 
+class InformationBox(QWidget):
+    def __init__(self, main, about):
+        super(InformationBox, self).__init__()
+        self.about = about
+        self.main = main
+        self.setFixedSize(500, 200)
+        if self.about == "Browthon":
+            self.setWindowTitle("Informations sur Browthon")
+            self.title = QLabel("Browthon")
+            self.description = QLabel(self.main.versionAll + "\nCréé par PastaGames \nGithub : https://github.com/LavaPower/Browthon")
+            self.image = QPixmap("logo.png")
+        elif self.about == "PyQt":
+            self.setWindowTitle("Informations sur PyQt")
+            self.title = QLabel("PyQt")
+            self.description = QLabel("To do")
+            self.image = QPixmap("pyqt_logo.png")
+        elif self.about == "Qt":
+            self.setWindowTitle("Informations sur Qt")
+            self.title = QLabel("Qt")
+            self.description = QLabel("To do")
+            self.image = QPixmap("qt_logo.png")
+        self.title.setAlignment(Qt.AlignHCenter)
+        self.description.setAlignment(Qt.AlignHCenter)
+        self.grid = QGridLayout()
+        self.grid.addWidget(self.title, 1, 2, 1, 1)
+        self.imageLabel = QLabel()
+        self.imageLabel.setPixmap(self.image)
+        self.grid.addWidget(self.imageLabel, 1, 1, 2, 1)
+        self.grid.addWidget(self.description, 2, 2, 1, 1)
+        self.setLayout(self.grid)
+
+
 class AddRaccourciBox(QWidget):
     def __init__(self, main, title, text):
         super(AddRaccourciBox, self).__init__()
