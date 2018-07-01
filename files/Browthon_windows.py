@@ -22,6 +22,7 @@ class ListeBox(QWidget):
 
         self.title = QLabel(texte)
         self.title.setAlignment(Qt.AlignHCenter)
+        self.title.setFont(self.main.fonts["titre"])
         self.listeW = ListWidget(liste)
         self.supprimer = QPushButton("Supprimer")
         self.supprimerT = QPushButton("Tout Supprimer")
@@ -110,31 +111,45 @@ class InformationBox(QWidget):
         super(InformationBox, self).__init__()
         self.about = about
         self.main = main
-        self.setFixedSize(500, 200)
+        self.button = QPushButton("Site")
         if self.about == "Browthon":
+            self.setFixedSize(500, 350)
             self.setWindowTitle("Informations sur Browthon")
             self.title = QLabel("Browthon")
-            self.description = QLabel(self.main.versionAll + "\nCréé par PastaGames \nGithub : https://github.com/LavaPower/Browthon")
+            self.description = QLabel(self.main.versionAll + "\nCréé par PastaGames\n\nSite :")
+            self.button.clicked.connect(lambda: self.openWebsite("http://pastagames.fr.nf"))
             self.image = QPixmap("logo.png")
         elif self.about == "PyQt":
+            self.setFixedSize(500, 350)
             self.setWindowTitle("Informations sur PyQt")
             self.title = QLabel("PyQt")
-            self.description = QLabel("To do")
+            self.description = QLabel("Version utilisée: " + PYQT_VERSION_STR + "\nCréé par Riverbank Computing\n\nSite :")
+            self.button.clicked.connect(lambda: self.openWebsite("https://riverbankcomputing.com/software/pyqt/intro"))
             self.image = QPixmap("pyqt_logo.png")
         elif self.about == "Qt":
+            self.setFixedSize(500, 350)
             self.setWindowTitle("Informations sur Qt")
             self.title = QLabel("Qt")
-            self.description = QLabel("To do")
+            self.description = QLabel("Version : " + QT_VERSION_STR +"\nCréé par The Qt Company\n\nSite :")
+            self.button.clicked.connect(lambda: self.openWebsite("https://www.qt.io/"))
             self.image = QPixmap("qt_logo.png")
         self.title.setAlignment(Qt.AlignHCenter)
         self.description.setAlignment(Qt.AlignHCenter)
+        self.title.setFont(self.main.fonts["titre"])
+        self.description.setFont(self.main.fonts["description"])
         self.grid = QGridLayout()
-        self.grid.addWidget(self.title, 1, 2, 1, 1)
         self.imageLabel = QLabel()
         self.imageLabel.setPixmap(self.image)
-        self.grid.addWidget(self.imageLabel, 1, 1, 2, 1)
-        self.grid.addWidget(self.description, 2, 2, 1, 1)
+        self.imageLabel.setAlignment(Qt.AlignHCenter)
+        self.grid.addWidget(self.imageLabel, 1, 1)
+        self.grid.addWidget(self.title, 2, 1)
+        self.grid.addWidget(self.description, 3, 1)
+        self.grid.addWidget(self.button, 4, 1)
         self.setLayout(self.grid)
+
+    def openWebsite(self, url):
+        self.close()
+        self.main.addOngletWithUrl(url)
 
 
 class AddRaccourciBox(QWidget):

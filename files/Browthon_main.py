@@ -72,6 +72,8 @@ class MainWidget(QWidget):
         self.urltemp = urltemp
         self.versionMinimal = "2.4.0"
         self.versionAll = "V 2.4.0 : Browthon Update"
+        self.fonts = {"titre": QFont("Arial", 23, QFont.Bold),
+             "description": QFont("Arial", 18)}
         self.grid = QGridLayout()
         try:
             with open('config.txt', 'r') as fichier:
@@ -110,7 +112,7 @@ class MainWidget(QWidget):
         self.menu = self.mainWindow.menuBar()
         self.menu.addAction("Historique", self.openHistory)
         self.menu.addAction("Favoris", self.openFav)
-        self.menu.addAction("Téléchargement", self.openDownload)
+        self.menu.addAction("Téléchargements", self.openDownload)
         self.menu.addAction("Sessions", self.openSession)
         self.menu.addAction("Raccourcis URL", self.openRaccourci)
         self.parametres = self.menu.addMenu("Paramètres")
