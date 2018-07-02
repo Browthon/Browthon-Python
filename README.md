@@ -33,11 +33,12 @@ Navigateur web en python
 - LechatGris : https://github.com/LechatGris - Pour l'idée du logo
 
 ## Bugs connus de la version en développement :
-- Les téléchargements ne sont pas possibles
+- /
 
 ## Changelog : 
 
 ### V 2.5.0 : Basic Update (IN DEV):
+- Système de téléchargements avec menu
 - Nouveau menu pour l'historique et les favoris (avec raccourci H et F)
 - Nouveau système de logs
 - Système de fenêtre pour tous les anciens menus
