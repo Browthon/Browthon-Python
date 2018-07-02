@@ -143,6 +143,10 @@ class DownloadManagerWidget(QWidget):
         self.layoutMain = QVBoxLayout(self)
         self.scroll = QScrollArea(self)
         self.scroll.setWidgetResizable(True)
+        self.title = QLabel("Téléchargements")
+        self.title.setFont(self.main.fonts["titre"])
+        self.title.setAlignment(Qt.AlignHCenter)
+        self.layoutMain.addWidget(self.title)
         self.layoutMain.addWidget(self.scroll)
 
         self.container = QWidget()
