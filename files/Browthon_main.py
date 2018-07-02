@@ -115,7 +115,7 @@ class MainWidget(QWidget):
         self.menu.addAction("Téléchargements", self.openDownload)
         self.menu.addAction("Sessions", self.openSession)
         self.menu.addAction("Raccourcis URL", self.openRaccourci)
-        self.parametres = self.menu.addMenu("Paramètres")
+        self.menu.addAction("Paramètres", self.openParametres)
         self.about = self.menu.addMenu("Informations")
         self.onglet1 = Onglet(1, self)
         self.browser = self.onglet1
@@ -160,14 +160,6 @@ class MainWidget(QWidget):
         self.about.addAction("Sur Browthon", lambda: self.openInfo("Browthon"))
         self.about.addAction("Sur PyQt", lambda: self.openInfo("PyQt"))
         self.about.addAction("Sur Qt", lambda: self.openInfo("Qt"))
-        self.parametres.addAction("Déplacement Onglet", self.deplaceDefine)
-        self.parametres.addAction("Navigation Privée", self.PrivateDefine)
-        self.parametres.addAction("JavaScript", self.JSDefine)
-        self.parametres.addAction("Définir Moteur", self.moteurDefine)
-        self.parametres.addAction("Définir Accueil", self.homeDefine)
-        self.parametres.addAction("Dernière Session", self.sessionDefine)
-        self.parametres.addAction("Thèmes", self.styleDefine)
-        self.parametres.addAction("Logs", self.logDefine)
         self.tabOnglet.currentChanged.connect(self.tabOnglet.changeOnglet)
         self.reload.clicked.connect(self.onglet1.reload)
         self.back.clicked.connect(self.onglet1.back)
@@ -187,10 +179,6 @@ class MainWidget(QWidget):
         self.grid.addWidget(self.ongletM, 1, 10)
         self.setLayout(self.grid)
         QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        self.moteur = MoteurBox(self, "Moteur par défaut", "Choisissez le moteur par défaut")
-        self.home = HomeBox(self, "Url d'accueil", "Entrez l'url de votre page d'accueil")
-        self.styleBox = StyleBox(self, "Choix du thème", "Choisissez le thème de Browthon")
-        self.logBox = LogBox(self, "Niveau des logs", "Choisissez le niveau minimum des logs")
         self.addSessionBox = AddSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.removeSessionBox = RemoveSessionBox(self, "Nom Session", "Entrez le nom de la session ou ANNULER")
         self.addRaccourciBox = AddRaccourciBox(self, "Nom Raccourci", "Entrez le nom et l'url du raccourci ou ANNULER")
@@ -199,6 +187,7 @@ class MainWidget(QWidget):
         self.favBox = ListeBox(self, self.favArray, "Favoris")
         self.raccourciBox = ListeBox(self, self.raccourciArray, "Raccourcis URL")
         self.sessionBox = ListeBox(self, self.sessionArray, "Sessions")
+        self.parametresBox = ParametreBox(self)
         if self.sessionRecovery:
             try:
                 with open("last.txt", "r") as fichier:
@@ -238,68 +227,12 @@ class MainWidget(QWidget):
     def changeIcon(self):
         self.tabOnglet.setTabIcon(self.tabOnglet.currentIndex(), self.browser.icon())
 
-    def moteurDefine(self):
-        self.moteur.setWindowModality(Qt.ApplicationModal)
-        self.moteur.show()
-
-    def homeDefine(self):
-        self.home.setWindowModality(Qt.ApplicationModal)
-        self.home.show()
-
-    def styleDefine(self):
-        self.styleBox.setWindowModality(Qt.ApplicationModal)
-        self.styleBox.show()
-
-    def logDefine(self):
-        self.logBox.setWindowModality(Qt.ApplicationModal)
-        self.logBox.show()
-
     def urlAccueil(self):
         self.browser.load(QUrl(self.url))
 
-    def JSDefine(self):
-        if self.js:
-            rep = QMessageBox().question(self, "Désactiver JS", "Voulez vous désactiver le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
-                self.js = False
-        else:
-            rep = QMessageBox().question(self, "Activer JS", "Voulez vous activer le JavaScript ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                QWebEngineSettings.globalSettings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
-                self.js = True
-
-    def sessionDefine(self):
-        if self.sessionRecovery:
-            rep = QMessageBox().question(self, "Dernière session", "Voulez-vous ne plus recharger la dernière session ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                self.sessionRecovery = False
-        else:
-            rep = QMessageBox().question(self, "Dernière session", "Voulez-vous recharger la dernière session ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                self.sessionRecovery = True
-
-    def deplaceDefine(self):
-        if self.deplacement_onglet:
-            rep = QMessageBox().question(self, "Désactiver Déplacement", "Voulez vous désactiver le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                self.deplacement_onglet = False
-        else:
-            rep = QMessageBox().question(self, "Activer Déplacement", "Voulez vous activer le déplacement à l'ouverture d'un onglet ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                self.deplacement_onglet = True
-
-    def PrivateDefine(self):
-        if self.private:
-            rep = QMessageBox().question(self, "Désactiver Navigation Privée", "Voulez vous désactiver la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.DiskHttpCache)
-                self.private = False
-        else:
-            rep = QMessageBox().question(self, "Activer Navigation Privée", "Voulez vous activer la navigation privée ?", QMessageBox.Yes, QMessageBox.No)
-            if rep == 16384:
-                QWebEngineProfile.defaultProfile().setHttpCacheType(QWebEngineProfile.MemoryHttpCache)
-                self.private = True
+    def openParametres(self):
+        self.parametresBox.setWindowModality(Qt.ApplicationModal)
+        self.parametresBox.show()
 
     def addOnglet(self):
         onglet = Onglet(len(self.onglets) + 1, self)
@@ -434,6 +367,9 @@ class MainWidget(QWidget):
         elif event.key() == Qt.Key_H:
             self.historyBox.setWindowModality(Qt.ApplicationModal)
             self.historyBox.showUpdate(self.historyArray)
+        elif event.key() == Qt.Key_P:
+            self.parametresBox.setWindowModality(Qt.ApplicationModal)
+            self.parametresBox.show()
         elif event.key() == Qt.Key_S:
             self.sessionBox.setWindowModality(Qt.ApplicationModal)
             self.sessionBox.showUpdate(self.sessionArray)
@@ -465,17 +401,17 @@ class MainWidget(QWidget):
         else:
             bss = ""
         self.mainWindow.setStyleSheet(bss)
-        self.moteur.setStyleSheet(bss)
-        self.home.setStyleSheet(bss)
-        self.styleBox.setStyleSheet(bss)
         self.addSessionBox.setStyleSheet(bss)
         self.removeSessionBox.setStyleSheet(bss)
         self.addRaccourciBox.setStyleSheet(bss)
         self.removeRaccourciBox.setStyleSheet(bss)
         self.historyBox.setStyleSheet(bss)
         self.favBox.setStyleSheet(bss)
-        self.logBox.setStyleSheet(bss)
         self.downloadManager.setStyleSheet(bss)
+        self.parametresBox.setStyleSheet(bss)
+        self.browthonInfo.setStyleSheet(bss)
+        self.pyqtInfo.setStyleSheet(bss)
+        self.qtInfo.setStyleSheet(bss)
         self.mainWindow.logger.debug("Thème %s rechargé", self.mainWindow.styleSheetParam)
 
     def closeEvent(self, event):

@@ -10,6 +10,226 @@ from PyQt5.Qt import *
 from files.Browthon_utils import *
 
 
+class ParametreBox(QWidget):
+    def __init__(self, main):
+        super(ParametreBox, self).__init__()
+        self.main = main
+        self.setWindowTitle("Paramètres")
+        self.setMinimumSize(600, 400)
+        self.layoutMain = QVBoxLayout(self)
+        self.scroll = QScrollArea(self)
+        self.scroll.setWidgetResizable(True)
+        self.title = QLabel("Paramètres")
+        self.title.setFont(self.main.fonts["titre"])
+        self.title.setAlignment(Qt.AlignHCenter)
+        self.layoutMain.addWidget(self.title)
+        self.layoutMain.addWidget(self.scroll)
+        self.container = QWidget()
+        self.scroll.setWidget(self.container)
+        self.layout = QVBoxLayout(self.container)
+
+        self.moteurListe = ["Google", "DuckDuckGo", "Ecosia", "Yahoo", "Bing"]
+        self.url = "http://pastagames.fr.nf/browthon"
+        self.jsListe = ["Activé", "Désactivé"]
+        self.privateListe = ["Désactivé", "Activé"]
+        self.deplacementListe = ["Activé", "Désactivé"]
+        self.themeListe = ["Blanc", "Sombre", "Bleu", "Rouge"]
+        self.sessionListe = ["Désactivé", "Activé"]
+        self.logListe = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        try:
+            with open('config.txt', 'r') as fichier:
+                defall = fichier.read().split('\n')
+                if defall[0].split(" ")[1] == "https://www.google.fr/?gws_rd=ssl#q=":
+                    temp = "Google"
+                elif defall[0].split(" ")[1] == "https://duckduckgo.com/?q=":
+                    temp = "DuckDuckGo"
+                elif defall[0].split(" ")[1] == "https://www.ecosia.org/search?q=":
+                    temp = "Ecosia"
+                elif defall[0].split(" ")[1] == "https://fr.search.yahoo.com/search?p=":
+                    temp = "Yahoo"
+                elif defall[0].split(" ")[1] == "https://www.bing.com/search?q=":
+                    temp = "Bing"
+                for i in range(len(self.moteurListe)):
+                    if self.moteurListe[i] == temp:
+                        self.moteurListe[0], self.moteurListe[i] = self.moteurListe[i], self.moteurListe[0]
+                        break
+
+                self.url = defall[1].split(" ")[1]
+
+                if defall[2].split(" ")[1] == "True":
+                    self.jsListe = ["Activé", "Désactivé"]
+                else:
+                    self.jsListe = ["Désactivé", "Activé"]
+
+                if defall[3].split(" ")[1] == "True":
+                    self.privateListe = ["Activé", "Désactivé"]
+                else:
+                    self.privateListe = ["Désactivé", "Activé"]
+
+                if defall[4].split(" ")[1] == "True":
+                    self.deplacementListe = ["Activé", "Désactivé"]
+                else:
+                    self.deplacementListe = ["Désactivé", "Activé"]
+
+                if defall[5].split(" ")[1] == "Default":
+                    temp = "Blanc"
+                elif defall[5].split(" ")[1] == "Dark":
+                    temp = "Sombre"
+                elif defall[5].split(" ")[1] == "Blue":
+                    temp = "Bleu"
+                elif defall[5].split(" ")[1] == "Red":
+                    temp = "Rouge"
+                for i in range(len(self.themeListe)):
+                    if self.themeListe[i] == temp:
+                        self.themeListe[0], self.themeListe[i] = self.themeListe[i], self.themeListe[0]
+                        break
+
+                if defall[6].split(" ")[1] == "True":
+                    self.sessionListe = ["Activé", "Désactivé"]
+                else:
+                    self.sessionListe = ["Désactivé", "Activé"]
+
+                for i in range(len(self.logListe)):
+                    if self.logListe[i] == defall[7].split(" ")[1]:
+                        self.logListe[0], self.logListe[i] = self.logListe[i], self.logListe[0]
+                        break
+        except:
+            pass
+
+        self.moteur = QLabel("Moteur de recherche")
+        self.moteur.setFont(self.main.fonts["description"])
+        self.moteur.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.moteur)
+        self.moteurBox = QComboBox()
+        self.moteurBox.addItems(self.moteurListe)
+        self.layout.addWidget(self.moteurBox)
+
+        self.accueil = QLabel("Url d'accueil")
+        self.accueil.setFont(self.main.fonts["description"])
+        self.accueil.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.accueil)
+        self.accueilBox = QLineEdit()
+        self.accueilBox.setText(self.url)
+        self.layout.addWidget(self.accueilBox)
+
+        self.js = QLabel("JavaScript")
+        self.js.setFont(self.main.fonts["description"])
+        self.js.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.js)
+        self.jsBox = QComboBox()
+        self.jsBox.addItems(self.jsListe)
+        self.layout.addWidget(self.jsBox)
+
+        self.private = QLabel("Navigation privée")
+        self.private.setFont(self.main.fonts["description"])
+        self.private.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.private)
+        self.privateBox = QComboBox()
+        self.privateBox.addItems(self.privateListe)
+        self.layout.addWidget(self.privateBox)
+
+        self.deplacement = QLabel("Déplacement à l'ouverture d'un onglet")
+        self.deplacement.setFont(self.main.fonts["description"])
+        self.deplacement.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.deplacement)
+        self.deplacementBox = QComboBox()
+        self.deplacementBox.addItems(self.deplacementListe)
+        self.layout.addWidget(self.deplacementBox)
+
+        self.style = QLabel("Thème")
+        self.style.setFont(self.main.fonts["description"])
+        self.style.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.style)
+        self.styleBox = QComboBox()
+        self.styleBox.addItems(self.themeListe)
+        self.layout.addWidget(self.styleBox)
+
+        self.session = QLabel("Chargement de la dernière session")
+        self.session.setFont(self.main.fonts["description"])
+        self.session.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.session)
+        self.sessionBox = QComboBox()
+        self.sessionBox.addItems(self.sessionListe)
+        self.layout.addWidget(self.sessionBox)
+
+        self.log = QLabel("Niveau minimum des logs")
+        self.log.setFont(self.main.fonts["description"])
+        self.log.setAlignment(Qt.AlignHCenter)
+        self.layout.addWidget(self.log)
+        self.logBox = QComboBox()
+        self.logBox.addItems(self.logListe)
+        self.layout.addWidget(self.logBox)
+
+        self.valider = QPushButton("Valider")
+        self.valider.clicked.connect(self.validateChoice)
+        self.layout.addWidget(self.valider)
+
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
+
+    def validateChoice(self):
+        self.texteFile = "UrlMoteur "
+        temp = self.moteurListe[self.moteurBox.currentIndex()]
+        if temp == "Google":
+            self.texteFile += "https://www.google.fr/?gws_rd=ssl#q=\n"
+        elif temp == "DuckDuckGo":
+            self.texteFile += "https://duckduckgo.com/?q=\n"
+        elif temp == "Ecosia":
+            self.texteFile += "https://www.ecosia.org/search?q=\n"
+        elif temp == "Yahoo":
+            self.texteFile += "https://fr.search.yahoo.com/search?p=\n"
+        else:
+            self.texteFile += "https://www.bing.com/search?q=\n"
+
+        self.texteFile += "UrlAccueil " + self.accueilBox.text() + "\n"
+
+        self.texteFile += "JavaScript "
+        if self.jsListe[self.jsBox.currentIndex()] == "Activé":
+            self.texteFile += "True\n"
+        else:
+            self.texteFile += "False\n"
+
+        self.texteFile += "NavigationPrivée "
+        if self.privateListe[self.privateBox.currentIndex()] == "Activé":
+            self.texteFile += "True\n"
+        else:
+            self.texteFile += "False\n"
+
+        self.texteFile += "DéplacementOnglet "
+        if self.deplacementListe[self.deplacementBox.currentIndex()] == "Activé":
+            self.texteFile += "True\n"
+        else:
+            self.texteFile += "False\n"
+
+        self.texteFile += "Style "
+        temp = self.themeListe[self.styleBox.currentIndex()]
+        if temp == "Blanc":
+            self.texteFile += "Default\n"
+        elif temp == "Sombre":
+            self.texteFile += "Dark\n"
+        elif temp == "Bleu":
+            self.texteFile += "Blue\n"
+        else:
+            self.texteFile += "Red\n"
+
+        self.texteFile += "Session "
+        if self.sessionListe[self.sessionBox.currentIndex()] == "Activé":
+            self.texteFile += "True\n"
+        else:
+            self.texteFile += "False\n"
+
+        self.texteFile += "NiveauLog " + self.logListe[self.logBox.currentIndex()]
+
+        print(self.texteFile)
+
+        with open('config.txt', 'w') as fichier:
+            fichier.write(self.texteFile)
+        QMessageBox().about(self, "Configuration enregistrée !", "Merci de relancer Browthon.")
+        self.close()
+
+
 class ListeBox(QWidget):
     def __init__(self, main, liste, texte):
         super(ListeBox, self).__init__()
@@ -146,6 +366,10 @@ class InformationBox(QWidget):
         self.grid.addWidget(self.description, 3, 1)
         self.grid.addWidget(self.button, 4, 1)
         self.setLayout(self.grid)
+        if self.main.mainWindow.styleSheetParam != "Default":
+            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
+                bss = parseTheme(fichier.read())
+                self.setStyleSheet(bss)
 
     def openWebsite(self, url):
         self.close()
@@ -319,205 +543,4 @@ class RemoveSessionBox(NameBox):
                 QMessageBox().about(self, "Session supprimée", "La session " + self.result + " a été supprimée !")
             else:
                 QMessageBox().about(self, "Session non trouvée", "La session " + self.result + " n'a pas été trouvé !")
-        self.close()
-
-
-class HomeBox(QWidget):
-    def __init__(self, main, title, text):
-        super(HomeBox, self).__init__()
-        self.main = main
-        self.setWindowTitle(title)
-        self.grid = QGridLayout()
-
-        self.Texte = QLabel(text)
-        self.Url = QLineEdit()
-
-        self.Url.returnPressed.connect(self.urlEnter)
-
-        self.grid.addWidget(self.Texte, 1, 1)
-        self.grid.addWidget(self.Url, 2, 1)
-
-        self.setLayout(self.grid)
-        if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
-                bss = parseTheme(fichier.read())
-                self.setStyleSheet(bss)
-
-    def urlEnter(self):
-        url = self.Url.text()
-        self.main.url = url
-        try:
-            with open('config.txt'):
-                pass
-        except IOError:
-            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
-        else:
-            contenu = []
-            with open('config.txt', 'r') as fichier:
-                contenu = fichier.read().split('\n')
-                contenu[1] = contenu[1].split(" ")[0] + " " + url
-            contenu = "\n".join(contenu)
-            with open('config.txt', 'w') as fichier:
-                fichier.write(contenu)
-        self.close()
-        QMessageBox().warning(self, "Paramètres", "Il faut redémarrer Browthon pour appliquer le changement")
-
-
-class LogBox(QWidget):
-    def __init__(self, main, title, text):
-        super(LogBox, self).__init__()
-        self.main = main
-        self.setWindowTitle(title)
-        self.grid = QGridLayout()
-
-        self.Texte = QLabel(text)
-        self.grid.addWidget(self.Texte, 1, 1)
-        self.b1 = QPushButton("DEBUG")
-        self.b1.clicked.connect(lambda: self.choose("DEBUG"))
-        self.b2 = QPushButton("INFO")
-        self.b2.clicked.connect(lambda: self.choose("INFO"))
-        self.b3 = QPushButton("WARNING")
-        self.b3.clicked.connect(lambda: self.choose("WARNING"))
-        self.b4 = QPushButton("ERROR")
-        self.b4.clicked.connect(lambda: self.choose("ERROR"))
-        self.b5 = QPushButton("CRITICAL")
-        self.b5.clicked.connect(lambda: self.choose("CRITICAL"))
-        self.grid.addWidget(self.b1, 2, 1)
-        self.grid.addWidget(self.b2, 3, 1)
-        self.grid.addWidget(self.b3, 4, 1)
-        self.grid.addWidget(self.b4, 5, 1)
-        self.grid.addWidget(self.b5, 6, 1)
-
-        self.setLayout(self.grid)
-        if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
-                bss = parseTheme(fichier.read())
-                self.setStyleSheet(bss)
-
-    def choose(self, choix):
-        try:
-            with open('config.txt', 'r') as fichier:
-                contenu = fichier.read().split('\n')
-                contenu[7] = contenu[7].split(" ")[0] + " " + choix
-            contenu = "\n".join(contenu)
-            with open('config.txt', 'w') as fichier:
-                fichier.write(contenu)
-        except IOError:
-            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
-        self.close()
-        QMessageBox().warning(self, "Paramètres", "Il faut redémarrer Browthon pour appliquer le changement")
-
-class StyleBox(QWidget):
-    def __init__(self, main, title, text):
-        super(StyleBox, self).__init__()
-        self.main = main
-        self.setWindowTitle(title)
-        self.grid = QGridLayout()
-
-        self.Texte = QLabel(text)
-        self.grid.addWidget(self.Texte, 1, 1)
-        self.b1 = QPushButton("Default")
-        self.b1.clicked.connect(lambda: self.choose("Default"))
-        self.b2 = QPushButton("Dark")
-        self.b2.clicked.connect(lambda: self.choose("Dark"))
-        self.b3 = QPushButton("Blue")
-        self.b3.clicked.connect(lambda: self.choose("Blue"))
-        self.b4 = QPushButton("Red")
-        self.b4.clicked.connect(lambda: self.choose("Red"))
-        self.grid.addWidget(self.b1, 2, 1)
-        self.grid.addWidget(self.b2, 3, 1)
-        self.grid.addWidget(self.b3, 4, 1)
-        self.grid.addWidget(self.b4, 5, 1)
-
-        self.setLayout(self.grid)
-        if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
-                bss = parseTheme(fichier.read())
-                self.setStyleSheet(bss)
-
-    def choose(self, choix):
-        if choix == "Default":
-            self.main.mainWindow.setStyleSheet("")
-            self.main.mainWindow.styleSheetParam = "Default"
-        else:
-            try:
-                with open('style/' + choix + ".bss", 'r') as fichier:
-                    bss = parseTheme(fichier.read())
-                    self.main.mainWindow.setStyleSheet(bss)
-                    self.main.mainWindow.styleSheetParam = choix
-            except:
-                QMessageBox().warning(self, "Style inconnu", "Le style " + choix + " n'est pas reconnu par Browthon.")
-                return
-        try:
-            with open('config.txt', 'r') as fichier:
-                contenu = fichier.read().split('\n')
-                contenu[5] = contenu[5].split(" ")[0] + " " + choix
-            contenu = "\n".join(contenu)
-            with open('config.txt', 'w') as fichier:
-                fichier.write(contenu)
-        except IOError:
-            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
-        self.close()
-        self.main.refreshTheme()
-
-
-class MoteurBox(QWidget):
-    def __init__(self, main, title, text):
-        super(MoteurBox, self).__init__()
-        self.main = main
-
-        self.setWindowTitle(title)
-        self.grid = QGridLayout()
-
-        self.Texte = QLabel(text)
-        self.Google = QPushButton("Google")
-        self.DDGo = QPushButton("DuckDuckGo")
-        self.Ecosia = QPushButton("Ecosia")
-        self.Yahoo = QPushButton("Yahoo")
-        self.Bing = QPushButton("Bing")
-
-        self.Google.clicked.connect(self.setGoogle)
-        self.DDGo.clicked.connect(self.setDDGo)
-        self.Ecosia.clicked.connect(self.setEcosia)
-        self.Yahoo.clicked.connect(self.setYahoo)
-        self.Bing.clicked.connect(self.setBing)
-
-        self.grid.addWidget(self.Texte, 1, 1, 1, 2)
-        self.grid.addWidget(self.Google, 2, 1)
-        self.grid.addWidget(self.DDGo, 2, 2)
-        self.grid.addWidget(self.Ecosia, 3, 1)
-        self.grid.addWidget(self.Yahoo, 3, 2)
-        self.grid.addWidget(self.Bing, 4, 1, 1, 2)
-
-        self.setLayout(self.grid)
-        if self.main.mainWindow.styleSheetParam != "Default":
-            with open('style/' + self.main.mainWindow.styleSheetParam + ".bss", 'r') as fichier:
-                bss = parseTheme(fichier.read())
-                self.setStyleSheet(bss)
-
-    def setGoogle(self):
-        self.setMoteur("https://www.google.fr/?gws_rd=ssl#q=")
-
-    def setDDGo(self):
-        self.setMoteur("https://duckduckgo.com/?q=")
-
-    def setEcosia(self):
-        self.setMoteur("https://www.ecosia.org/search?q=")
-
-    def setYahoo(self):
-        self.setMoteur("https://fr.search.yahoo.com/search?p=")
-
-    def setBing(self):
-        self.setMoteur("https://www.bing.com/search?q=")
-
-    def setMoteur(self, txt):
-        try:
-            with open('config.txt', 'r') as fichier:
-                contenu = fichier.read().split('\n')
-                contenu[0] = contenu[0].split(" ")[0] + " " + txt
-            contenu = "\n".join(contenu)
-            with open('config.txt', 'w') as fichier:
-                fichier.write(contenu)
-        except IOError:
-            self.main.mainWindow.logger.warning("Le fichier config n'a pas été trouvé")
         self.close()
