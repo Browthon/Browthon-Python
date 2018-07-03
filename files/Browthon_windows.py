@@ -222,8 +222,6 @@ class ParametreBox(QWidget):
 
         self.texteFile += "NiveauLog " + self.logListe[self.logBox.currentIndex()]
 
-        print(self.texteFile)
-
         with open('config.txt', 'w') as fichier:
             fichier.write(self.texteFile)
         QMessageBox().about(self, "Configuration enregistrée !", "Merci de relancer Browthon.")

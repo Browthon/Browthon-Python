@@ -37,7 +37,7 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 2.5.0 : Basic Update (IN DEV):
+### V 2.5.0 : Basic Update (LATEST) - 3 Juillet 2018 :
 - Système de téléchargements avec menu
 - Nouveau menu pour l'historique et les favoris (avec raccourci H et F)
 - Nouveau système de logs
