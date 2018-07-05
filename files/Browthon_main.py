@@ -70,8 +70,8 @@ class MainWidget(QWidget):
         self.mainWindow = mainWindow
         self.url = url
         self.urltemp = urltemp
-        self.versionMinimal = "2.4.0"
-        self.versionAll = "V 2.4.0 : Browthon Update"
+        self.versionMinimal = "2.5.0"
+        self.versionAll = "V 2.5.0 : Basic Update"
         self.fonts = {"titre": QFont("Arial", 23, QFont.Bold),
              "description": QFont("Arial", 18)}
         self.grid = QGridLayout()
@@ -489,22 +489,6 @@ class MainWidget(QWidget):
                     else:
                         message += self.favArray[i].title + " | " + self.favArray[i].url + '\n'
                 fichier.write(message)
-        try:
-            with open('config.txt'):
-                pass
-        except IOError:
-            pass
-        else:
-            contenu = []
-            with open('config.txt', 'r') as fichier:
-                contenu = fichier.read().split('\n')
-            contenu[2] = contenu[2].split(" ")[0] + " " + str(self.js)
-            contenu[3] = contenu[3].split(" ")[0] + " " + str(self.private)
-            contenu[4] = contenu[4].split(" ")[0] + " " + str(self.deplacement_onglet)
-            contenu[6] = contenu[6].split(" ")[0] + " " + str(self.sessionRecovery)
-            contenu = "\n".join(contenu)
-            with open('config.txt', 'w') as fichier:
-                fichier.write(contenu)
         with open('last.txt', 'w') as fichier:
             contenu = ""
             for i in range(self.tabOnglet.count()):
