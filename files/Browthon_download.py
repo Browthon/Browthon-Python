@@ -40,14 +40,14 @@ class DownloadWidget(QWidget):
             if state == QWebEngineDownloadItem.DownloadRequested:
                 pass
             elif state == QWebEngineDownloadItem.DownloadInProgress:
-                if totalBytes >= 0:
+                if totalBytes > 0:
                     self.progressBar.setValue(int(100 * receivedBytes / totalBytes))
                     self.progressBar.setDisabled(False)
                     self.progressBar.setFormat("%p% - {} téléchargés sur {}".format(self.withUnit(receivedBytes), self.withUnit(totalBytes)))
                 else:
                     self.progressBar.setValue(0)
                     self.progressBar.setDisabled(False)
-                    self.progressBar.setFormat("Taille inconnue - {}téléchargés".format(self.withUnit(receivedBytes)))
+                    self.progressBar.setFormat("Taille inconnue - {} téléchargés".format(self.withUnit(receivedBytes)))
             elif state == QWebEngineDownloadItem.DownloadCompleted:
                 self.progressBar.setValue(100)
                 self.progressBar.setDisabled(True)
