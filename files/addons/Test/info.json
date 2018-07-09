@@ -1,0 +1,10 @@
+{
+    "Name": "Addon Test",
+    "NameCode": "test",
+    "Author": "LavaPower",
+    "Description": "Addon de test",
+    "Url": "http://pastagames.fr.nf",
+    "Version": "0.0.1",
+    "Logo": "logo.png",
+    "Activation": "True"
+}
