@@ -32,6 +32,7 @@ class UrlInput(QLineEdit):
                     moteur = "https://www.google.fr/?gws_rd=ssl#q="
                 urlT = moteur + urlT
         self.url = QUrl(urlT)
+        self.main.addonsManager.launchAddons("enterUrl", urlT)
         self.main.browser.load(self.url)
 
     def enterUrlGiven(self, url):
@@ -39,6 +40,7 @@ class UrlInput(QLineEdit):
         if "http://" not in urlT and "https://" not in urlT:
             urlT = "http://" + urlT
         self.url = QUrl(urlT)
+        self.main.addonsManager.launchAddons("enterUrl", urlT)
         self.main.browser.load(self.url)
 
     def setUrl(self):

@@ -203,6 +203,7 @@ class MainWidget(QWidget):
                 QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
                 self.mainWindow.logger.warning("Tentativement de chargement d'ancienne session alors qu'il n'y en a pas")
         self.addonsManager = AddonsManagerWidget(self)
+        self.addonsManager.launchAddons("load")
         self.mainWindow.logger.info("Browthon chargé")
 
     def setTitle(self):
@@ -363,6 +364,7 @@ class MainWidget(QWidget):
             QMessageBox().about(self, "Annulation", "Cette page n'est pas dans les favoris")
 
     def keyPressEvent(self, event):
+        self.addonsManager.launchAddons("keyPress", event)
         if event.key() == Qt.Key_R or event.key() == Qt.Key_F5:
             self.browser.reload()
         elif event.key() == Qt.Key_N:
@@ -507,4 +509,5 @@ class MainWidget(QWidget):
                 else:
                     contenu += self.tabOnglet.widget(i).url().toString() + "\n"
             fichier.write(contenu)
+        self.addonsManager.launchAddons("unload")
         self.mainWindow.logger.info("Fermeture de Browthon complète")
