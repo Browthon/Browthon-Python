@@ -20,12 +20,9 @@ class UrlInput(QLineEdit):
         for i in self.main.raccourciArray:
             if urlT == i.title:
                 urlT = i.url
-        if "http://" in urlT or "https://" in urlT:
-            url = QUrl(urlT)
-        else:
+        if "http://" not in urlT and "https://" not in urlT:
             if "." in urlT:
                 urlT = "http://" + urlT
-                url = QUrl(urlT)
             else:
                 moteur = ""
                 try:
@@ -34,17 +31,15 @@ class UrlInput(QLineEdit):
                 except IOError:
                     moteur = "https://www.google.fr/?gws_rd=ssl#q="
                 urlT = moteur + urlT
-                url = QUrl(urlT)
-        self.main.browser.load(url)
+        self.url = QUrl(urlT)
+        self.main.browser.load(self.url)
 
     def enterUrlGiven(self, url):
         urlT = url
-        if "http://" in urlT or "https://" in urlT:
-            url = QUrl(urlT)
-        else:
+        if "http://" not in urlT and "https://" not in urlT:
             urlT = "http://" + urlT
-            url = QUrl(urlT)
-        self.main.browser.load(url)
+        self.url = QUrl(urlT)
+        self.main.browser.load(self.url)
 
     def setUrl(self):
         self.setText(self.main.browser.url().toString())
