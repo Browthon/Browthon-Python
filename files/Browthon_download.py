@@ -120,13 +120,14 @@ class DownloadManagerWidget(QWidget):
 
                     self.show()
             else:
-                self.main.mainWindow.logger.critical("Le téléchargement n'a pas été demandé ou est nul.")
+                self.main.mainWindow.logger.critical("Le téléchargement n'a pas été demandé.")
         else:
-            self.main.mainWindow.logger.critical("Le téléchargement n'a pas été demandé ou est nul.")
+            self.main.mainWindow.logger.critical("Le téléchargement est nul.")
 
     def add(self, downloadWidget):
         downloadWidget.downloadSignal.removeClicked.connect(self.remove)
         self.layout.addWidget(downloadWidget)
+        self.layout.setAlignment(downloadWidget, Qt.AlignTop)
         self.nbDownload += 1
         if self.nbDownload >= 0:
             self.label.hide()
