@@ -11,6 +11,7 @@ from files.Browthon_utils import *
 from files.Browthon_windows import *
 from files.Browthon_elements import *
 from files.Browthon_download import DownloadManagerWidget
+from files.Browthon_addons import AddonsManagerWidget
 
 import logging
 import logging.handlers
@@ -115,6 +116,7 @@ class MainWidget(QWidget):
         self.menu.addAction("Téléchargements", self.openDownload)
         self.menu.addAction("Sessions", self.openSession)
         self.menu.addAction("Raccourcis URL", self.openRaccourci)
+        self.menu.addAction("Addons", self.openAddons)
         self.menu.addAction("Paramètres", self.openParametres)
         self.about = self.menu.addMenu("Informations")
         self.onglet1 = Onglet(1, self)
@@ -200,6 +202,7 @@ class MainWidget(QWidget):
             except:
                 QMessageBox().warning(self, "Pas d'ancienne session", "Aucune ancienne session n'a été trouvée")
                 self.mainWindow.logger.warning("Tentativement de chargement d'ancienne session alors qu'il n'y en a pas")
+        self.addonsManager = AddonsManagerWidget(self)
         self.mainWindow.logger.info("Browthon chargé")
 
     def setTitle(self):
@@ -233,6 +236,10 @@ class MainWidget(QWidget):
     def openParametres(self):
         self.parametresBox.setWindowModality(Qt.ApplicationModal)
         self.parametresBox.show()
+    
+    def openAddons(self):
+        self.addonsManager.setWindowModality(Qt.ApplicationModal)
+        self.addonsManager.show()        
 
     def addOnglet(self):
         onglet = Onglet(len(self.onglets) + 1, self)
@@ -360,6 +367,9 @@ class MainWidget(QWidget):
             self.browser.reload()
         elif event.key() == Qt.Key_N:
             self.addOnglet()
+        elif event.key() == Qt.Key_A:
+            self.addonsManager.setWindowModality(Qt.ApplicationModal)
+            self.addonsManager.show()
         elif event.key() == Qt.Key_Q:
             self.closeOnglet()
         elif event.key() == Qt.Key_T:
