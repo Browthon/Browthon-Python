@@ -165,6 +165,8 @@ class AddonsManager():
                             self.LML[i].keyPress(self.LML[i], self.main, args)
                         elif function == "enterUrl":
                             self.LML[i].enterUrl(self.LML[i], self.main, args)
+                        elif function == "openOnglet":
+                            self.LML[i].openOnglet(self.LML[i], self.main, args)
                     except:
                         pass
                     break

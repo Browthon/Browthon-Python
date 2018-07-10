@@ -10,10 +10,13 @@ class Test:
         print("Chargement de l'addon Test")
     
     def keyPress(self, main, event):
-        print("Touche pressé : "+event.key())
+        print("Numéro Touche pressé :", event.key())
     
     def enterUrl(self, main, url):
         print("Url entré : "+url)
+    
+    def openOnglet(self, main, url):
+        print("Nouvel onglet avec url : "+url)
     
     def unload(self, main):
         print("Déchargement de l'addon test")
