@@ -7,6 +7,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
+import os, zipfile
+
 
 def parseTheme(bssString):
     bssList = bssString.split("\n")
@@ -23,6 +25,29 @@ def parseTheme(bssString):
     bssString.replace("\\4", "")
 
     return bssString
+
+def dezip(filezip, pathdst = ''): 
+    if pathdst == '': pathdst = os.getcwd() 
+    zfile = zipfile.ZipFile(filezip, 'r') 
+    for i in zfile.namelist(): 
+        if os.path.isdir(i): 
+            try: 
+                os.makedirs(pathdst + os.sep + i) 
+            except: 
+                pass 
+        else: 
+            try: 
+                os.makedirs(pathdst + os.sep + os.path.dirname(i)) 
+            except: 
+                pass 
+            data = zfile.read(i)                  
+            try:
+                fp = open(pathdst + os.sep + i, "wb") 
+                fp.write(data)                 
+                fp.close() 
+            except IsADirectoryError:
+                pass
+    zfile.close()
 
 
 class ListWidget(QListWidget):

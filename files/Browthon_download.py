@@ -7,7 +7,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 
-from files.Browthon_utils import parseTheme
+from files.Browthon_utils import parseTheme, dezip
+
+import os, shutil
 
 
 class DownloadSignal(QObject):
@@ -19,10 +21,12 @@ class DownloadSignal(QObject):
 
 
 class DownloadWidget(QWidget):
-    def __init__(self, download):
+    def __init__(self, download, url, main):
         super(DownloadWidget, self).__init__()
         self.setupui()
         self.download = download
+        self.url = url
+        self.main = main
         self.downloadSignal = DownloadSignal(self)
         self.title.setText(QFileInfo(self.download.path()).fileName())
 
@@ -51,18 +55,37 @@ class DownloadWidget(QWidget):
             elif state == QWebEngineDownloadItem.DownloadCompleted:
                 self.progressBar.setValue(100)
                 self.progressBar.setDisabled(True)
-                self.progressBar.setFormat("Complété - {} téléchargés".
-                  format(self.withUnit(receivedBytes)))
+                self.progressBar.setFormat("Complété - {} téléchargés".format(self.withUnit(receivedBytes)))
+                if self.url == "http://pastagames.fr.nf/browthon/addons.php":
+                    rep = QMessageBox().question(self, "Addon "+QFileInfo(self.download.path()).fileName()+" téléchargé", 'Voulez-vous installer cet addon ?', QMessageBox.Yes, QMessageBox.No)
+                    if rep == 16384:
+                        print(self.download.path())
+                        error = None
+                        try:
+                            shutil.copy(self.download.path(), "addons")
+                            os.remove(self.download.path())
+                        except:
+                            error = "Déplacement impossible"
+                        else:
+                            try:
+                                dezip("addons/"+self.download.path().split('/')[-1], "addons")
+                                os.remove("addons/"+self.download.path().split('/')[-1])
+                            except:
+                                error = "Dézippage impossible"
+                        if error != None:
+                            QMessageBox().warning(self, "Addon "+QFileInfo(self.download.path()).fileName(), "Installation impossible.\nErreur : "+error)
+                            self.main.mainWindow.logger.warning("Installation de l'addon "+QFileInfo(self.download.path()).fileName()+" impossible.\nErreur : "+error)
+                        else:
+                            QMessageBox().information(self, "Addon "+QFileInfo(self.download.path()).fileName(), "Installation réussie !")
+                            self.main.mainWindow.logger.info("Installation de l'addon "+QFileInfo(self.download.path()).fileName()+" réussie !")
             elif state == QWebEngineDownloadItem.DownloadCancelled:
                 self.progressBar.setValue(0)
                 self.progressBar.setDisabled(True)
-                self.progressBar.setFormat("Annulé - {} téléchargés".
-                  format(self.withUnit(receivedBytes)))
+                self.progressBar.setFormat("Annulé - {} téléchargés".format(self.withUnit(receivedBytes)))
             elif state == QWebEngineDownloadItem.DownloadInterrupted:
                 self.progressBar.setValue(0)
                 self.progressBar.setDisabled(True)
-                self.progressBar.setFormat("Interrompu - {}".
-                  format(self.download.interruptReasonString()))
+                self.progressBar.setFormat("Interrompu - {}".format(self.download.interruptReasonString()))
 
             if state == QWebEngineDownloadItem.DownloadInProgress:
                 self.cancel.setText("Arrêter")
@@ -116,7 +139,7 @@ class DownloadManagerWidget(QWidget):
                 else:
                     download.setPath(path[0])
                     download.accept()
-                    self.add(DownloadWidget(download))
+                    self.add(DownloadWidget(download, self.main.browser.url().toString(), self.main))
 
                     self.show()
             else:
