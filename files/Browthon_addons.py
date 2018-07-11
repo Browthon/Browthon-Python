@@ -132,7 +132,8 @@ class AddonsManager():
         else:
             filess = []
             self.main.mainWindow.logger.info("Aucun addon trouvé")
-        ext_libs = ["files.addons.Test.{}".format(os.path.basename(f).split('.')[0]) for f in filess]
+        print(filess)
+        ext_libs = ["files.addons.{}.{}".format(f.split("/")[1], os.path.basename(f).split('.')[0]) for f in filess]
         self.imported = []
         for module in ext_libs:
             try:
