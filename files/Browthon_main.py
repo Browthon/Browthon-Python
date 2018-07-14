@@ -71,8 +71,8 @@ class MainWidget(QWidget):
         self.mainWindow = mainWindow
         self.url = url
         self.urltemp = urltemp
-        self.versionMinimal = "2.5.0"
-        self.versionAll = "V 2.5.0 : Basic Update"
+        self.versionMinimal = "2.6.0"
+        self.versionAll = "V 2.6.0 : Addon Update"
         self.fonts = {"titre": QFont("Arial", 23, QFont.Bold),
              "description": QFont("Arial", 18)}
         self.grid = QGridLayout()

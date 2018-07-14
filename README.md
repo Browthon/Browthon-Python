@@ -37,14 +37,21 @@ Navigateur web en python
 
 ## Changelog : 
 
-### V 2.5.0 : Basic Update (LATEST) - 3 Juillet 2018 :
+### V 2.6.0 : Addon Update - 14 Juil 2018 :
+- Ajout d'addons créé en Python
+- Ajout d'une galerie d'addons sur le site
+- Ajout d'une page de remerciement au premiier lancement
+- Nouvelle version du Launcher
+- Nombreux bug fixes
+
+### V 2.5.0 : Basic Update - 3 Juil 2018 :
 - Système de téléchargements avec menu
 - Nouveau menu pour l'historique et les favoris (avec raccourci H et F)
 - Nouveau système de logs
 - Système de fenêtre pour tous les anciens menus
 - Création de fenêtre pour les informations sur Browthon, PyQt et Qt
 
-### V 2.4.0 : Browthon Update (LATEST) - 16 Juin 2018 :
+### V 2.4.0 : Browthon Update - 16 Juin 2018 :
 - Changement du nom (de PyWeb à Browthon)
 - Réécriture du launcher
 - Ajout du système de session (nom, enregistrement, lancement...)
