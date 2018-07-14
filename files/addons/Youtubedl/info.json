@@ -1,0 +1,10 @@
+{
+    "Name": "Youtube DL",
+    "NameCode": "youtubedl",
+    "Author": "LavaPower",
+    "Description": "Addon pour télécharger une vidéo youtube",
+    "Url": "http://pastagames.fr.nf/browthon",
+    "Version": "0.0.1",
+    "Logo": "logo.png",
+    "Activation": "False"
+}
