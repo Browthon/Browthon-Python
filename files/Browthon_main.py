@@ -95,12 +95,17 @@ class MainWidget(QWidget):
                     self.sessionRecovery = True
                 else:
                     self.sessionRecovery = False
+                if defall[8].split(" ")[1] == "True":
+                    self.launched = True
+                else:
+                    self.launched = False
             self.mainWindow.logger.debug("Config chargé")
         except IOError:
             self.js = True
             self.private = False
             self.sessionRecovery = False
             self.deplacement_onglet = True
+            self.launched = False
             self.mainWindow.logger.warning("Le fichier de config n'a pas été trouvé")
         self.onglets = []
         self.ongletP = QPushButton("+")
@@ -511,5 +516,13 @@ class MainWidget(QWidget):
                 else:
                     contenu += self.tabOnglet.widget(i).url().toString() + "\n"
             fichier.write(contenu)
+        try:
+            with open('config.txt', 'r') as fichier:
+                defall = fichier.read().split('\n')
+            defall[8] = "Launch True"
+            with open("config.txt", "w") as f:
+                f.write("\n".join(defall))
+        except:
+            pass
         self.addonsManager.launchAddons("unload")
         self.mainWindow.logger.info("Fermeture de Browthon complète")

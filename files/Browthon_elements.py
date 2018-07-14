@@ -76,7 +76,10 @@ class Onglet(QWebEngineView):
         self.main = main
         self.page = Page(self)
         self.setPage(self.page)
-        self.load(QUrl(main.urltemp))
+        if self.main.launched:
+            self.load(QUrl(main.urltemp))
+        else:
+            self.load(QUrl("http://pastagames.fr.nf/browthon/merci.html"))
         self.main.urltemp = self.main.url
         self.urlChanged.connect(main.urlInput.setUrl)
         self.titleChanged.connect(main.setTitle)
