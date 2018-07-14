@@ -7,19 +7,19 @@ sys.path.append('..')
 
 class Test:
     def load(self, main):
-        print("Chargement de l'addon Test")
+        main.mainWindow.logger.info("Chargement de l'addon Test")
     
     def keyPress(self, main, event):
-        print("Numéro Touche pressé :", event.key())
+        main.mainWindow.logger.info("Numéro Touche pressé :", event.key())
     
     def enterUrl(self, main, url):
-        print("Url entré : "+url)
+        main.mainWindow.logger.info("Url entré : "+url)
     
     def openOnglet(self, main, url):
-        print("Nouvel onglet avec url : "+url)
+        main.mainWindow.logger.info("Nouvel onglet avec url : "+url)
     
     def unload(self, main):
-        print("Déchargement de l'addon test")
+        main.mainWindow.logger.info("Déchargement de l'addon test")
 
 instance = Test
 name = "test"
