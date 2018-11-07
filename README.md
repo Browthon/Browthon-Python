@@ -1,5 +1,5 @@
 # Browthon
-Navigateur web en python
+First version of Browthon made with Python and PyQt5
 
 ## Dépendances :
 - Python 3.5+
