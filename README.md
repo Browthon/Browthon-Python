@@ -1,4 +1,4 @@
-# Browthon
+# Browthon-Python
 First version of Browthon made with Python and PyQt5
 
 ## Dépendances :
